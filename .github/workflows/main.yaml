@@ -1,0 +1,46 @@
+# build, test always.
+# release if on main branch
+name: Test, Build and Release
+
+on: [pull_request, push]
+
+jobs:
+  main:
+    name: Main
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node Environment
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache Dependencies
+        uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Test
+        run: yarn test
+
+      - name: Build
+        run: yarn build
+
+      # Only release to NPM when we're on the master branch.
+      # Don't release if this is the template.
+      - name: Release
+        if: ${{ success() && github.ref == 'refs/heads/main' && github.repository != 'waynevanson/template-typescript-library' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: yarn semantic-release

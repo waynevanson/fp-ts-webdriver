@@ -1,0 +1,78 @@
+{
+  "name": "@username/template-typescript-library",
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "browser": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/waynevanson/template-typescript-library.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "microbundle build",
+    "commit": "cz",
+    "commitlint": "commitlint --config .config/commitlint.json",
+    "eslint": "eslint --config .config/.eslintrc",
+    "jest": "jest --config .config/jest.json",
+    "lint-staged": "lint-staged --config lint-staged.json",
+    "prepublishOnly": "yarn test && yarn build",
+    "postinstall": "husky install",
+    "semantic-release": "semantic-release --extends ./.config/semantic-release.json",
+    "test": "npm-run-all --parallel test:*",
+    "test:unit": "yarn jest"
+  },
+  "peerDependencies": {
+    "typescript": "^4.0.0."
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@types/jest": "^26.0.14",
+    "@types/node": "^14.11.2",
+    "@typescript-eslint/eslint-plugin": "^4.4.0",
+    "@typescript-eslint/parser": "^4.4.0",
+    "commitizen": "^4.2.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "doctoc": "^1.4.0",
+    "eslint": "^7.10.0",
+    "husky": "^5.0.0-alpha.6",
+    "jest": "^26.5.0",
+    "lint-staged": "^10.4.0",
+    "microbundle": "^0.12.4",
+    "npm-run-all": "^4.1.5",
+    "pinst": "^2.0.0",
+    "prettier": "^2.1.2",
+    "rollup": "^2.29.0",
+    "semantic-release": "^17.1.2",
+    "ts-jest": "^26.4.1",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY",
+      "pre-commit": "yarn lint-staged",
+      "pre-push": "yarn test && yarn build"
+    }
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  }
+}

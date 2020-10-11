@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "allowUnreachableCode": false,
+    "allowUmdGlobalAccess": false,
+    "downlevelIteration": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "strict": true,
+    "strictNullChecks": true
+  }
+}
