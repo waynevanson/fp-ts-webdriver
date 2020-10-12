@@ -8,7 +8,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/waynevanson/template-typescript-library.git"
+    "url": "https://github.com/waynevanson/fp-ts-webdriver.git"
   },
   "files": [
     "dist"
