@@ -1,5 +1,0 @@
-{
-  "*.{js,ts,tsx}": "yarn eslint --fix",
-  "*.{js,css,md}": "prettier --write",
-  "readme.md": "doctoc --github readme.md"
-}
