@@ -29,6 +29,7 @@ export interface PrintPageProps {
     shrinkToFit?: boolean;
     pageRanges?: object[];
 }
+declare type Using = "css selector" | "link text" | "partial link text" | "tag name" | "xpath";
 export declare const newSession: (capabilities: WD.Capabilities) => RTE.ReaderTaskEither<WD.Client, unknown, WD.SessionReturn>;
 export declare const deleteSession: RTE.ReaderTaskEither<WD.Client, unknown, void>;
 export declare const navigateTo: (url: string) => RTE.ReaderTaskEither<WD.Client, unknown, void>;
@@ -46,7 +47,7 @@ export declare const elementClick: (elementId: string) => RTE.ReaderTaskEither<W
 export declare const elementSendKeys: (text: string) => (elementId: string) => RTE.ReaderTaskEither<WD.Client, unknown, void>;
 export declare const executeAsyncScript: (script: string, args: Array<string | number | boolean | object | undefined>) => RTE.ReaderTaskEither<WD.Client, unknown, any>;
 export declare const executeScript: (script: string, args: Array<string | number | boolean | object | undefined>) => RTE.ReaderTaskEither<WD.Client, unknown, unknown>;
-export declare const findElement: (using: string, value: string) => RTE.ReaderTaskEither<WD.Client, unknown, string>;
+export declare const findElement: (using: Using, value: string) => RTE.ReaderTaskEither<WD.Client, unknown, string>;
 export declare const findElementFromElement: (elementId: string, using: string, value: string) => RTE.ReaderTaskEither<WD.Client, unknown, Record<"element-6066-11e4-a52e-4f735466cecf", string>>;
 export declare const findElements: (using: string, value: string) => RTE.ReaderTaskEither<WD.Client, unknown, string[]>;
 export declare const findElementsFromElement: (elementId: string, using: string, value: string) => RTE.ReaderTaskEither<WD.Client, unknown, Record<"element-6066-11e4-a52e-4f735466cecf", string>[]>;
@@ -89,3 +90,4 @@ export declare const switchToParentFrame: RTE.ReaderTaskEither<WD.Client, unknow
 export declare const switchToWindow: (handle: string) => RTE.ReaderTaskEither<WD.Client, unknown, void>;
 export declare const takeElementScreenshot: (elementId: string, scroll?: boolean | undefined) => RTE.ReaderTaskEither<WD.Client, unknown, string>;
 export declare const takeScreenshot: RTE.ReaderTaskEither<WD.Client, unknown, string>;
+export {};
