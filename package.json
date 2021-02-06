@@ -1,8 +1,9 @@
 {
   "name": "fp-ts-webdriver",
   "version": "0.0.0",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/es6/index.js",
+  "types": "dist/cjs/index.d.ts",
   "license": "MIT",
   "type": "module",
   "repository": {
@@ -13,11 +14,13 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json"
+    "build": "npm-run-all --parallel build:* ",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:es6": "tsc -p tsconfig.es6.json"
   },
   "peerDependencies": {
-    "typescript": "^4.0.0.",
-    "fp-ts": "^2.9.5"
+    "fp-ts": "^2.9.5",
+    "typescript": "^4.0.0."
   },
   "peerDependenciesMeta": {
     "typescript": {
@@ -30,12 +33,13 @@
   "devDependencies": {
     "@types/jest": "^26.0.14",
     "@types/node": "^14.11.2",
+    "fp-ts": "^2.9.5",
     "jest": "^26.6.3",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.1.2",
     "ts-jest": "^26.5.0",
     "ts-node": "^9.0.0",
-    "typescript": "^4.0.0",
-    "fp-ts": "^2.9.5"
+    "typescript": "^4.0.0"
   },
   "dependencies": {
     "webdriver": "^6.12.1"

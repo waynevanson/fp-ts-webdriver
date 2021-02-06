@@ -3,9 +3,10 @@
     "moduleResolution": "node",
     "strict": true,
     "esModuleInterop": true,
-    "outDir": "dist",
+    "outDir": "dist/cjs",
     "declaration": true,
-    "target": "es6"
+    "target": "es5",
+    "module": "commonjs"
   },
   "include": ["src"]
 }
