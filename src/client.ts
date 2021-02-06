@@ -35,6 +35,13 @@ export interface PrintPageProps {
   pageRanges?: object[]
 }
 
+type Using =
+  | "css selector"
+  | "link text"
+  | "partial link text"
+  | "tag name"
+  | "xpath"
+
 export const newSession = (capabilities: WD.Capabilities) =>
   pipe(
     RTE.ask<WD.Client>(),
@@ -177,7 +184,7 @@ export const executeScript = (
     )
   )
 
-export const findElement = (using: string, value: string) =>
+export const findElement = (using: Using, value: string) =>
   pipe(
     RTE.ask<WD.Client>(),
     RTE.chainIOEitherK((client) =>
