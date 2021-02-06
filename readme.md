@@ -9,6 +9,8 @@ We send a request to a driver (chromdriver, geckodriver), it opens up an instanc
 
 ## Installation
 
+Please keep in mind that this is package is experiemental and not enough tests have been written.
+
 ```sh
 # yarn
 yarn add fp-ts-webdriver
