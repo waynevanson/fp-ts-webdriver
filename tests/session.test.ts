@@ -53,6 +53,7 @@ describe("session", () => {
       const result = await pipe(
         session.newSession(props),
         TE.chainIOEitherK((client) =>
+          // not a chain first lol
           IOE.tryCatch(() => client.deleteSession(), identity)
         ),
         TE.getOrElseW(T.of),
