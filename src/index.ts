@@ -2,6 +2,7 @@ import { readerTaskEither as RTE } from "fp-ts"
 import { pipe } from "fp-ts/lib/function"
 import { requests, responses } from "./codecs"
 import { fetch } from "./utils"
+
 export interface WebdriverState {
   url: string
 }
