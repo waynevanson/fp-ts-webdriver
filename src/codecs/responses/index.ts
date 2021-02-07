@@ -1,7 +1,6 @@
 import { pipe } from "fp-ts/lib/function"
 import * as c from "io-ts/Codec"
 import { Null } from "../helpers"
-import { Capabilities } from "../requests/processing-capabilities"
 
 // TYPES
 
