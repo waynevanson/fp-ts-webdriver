@@ -1,14 +1,7 @@
-import {
-  either as E,
-  reader as R,
-  readerTask as RT,
-  readerTaskEither as RTE,
-} from "fp-ts"
-import { flow } from "fp-ts/lib/function"
+import { either as E, readerTask as RT, readerTaskEither as RTE } from "fp-ts"
 import { pipe } from "fp-ts/lib/pipeable"
 import * as webdriver from "../src"
 import { setupChromeDriverJest } from "./helpers"
-import { responses } from "../src/codecs/"
 
 const config: webdriver.WebdriverState = { url: "http://localhost:9515" }
 
