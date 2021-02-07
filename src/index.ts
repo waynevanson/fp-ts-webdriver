@@ -1,16 +1,7 @@
-import crossfetch from "cross-fetch"
-import { fetchCustom, jsonParser } from "fp-fetch"
-import { either as E, readerTaskEither as RTE } from "fp-ts"
+import { readerTaskEither as RTE } from "fp-ts"
 import { pipe } from "fp-ts/lib/function"
-import { stat } from "fs"
-import { responses, webdriver, requests } from "./codecs"
-
-export const fetch = fetchCustom<unknown, E.Json>({
-  parser: jsonParser,
-  errorParser: jsonParser,
-  fetch: crossfetch,
-})
-
+import { requests, responses } from "./codecs"
+import { fetch } from "./utils"
 export interface WebdriverState {
   url: string
 }
