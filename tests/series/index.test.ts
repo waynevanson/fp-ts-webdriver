@@ -43,19 +43,21 @@ describe("webdriver", () => {
     })
   })
 
-  test("status", async () => {
-    const result = await pipe(
-      WD.newSession({ capabilities }),
-      RTE.bindW("status", () => WD.status),
-      RTE.chainFirst((session) => WD.deleteSession(session)),
-      RTE.map(({ status }) => status)
-    )(dependencies)()
+  describe("status", () => {
+    test("status", async () => {
+      const result = await pipe(
+        WD.newSession({ capabilities }),
+        RTE.bindW("status", () => WD.status),
+        RTE.chainFirst((session) => WD.deleteSession(session)),
+        RTE.map(({ status }) => status)
+      )(dependencies)()
 
-    expect(result).toMatchObject(
-      E.right({
-        message: "ChromeDriver ready for new sessions.",
-        ready: true,
-      })
-    )
+      expect(result).toMatchObject(
+        E.right({
+          message: "ChromeDriver ready for new sessions.",
+          ready: true,
+        })
+      )
+    })
   })
 })
