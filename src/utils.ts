@@ -13,3 +13,6 @@ export const fetch = fetchCustom<unknown, E.Json>({
   errorParser: jsonParser,
   fetch: crossfetch,
 })
+
+export const stringifyJson = (i: unknown) =>
+  E.stringifyJSON(i, (e) => e as TypeError)
