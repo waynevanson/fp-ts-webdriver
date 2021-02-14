@@ -13,10 +13,10 @@ Please keep in mind that this is package is experiemental and not enough tests h
 
 ```sh
 # yarn
-yarn add fp-ts-webdriver
+yarn add fp-ts-webdriver fp-ts fp-ts-std monocle-ts newtype-ts
 
 # npm
-npm install fp-ts-webdriver
+npm install fp-ts-webdriver fp-ts fp-ts-std monocle-ts newtype-ts
 ```
 
 ## Usage

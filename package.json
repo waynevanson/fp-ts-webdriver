@@ -18,19 +18,30 @@
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:es6": "tsc -p tsconfig.es6.json",
     "test": "npm-run-all --serial test:*",
-    "test:parallel": "jest --parallel --rootDir tests/parallel",
+    "test:parallel": "jest --runInBand --rootDir tests/parallel",
     "test:series": "jest --rootDir tests/series"
   },
   "peerDependencies": {
-    "fp-fetch": "^0.1.1",
     "fp-ts": "^2.9.5",
-    "typescript": "^4.0.0."
+    "typescript": "^4.1.5",
+    "monocle-ts": "^2.3.5",
+    "newtype-ts": "^0.3.4",
+    "fp-ts-std": "^0.8.0"
   },
   "peerDependenciesMeta": {
     "typescript": {
       "optional": true
     },
     "fp-ts": {
+      "optional": false
+    },
+    "monocle-ts": {
+      "optional": false
+    },
+    "newtype-ts": {
+      "optional": false
+    },
+    "fp-ts-std": {
       "optional": false
     }
   },
@@ -39,7 +50,6 @@
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.27",
     "chromedriver": "^88.0.0",
-    "fp-fetch": "^0.1.1",
     "fp-ts": "^2.9.5",
     "io-ts": "^2.2.14",
     "io-ts-types": "^0.5.13",
@@ -48,13 +58,13 @@
     "prettier": "^2.1.2",
     "ts-jest": "^26.5.0",
     "ts-node": "^9.0.0",
-    "typescript": "^4.0.0"
+    "typescript": "4.1.5",
+    "monocle-ts": "^2.3.5",
+    "newtype-ts": "^0.3.4",
+    "fp-ts-std": "^0.8.0"
   },
   "dependencies": {
     "cross-fetch": "^3.0.6",
-    "fp-ts-std": "^0.8.0",
-    "monocle-ts": "^2.3.5",
-    "newtype-ts": "^0.3.4",
-    "rxjs": "^6.6.3"
+    "fp-fetch": "^0.1.1"
   }
 }
