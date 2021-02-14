@@ -2,7 +2,7 @@
 
 W3C Webdriver API, optimized for usage with fp-ts.
 
-Currently uses `webdriver` package, but will move to using `fp-ts-fetch` at a later date.
+The goal is to be compatible with the [W3C Recommendation](https://www.w3.org/TR/webdriver1)
 
 A webdriver sends requests and returns responses.
 We send a request to a driver (chromdriver, geckodriver), it opens up an instance of the browser and runs our requests in real time.
@@ -20,6 +20,17 @@ npm install fp-ts-webdriver
 ```
 
 ## Usage
+
+### Exports
+
+There is currently one named export `webdriver` that exports a namespace of all API's related to the basic webdriver protocol.
+
+When more are added, they'll be available under `chrome`, `firefox` and `edge` respectively.
+These will be separated so we can have better intellicense and troubleshooting.
+
+### Example
+
+todo - fix this section to reflect current api
 
 - Create and compose `ReaderTaskEither<Client, errors, A>` using the API via `fp-ts-webdriver.client.*`.
 - Create client via `fp-ts-webdriver.webdriver.newSession()`.
@@ -59,3 +70,9 @@ const main = pipe(
   TE.chain(client.deleteSession)
 )
 ```
+
+## Contributing
+
+Run tests by calling `yarn test`.
+
+If you encounter problems, run `yarn add -D chromedriver`, and this will install a chromedriver on your system (along with chromium or chrome I presume).
