@@ -1,2 +1,2 @@
-export * as session from "./webdriver";
-export * as client from "./client";
+export * as webdriver from "./webdriver";
+export { readerIOEither } from "./fp-ts-modules";

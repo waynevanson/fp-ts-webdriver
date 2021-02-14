@@ -1,0 +1,13 @@
+import { ioEither as IOE, reader as R, readerT, } from "fp-ts";
+import { pipe, pipeable } from "fp-ts/lib/pipeable";
+const M = readerT.getReaderM(IOE.Monad);
+export const { ask, fromReader, fromM: fromIOEither, of } = M;
+export const URI = "ReaderIOEither";
+export const Monad = Object.assign({ URI }, M);
+export const MonadThrow = Object.assign(Object.assign({}, Monad), { throwError: (e) => () => IOE.throwError(e) });
+export const MonadIO = Object.assign(Object.assign({}, Monad), { fromIO: (fa) => () => IOE.fromIO(fa) });
+export const fromReaderEither = (fa) => pipe(fa, R.map(IOE.fromEither));
+export const ReaderIOEither = Object.assign(Object.assign({}, MonadThrow), MonadIO);
+export const { fromIO } = MonadIO;
+export const { ap, apFirst, apSecond, chain, chainFirst, filterOrElse, flatten, fromEither, fromOption, fromPredicate, map, } = pipeable(ReaderIOEither);
+export const chainIOEitherKW = (fab) => (fa) => pipe(fa, chain((a) => (fab(a), fromIOEither)));

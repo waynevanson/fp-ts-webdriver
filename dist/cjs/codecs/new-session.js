@@ -19,7 +19,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.readerIOEither = exports.webdriver = void 0;
-exports.webdriver = __importStar(require("./webdriver"));
-var fp_ts_modules_1 = require("./fp-ts-modules");
-Object.defineProperty(exports, "readerIOEither", { enumerable: true, get: function () { return fp_ts_modules_1.readerIOEither; } });
+exports.NewSession = void 0;
+var function_1 = require("fp-ts/lib/function");
+var c = __importStar(require("io-ts/Codec"));
+var helpers_1 = require("./helpers");
+var processing_capabilities_1 = require("./processing-capabilities");
+exports.NewSession = function_1.pipe(c.type({ capabilities: processing_capabilities_1.Capabilities }), c.intersect(helpers_1.JsonObject));
