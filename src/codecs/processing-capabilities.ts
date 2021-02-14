@@ -7,7 +7,7 @@ import { flow, pipe } from "fp-ts/lib/function"
 import * as c from "io-ts/Codec"
 import * as d from "io-ts/Decoder"
 import * as g from "io-ts/Guard"
-import { JsonObject } from "../helpers"
+import { Json, JsonObject } from "./helpers"
 import { ProxyConfiguration } from "./proxy-configuration"
 import { Timeouts } from "./timeouts"
 // TYPES
@@ -24,7 +24,7 @@ export interface StandardCapabilities {
   unhandledPromptBehaviour?: string
 }
 
-export type ExtensionCapabilities = JsonObject
+export type ExtensionCapabilities = Json
 
 export type RequiredCapabilities =
   | StandardCapabilities
@@ -60,7 +60,7 @@ export const ExtensionCapabilities: c.Codec<
   unknown,
   ExtensionCapabilities,
   ExtensionCapabilities
-> = JsonObject
+> = Json
 
 export const RequiredCapabilities: c.Codec<
   unknown,

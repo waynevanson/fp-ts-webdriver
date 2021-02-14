@@ -1,3 +1,5 @@
-export * as responses from "./responses"
-export * as webdriver from "./webdriver"
-export * as requests from "./requests"
+export * from "./processing-capabilities"
+export * from "./proxy-configuration"
+export * from "./timeouts"
+export * from "./new-session"
+export * from "./helpers"
