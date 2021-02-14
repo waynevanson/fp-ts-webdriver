@@ -10,7 +10,7 @@ import * as d from "io-ts/Decoder"
 import { FetchError } from "fp-fetch"
 import * as c from "./codecs"
 import { fetch, stringifyJson } from "./utils"
-import * as cc from "io-ts/Codec"
+
 export interface Dependencies {
   url: string
   requestInit?: Omit<RequestInit, "body" | "method">
