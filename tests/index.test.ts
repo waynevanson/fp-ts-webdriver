@@ -5,8 +5,8 @@
  */
 import { either as E, readerTaskEither as RTE } from "fp-ts"
 import { constVoid, pipe } from "fp-ts/lib/function"
-import { webdriver as WD } from "../../src"
-import { Capabilities } from "../../src/codecs"
+import { webdriver as WD } from "../src"
+import { Capabilities } from "../src/codecs"
 import { chromedriverJestSetup } from "./chromedriver"
 
 const port = 4444

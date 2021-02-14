@@ -76,14 +76,18 @@ export const RequiredCapabilities: c.Codec<
 
 const guardNonEmptyArray = flow(g.array, g.refine(array.isNonEmpty))
 
+const decoderToGuard = <A>(
+  decoder: d.Decoder<unknown, A>
+): g.Guard<unknown, A> => ({
+  is: (i: unknown): i is A => E.isRight(decoder.decode(i)),
+})
+
 export const NonEmptyArray = <O, A>(
   codec: c.Codec<unknown, O, A>
 ): c.Codec<unknown, NEA.NonEmptyArray<O>, NEA.NonEmptyArray<A>> =>
   pipe(
     d.fromGuard(
-      guardNonEmptyArray({
-        is: (i: unknown): i is any => E.isRight(codec.decode(i)),
-      }),
+      guardNonEmptyArray({ is: (i): i is any => decoderToGuard(codec).is(i) }),
       "NonEmptyArray"
     ),
     c.fromDecoder
