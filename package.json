@@ -16,7 +16,8 @@
   "scripts": {
     "build": "npm-run-all --parallel build:* ",
     "build:cjs": "tsc -p tsconfig.cjs.json",
-    "build:es6": "tsc -p tsconfig.es6.json"
+    "build:es6": "tsc -p tsconfig.es6.json",
+    "test:series": "jest --runInBand --rootDir tests/series"
   },
   "peerDependencies": {
     "fp-fetch": "^0.1.1",
@@ -34,8 +35,7 @@
   "devDependencies": {
     "@types/chromedriver": "^81.0.0",
     "@types/jest": "^26.0.20",
-    "@types/node": "^14.11.2",
-    "@types/node-fetch": "^2.5.8",
+    "@types/node": "^14.14.27",
     "chromedriver": "^88.0.0",
     "fp-fetch": "^0.1.1",
     "fp-ts": "^2.9.5",
@@ -50,7 +50,9 @@
   },
   "dependencies": {
     "cross-fetch": "^3.0.6",
+    "fp-ts-std": "^0.8.0",
+    "monocle-ts": "^2.3.5",
     "newtype-ts": "^0.3.4",
-    "node-fetch": "^2.6.1"
+    "rxjs": "^6.6.3"
   }
 }

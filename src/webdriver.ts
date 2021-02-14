@@ -7,7 +7,7 @@ import {
 import { string } from "fp-ts-std"
 import { Endomorphism, flow, pipe } from "fp-ts/lib/function"
 import * as d from "io-ts/Decoder"
-import { FetchError } from "node-fetch"
+import { FetchError } from "fp-fetch"
 import * as c from "./codecs"
 import { fetch, stringifyJson } from "./utils"
 import * as cc from "io-ts/Codec"
