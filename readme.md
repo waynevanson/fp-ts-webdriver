@@ -42,8 +42,11 @@ import { readerTaskEither as RTE, taskEither as TE } from "fp-ts"
 const searchBar = WD.findElement("css selector", "input[name=\"q\"]")
 const searchButton = WD.findElement("css selector", "input[value=\"Google Search\"]")
 
-// RTE.ReaderTaskEither<WD.Dependencies, WD.Errors, void>
-const program: WD.Webdriver<void> = pipe(
+// R.Reader<
+//   WD.Session,
+//   RTE.ReaderTaskEither<WD.Dependencies, WD.Errors, void>
+// >
+const program: WD.WebdriverSession<void> = pipe(
   WD.navigateTo("https://google.com.au"),
   RTE.chain(() => searchBar),
   RTE.chainFirst((element) => WD.sendKeys("dogs")(element)),
@@ -57,16 +60,16 @@ const dependencies:WD.Dependencies =  {
   url: "localhost:4444",
 }
 
-// TE.TaskEither<WD.Errors, void>
 const main = pipe(
   // start a session
   WD.newSession({ capabilities }),
   // run your program
-  TE.chainFirst(program),
+  RTE.chainFirst(program),
   // delete the session
-  TE.chain(WD.deleteSession)
+  RTE.chain(WD.deleteSession)
 )
 
+// TE.TaskEither<WD.Errors, void>
 main(dependencies)()
 ```
 
