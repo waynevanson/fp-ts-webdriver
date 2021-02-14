@@ -30,49 +30,53 @@ These will be separated so we can have better intellicense and troubleshooting.
 
 ### Example
 
-todo - fix this section to reflect current api
-
-- Create and compose `ReaderTaskEither<Client, errors, A>` using the API via `fp-ts-webdriver.client.*`.
-- Create client via `fp-ts-webdriver.webdriver.newSession()`.
-- Call `ReaderTaskEither<Client, errors, A>` with the newly created `Client`.
-- Call `fp-ts-webdriver.client.deleteSession()` to stop the session.
+For this examples to function, you have to turn on your webdriver.
+With chromedriver the command is `chromedriver --port=4444`
 
 ```ts
-// purposefully not using partial application for demonstrative purposes
-import { session, client } from "fp-ts-webdriver"
+
+import { webdriver as WD } from "fp-ts-webdriver"
 import { pipe } from "fp-ts/lib/function"
 import { readerTaskEither as RTE, taskEither as TE } from "fp-ts"
-import * as WD from "webdriver"
 
-const searchBar = client.findElement("css selector", "input[name=\"q\"]")
-const searchButton = client.findElement("css selector", "input[value=\"Google Search\"]")
+const searchBar = WD.findElement("css selector", "input[name=\"q\"]")
+const searchButton = WD.findElement("css selector", "input[value=\"Google Search\"]")
 
-const program: RTE.ReaderTaskEither<WD.WebDriver, unknown, void> = pipe(
-  client.navigateTo("https://google.com.au"),
+// RTE.ReaderTaskEither<WD.Dependencies, WD.Errors, void>
+const program: WD.Webdriver<void> = pipe(
+  WD.navigateTo("https://google.com.au"),
   RTE.chain(() => searchBar),
-  RTE.chainFirst((element) => client.sendKeys("dogs")(element)),
+  RTE.chainFirst((element) => WD.sendKeys("dogs")(element)),
   RTE.chain(() => searchButton)
-  RTE.chain(element => client.elementClick(element))
+  RTE.chain(element => WD.elementClick(element))
 )
 
-const props =  {
-  options: {
-    capabilities: {},
-  },
+export const capabilities: WD.Capabilities = {}
+
+const dependencies:WD.Dependencies =  {
+  url: "localhost:4444",
 }
 
+// TE.TaskEither<WD.Errors, void>
 const main = pipe(
   // start a session
-  session.newSession(props),
+  WD.newSession({ capabilities }),
   // run your program
   TE.chainFirst(program),
   // delete the session
-  TE.chain(client.deleteSession)
+  TE.chain(WD.deleteSession)
 )
+
+main(dependencies)()
 ```
 
 ## Contributing
 
 Run tests by calling `yarn test`.
 
-If you encounter problems, run `yarn add -D chromedriver`, and this will install a chromedriver on your system (along with chromium or chrome I presume).
+If you encounter problems, run `yarn add -D chromedriver`, and this will install a chromedriver on your system (along with chromium I presume).
+
+Follow angular commit syntax with `<fix|feat|docs|build|tests>: <message>`.
+The goal is to make commit history easy to walkthrough in the future.
+
+Project follows semantic versioning.
