@@ -14,9 +14,11 @@
     "dist"
   ],
   "scripts": {
-    "build": "npm-run-all --parallel build:* ",
+    "build": "npm-run-all --parallel build:*",
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:es6": "tsc -p tsconfig.es6.json",
+    "test": "npm-run-all --serial test:*",
+    "test:parallel": "jest --runInBand --rootDir tests/parallel",
     "test:series": "jest --runInBand --rootDir tests/series"
   },
   "peerDependencies": {
