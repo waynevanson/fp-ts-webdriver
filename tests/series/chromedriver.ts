@@ -18,28 +18,20 @@ export const stop = TE.tryCatch(
   identity
 )
 
+const dry = (done: jest.DoneCallback) =>
+  T.map(
+    E.fold(
+      (e): void => done.fail(String(e)),
+      () => done()
+    )
+  )
+
 export const chromedriverJestSetup = (port: number): IO.IO<void> => () => {
   beforeAll(async (done) => {
-    await pipe(
-      start(`--port=${port}`, "--silent"),
-      T.map(
-        E.fold(
-          (e): void => done.fail(String(e)),
-          () => done()
-        )
-      )
-    )()
+    await pipe(start(`--port=${port}`, "--silent"), dry(done))()
   })
 
   afterAll(async (done) => {
-    await pipe(
-      stop,
-      T.map(
-        E.fold(
-          (e): void => done.fail(String(e)),
-          () => done()
-        )
-      )
-    )()
+    await pipe(stop, dry(done))()
   }, 10000)
 }
