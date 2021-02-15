@@ -1,3 +1,4 @@
+import { FetchError } from "fp-fetch"
 import {
   either as E,
   option as O,
@@ -7,7 +8,6 @@ import {
 import { string } from "fp-ts-std"
 import { Endomorphism, flow, pipe } from "fp-ts/lib/function"
 import * as d from "io-ts/Decoder"
-import { FetchError } from "fp-fetch"
 import * as c from "./codecs"
 import { fetch, stringifyJson } from "./utils"
 
@@ -105,5 +105,15 @@ export const getCurrentUrl: WebdriverSession<string> = (session) =>
     fetch: {
       endo: flow(endosession(session), string.append("/url")),
       method: "GET",
+    },
+  })
+
+export const back: WebdriverSession<void> = (session) =>
+  make({
+    decoder: c.NullAsVoid,
+    fetch: {
+      endo: flow(endosession(session), string.append("/back")),
+      method: "POST",
+      body: {},
     },
   })

@@ -75,4 +75,26 @@ describe("webdriver", () => {
       expect(result).toMatchObject(E.right(url))
     })
   })
+
+  describe("back", () => {
+    test("navigate to 2 urls and navigates back to the 1st", async () => {
+      const urlA = "https://www.google.com.au/"
+      const urlB = "https://www.youtube.com/"
+      const result = await pipe(
+        WD.newSession({ capabilities }),
+        RTE.chainFirst(WD.navigateTo(urlA)),
+        RTE.chainFirst(WD.navigateTo(urlB)),
+        RTE.chainFirst(WD.back),
+        RTE.bindW("url", WD.getCurrentUrl),
+        RTE.chainFirst((session) => WD.deleteSession(session)),
+        RTE.map(({ url }) => url),
+        RTE.mapLeft((e) => {
+          console.warn(e)
+          return e
+        })
+      )(dependencies)()
+
+      expect(result).toMatchObject(E.right(urlA))
+    }, 10000)
+  })
 })
