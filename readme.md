@@ -79,16 +79,16 @@ We have tests in chromedriver and will expand to other drivers like geckodriver 
 
 List is non-exhaustive, meaning it's incomplete.
 
-| Implemented | Command       | Notes |
-| ----------- | :------------ | ----- |
-| [x]         | newSession    |       |
-| [x]         | deleteSession |       |
-| [x]         | navigateTo    |       |
-| [x]         | status        |       |
-| [x]         | getCurrentUrl |       |
-| [x]         | back          |       |
-| [ ]         | forward       |       |
-| [ ]         | refresh       |       |
+| :o:                | Command       | Notes |
+| ------------------ | :------------ | ----- |
+| :heavy_check_mark: | newSession    |       |
+| :heavy_check_mark: | deleteSession |       |
+| :heavy_check_mark: | navigateTo    |       |
+| :heavy_check_mark: | status        |       |
+| :heavy_check_mark: | getCurrentUrl |       |
+| :heavy_check_mark: | back          |       |
+| :o:                | forward       |       |
+| :o:                | refresh       |       |
 
 ## Contributing
 
