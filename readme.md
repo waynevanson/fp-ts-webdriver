@@ -73,6 +73,23 @@ const main = pipe(
 main(dependencies)()
 ```
 
+## Compatibility
+
+We have tests in chromedriver and will expand to other drivers like geckodriver when the time comes.
+
+List is non-exhaustive, meaning it's incomplete.
+
+| Implemented | Command       | Notes |
+| ----------- | :------------ | ----- |
+| [x]         | newSession    |       |
+| [x]         | deleteSession |       |
+| [x]         | navigateTo    |       |
+| [x]         | status        |       |
+| [x]         | getCurrentUrl |       |
+| [x]         | back          |       |
+| [ ]         | forward       |       |
+| [ ]         | refresh       |       |
+
 ## Contributing
 
 Run tests by calling `yarn test`.
