@@ -98,3 +98,12 @@ export const status: Webdriver<c.Status> = make({
   decoder: c.Status,
   fetch: { method: "GET", endo: string.append("/status") },
 })
+
+export const getCurrentUrl: WebdriverSession<string> = (session) =>
+  make({
+    decoder: d.string,
+    fetch: {
+      endo: flow(endosession(session), string.append("/url")),
+      method: "GET",
+    },
+  })

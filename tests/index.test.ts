@@ -60,4 +60,19 @@ describe("webdriver", () => {
       )
     })
   })
+
+  describe("getCurrentUrl", () => {
+    test("gets the current url", async () => {
+      const url = "https://www.google.com.au/"
+      const result = await pipe(
+        WD.newSession({ capabilities }),
+        RTE.chainFirst(WD.navigateTo(url)),
+        RTE.bindW("url", WD.getCurrentUrl),
+        RTE.chainFirst((session) => WD.deleteSession(session)),
+        RTE.map(({ url }) => url)
+      )(dependencies)()
+
+      expect(result).toMatchObject(E.right(url))
+    })
+  })
 })
