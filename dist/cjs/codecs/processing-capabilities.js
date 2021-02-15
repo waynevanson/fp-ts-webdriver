@@ -46,10 +46,11 @@ exports.StandardCapabilities = c.partial({
 exports.ExtensionCapabilities = helpers_1.Json;
 exports.RequiredCapabilities = function_1.pipe(d.union(function_1.pipe(exports.StandardCapabilities, c.intersect(c.record(exports.ExtensionCapabilities))), exports.StandardCapabilities), c.fromDecoder);
 var guardNonEmptyArray = function_1.flow(g.array, g.refine(fp_ts_1.array.isNonEmpty));
+var decoderToGuard = function (decoder) { return ({
+    is: function (i) { return fp_ts_1.either.isRight(decoder.decode(i)); },
+}); };
 var NonEmptyArray = function (codec) {
-    return function_1.pipe(d.fromGuard(guardNonEmptyArray({
-        is: function (i) { return fp_ts_1.either.isRight(codec.decode(i)); },
-    }), "NonEmptyArray"), c.fromDecoder);
+    return function_1.pipe(d.fromGuard(guardNonEmptyArray({ is: function (i) { return decoderToGuard(codec).is(i); } }), "NonEmptyArray"), c.fromDecoder);
 };
 exports.NonEmptyArray = NonEmptyArray;
 exports.Capabilities = function_1.pipe(c.partial({

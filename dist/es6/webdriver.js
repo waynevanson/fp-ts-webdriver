@@ -1,6 +1,7 @@
-import { either as E, option as O, reader as R, readerTaskEither as RTE, } from "fp-ts";
+import { either as E, option as O, readerTaskEither as RTE, } from "fp-ts";
 import { string } from "fp-ts-std";
 import { flow, pipe } from "fp-ts/lib/function";
+import * as d from "io-ts/Decoder";
 import * as c from "./codecs";
 import { fetch, stringifyJson } from "./utils";
 // utils
@@ -23,11 +24,27 @@ export const navigateTo = (url) => (session) => make({
     decoder: c.NullAsVoid,
     fetch: {
         body: { url },
-        endo: pipe(endosession(session), R.map(string.append("/url"))),
+        endo: flow(endosession(session), string.append("/url")),
         method: "POST",
     },
 });
+export const runSession = (body) => (fa) => RTE.bracket(newSession(body), (session) => fa(session), deleteSession);
 export const status = make({
     decoder: c.Status,
     fetch: { method: "GET", endo: string.append("/status") },
+});
+export const getCurrentUrl = (session) => make({
+    decoder: d.string,
+    fetch: {
+        endo: flow(endosession(session), string.append("/url")),
+        method: "GET",
+    },
+});
+export const back = (session) => make({
+    decoder: c.NullAsVoid,
+    fetch: {
+        endo: flow(endosession(session), string.append("/back")),
+        method: "POST",
+        body: {},
+    },
 });

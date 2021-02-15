@@ -24,9 +24,10 @@ export const StandardCapabilities = c.partial({
 export const ExtensionCapabilities = Json;
 export const RequiredCapabilities = pipe(d.union(pipe(StandardCapabilities, c.intersect(c.record(ExtensionCapabilities))), StandardCapabilities), c.fromDecoder);
 const guardNonEmptyArray = flow(g.array, g.refine(array.isNonEmpty));
-export const NonEmptyArray = (codec) => pipe(d.fromGuard(guardNonEmptyArray({
-    is: (i) => E.isRight(codec.decode(i)),
-}), "NonEmptyArray"), c.fromDecoder);
+const decoderToGuard = (decoder) => ({
+    is: (i) => E.isRight(decoder.decode(i)),
+});
+export const NonEmptyArray = (codec) => pipe(d.fromGuard(guardNonEmptyArray({ is: (i) => decoderToGuard(codec).is(i) }), "NonEmptyArray"), c.fromDecoder);
 export const Capabilities = pipe(c.partial({
     alwaysMatch: RequiredCapabilities,
     firstMatch: NonEmptyArray(RequiredCapabilities),

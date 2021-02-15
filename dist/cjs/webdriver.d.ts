@@ -1,7 +1,7 @@
+import { FetchError } from "fp-fetch";
 import { reader as R, readerTaskEither as RTE } from "fp-ts";
 import { Endomorphism } from "fp-ts/lib/function";
 import * as d from "io-ts/Decoder";
-import { FetchError } from "fp-fetch";
 import * as c from "./codecs";
 export interface Dependencies {
     url: string;
@@ -26,4 +26,7 @@ export interface WebdriverSession<A> extends R.Reader<c.Session, Webdriver<A>> {
 export declare const newSession: (body: c.NewSession) => Webdriver<c.Session>;
 export declare const deleteSession: WebdriverSession<void>;
 export declare const navigateTo: (url: string) => WebdriverSession<void>;
+export declare const runSession: (body: c.NewSession) => <A>(fa: WebdriverSession<A>) => RTE.ReaderTaskEither<Dependencies, WebdriverErrors, A>;
 export declare const status: Webdriver<c.Status>;
+export declare const getCurrentUrl: WebdriverSession<string>;
+export declare const back: WebdriverSession<void>;

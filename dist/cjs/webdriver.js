@@ -19,10 +19,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.status = exports.navigateTo = exports.deleteSession = exports.newSession = exports.make = void 0;
+exports.back = exports.getCurrentUrl = exports.status = exports.runSession = exports.navigateTo = exports.deleteSession = exports.newSession = exports.make = void 0;
 var fp_ts_1 = require("fp-ts");
 var fp_ts_std_1 = require("fp-ts-std");
 var function_1 = require("fp-ts/lib/function");
+var d = __importStar(require("io-ts/Decoder"));
 var c = __importStar(require("./codecs"));
 var utils_1 = require("./utils");
 // utils
@@ -63,13 +64,36 @@ var navigateTo = function (url) { return function (session) {
         decoder: c.NullAsVoid,
         fetch: {
             body: { url: url },
-            endo: function_1.pipe(endosession(session), fp_ts_1.reader.map(fp_ts_std_1.string.append("/url"))),
+            endo: function_1.flow(endosession(session), fp_ts_std_1.string.append("/url")),
             method: "POST",
         },
     });
 }; };
 exports.navigateTo = navigateTo;
+var runSession = function (body) { return function (fa) { return fp_ts_1.readerTaskEither.bracket(exports.newSession(body), function (session) { return fa(session); }, exports.deleteSession); }; };
+exports.runSession = runSession;
 exports.status = exports.make({
     decoder: c.Status,
     fetch: { method: "GET", endo: fp_ts_std_1.string.append("/status") },
 });
+var getCurrentUrl = function (session) {
+    return exports.make({
+        decoder: d.string,
+        fetch: {
+            endo: function_1.flow(endosession(session), fp_ts_std_1.string.append("/url")),
+            method: "GET",
+        },
+    });
+};
+exports.getCurrentUrl = getCurrentUrl;
+var back = function (session) {
+    return exports.make({
+        decoder: c.NullAsVoid,
+        fetch: {
+            endo: function_1.flow(endosession(session), fp_ts_std_1.string.append("/back")),
+            method: "POST",
+            body: {},
+        },
+    });
+};
+exports.back = back;
