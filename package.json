@@ -24,13 +24,16 @@
     "fp-ts-std": "^0.8.0",
     "monocle-ts": "^2.3.5",
     "newtype-ts": "^0.3.4",
-    "typescript": "^4.1.5"
+    "io-ts": "^2.2.14"
   },
   "peerDependenciesMeta": {
     "typescript": {
       "optional": true
     },
     "fp-ts": {
+      "optional": false
+    },
+    "io-ts": {
       "optional": false
     },
     "monocle-ts": {
