@@ -89,7 +89,7 @@ export const navigateTo = (url: string): WebdriverSession<void> => (session) =>
     decoder: c.NullAsVoid,
     fetch: {
       body: { url },
-      endo: pipe(endosession(session), R.map(string.append("/url"))),
+      endo: flow(endosession(session), string.append("/url")),
       method: "POST",
     },
   })
