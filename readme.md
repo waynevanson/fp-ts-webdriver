@@ -77,18 +77,60 @@ main(dependencies)()
 
 We have tests in chromedriver and will expand to other drivers like geckodriver when the time comes.
 
-List is non-exhaustive, meaning it's incomplete.
-
-| :o:                | Command       | Notes |
-| ------------------ | :------------ | ----- |
-| :heavy_check_mark: | newSession    |       |
-| :heavy_check_mark: | deleteSession |       |
-| :heavy_check_mark: | navigateTo    |       |
-| :heavy_check_mark: | status        |       |
-| :heavy_check_mark: | getCurrentUrl |       |
-| :heavy_check_mark: | back          |       |
-| :o:                | forward       |       |
-| :o:                | refresh       |       |
+| Category            | :o:                | Command                 |
+| :------------------ | ------------------ | :---------------------- |
+| Session             | :heavy_check_mark: | newSession              |
+|                     | :heavy_check_mark: | deleteSession           |
+|                     | :heavy_check_mark: | status                  |
+|                     | :o:                | getTimeouts             |
+|                     | :o:                | setTimeouts             |
+| Navigation          | :heavy_check_mark: | navigateTo              |
+|                     | :heavy_check_mark: | getCurrentUrl           |
+|                     | :heavy_check_mark: | back                    |
+|                     | :o:                | forward                 |
+|                     | :o:                | refresh                 |
+|                     | :o:                | getTitle                |
+| Command Contexts    | :o:                | getWindowHandle         |
+|                     | :o:                | closeWindow             |
+|                     | :o:                | switchToWindow          |
+|                     | :o:                | getWindowHandles        |
+|                     | :o:                | switchtoFrame           |
+|                     | :o:                | switchToParentFrame     |
+|                     | :o:                | getWindowRect           |
+|                     | :o:                | setWindowRect           |
+|                     | :o:                | maximizeWindow          |
+|                     | :o:                | minimizeWindow          |
+| Element Retrieval   | :o:                | findElement             |
+|                     | :o:                | findElements            |
+|                     | :o:                | findElementFromElement  |
+|                     | :o:                | findElementsFromElement |
+| Element State       | :o:                | isElementSelected       |
+|                     | :o:                | getElementAttribute     |
+|                     | :o:                | getElementProperty      |
+|                     | :o:                | getElementCSSValue      |
+|                     | :o:                | getElementText          |
+|                     | :o:                | getElementTagName       |
+|                     | :o:                | getElementRect          |
+|                     | :o:                | isElementEnabled        |
+| Element Interaction | :o:                | elementClick            |
+|                     | :o:                | elementClear            |
+|                     | :o:                | elementSendKeys         |
+| Document Handling   | :o:                | getPageSource           |
+|                     | :o:                | executeScript           |
+|                     | :o:                | executeAsyncScript      |
+| Cookies             | :o:                | getAllCookies           |
+|                     | :o:                | getNamedCookie          |
+|                     | :o:                | addCookie               |
+|                     | :o:                | deleteCookie            |
+|                     | :o:                | deleteAllCookies        |
+| Actions             | :o:                | performActions          |
+|                     | :o:                | releaseActions          |
+| User Prompts        | :o:                | dismissAlert            |
+|                     | :o:                | acceptAlert             |
+|                     | :o:                | getAlertText            |
+|                     | :o:                | sendAlertText           |
+| Screen Capture      | :o:                | takeScreenshot          |
+|                     | :o:                | takeElementScreenshot   |
 
 ## Contributing
 
