@@ -79,7 +79,7 @@ We have tests in chromedriver and will expand to other drivers like geckodriver 
 | Navigation          | :heavy_check_mark: | navigateTo              |
 |                     | :heavy_check_mark: | getCurrentUrl           |
 |                     | :heavy_check_mark: | back                    |
-|                     | :o:                | forward                 |
+|                     | :heavy_check_mark: | forward                 |
 |                     | :o:                | refresh                 |
 |                     | :o:                | getTitle                |
 | Command Contexts    | :o:                | getWindowHandle         |

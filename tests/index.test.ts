@@ -5,7 +5,11 @@
  */
 import { either as E, readerTaskEither as RTE } from "fp-ts"
 import { constVoid, pipe } from "fp-ts/lib/function"
-import { readerReaderTaskEither as RRTE, webdriver as WD } from "../src"
+import {
+  readerReaderTaskEither as RRTE,
+  webdriver as WD,
+  webdriver,
+} from "../src"
 import { Capabilities } from "../src/codecs"
 import { chromedriverJestSetup } from "./chromedriver"
 
@@ -138,6 +142,24 @@ describe("webdriver", () => {
         const result = await pipe(test, WD.runSession(body))(dependencies)()
 
         expect(result).toMatchObject(E.right(urlA))
+      })
+    })
+
+    describe("forward", () => {
+      test("navigate to 2 urls, then back, then forward", async () => {
+        const urlA = "https://www.google.com.au/"
+        const urlB = "https://www.youtube.com/"
+        const test = pipe(
+          WD.navigateTo(urlA),
+          RRTE.chain(() => WD.navigateTo(urlB)),
+          RRTE.chain(() => WD.back),
+          RRTE.chain(() => WD.forward),
+          RRTE.chain(() => WD.getCurrentUrl)
+        )
+
+        const result = await pipe(test, WD.runSession(body))(dependencies)()
+
+        expect(result).toMatchObject(E.right(urlB))
       })
     })
   })

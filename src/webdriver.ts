@@ -143,3 +143,13 @@ export const setTimeouts = (timeouts: c.Timeouts): WebdriverSession<void> => (
       body: timeouts,
     },
   })
+
+export const forward: WebdriverSession<void> = (session) =>
+  make({
+    decoder: c.NullAsVoid,
+    fetch: {
+      endo: flow(endosession(session), string.append("/forward")),
+      method: "POST",
+      body: {},
+    },
+  })
