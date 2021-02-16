@@ -15,3 +15,4 @@ __exportStar(require("./proxy-configuration"), exports);
 __exportStar(require("./timeouts"), exports);
 __exportStar(require("./new-session"), exports);
 __exportStar(require("./helpers"), exports);
+__exportStar(require("./element-retrieval"), exports);

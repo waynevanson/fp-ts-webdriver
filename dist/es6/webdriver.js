@@ -71,3 +71,34 @@ export const forward = (session) => make({
         body: {},
     },
 });
+export const refresh = (session) => make({
+    decoder: c.NullAsVoid,
+    fetch: {
+        endo: flow(endosession(session), string.append("/refresh")),
+        method: "POST",
+        body: {},
+    },
+});
+export const findElement = (using, selector) => (session) => make({
+    decoder: c.Element,
+    fetch: {
+        endo: flow(endosession(session), string.append("/element")),
+        method: "POST",
+        body: { using, value: selector },
+    },
+});
+export const elementSendKeys = (text) => (element) => (session) => make({
+    decoder: c.NullAsVoid,
+    fetch: {
+        endo: flow(endosession(session), string.append("/element/"), string.append(element["element-6066-11e4-a52e-4f735466cecf"]), string.append("/value")),
+        method: "POST",
+        body: { text },
+    },
+});
+export const getElementAttribute = (attribute) => (element) => (session) => make({
+    decoder: d.string,
+    fetch: {
+        endo: flow(endosession(session), string.append("/element/"), string.append(element["element-6066-11e4-a52e-4f735466cecf"]), string.append("/attribute/"), string.append(attribute)),
+        method: "GET",
+    },
+});

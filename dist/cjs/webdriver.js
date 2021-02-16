@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.forward = exports.setTimeouts = exports.getTimeouts = exports.back = exports.getCurrentUrl = exports.status = exports.runSession = exports.navigateTo = exports.deleteSession = exports.newSession = exports.make = void 0;
+exports.getElementAttribute = exports.elementSendKeys = exports.findElement = exports.refresh = exports.forward = exports.setTimeouts = exports.getTimeouts = exports.back = exports.getCurrentUrl = exports.status = exports.runSession = exports.navigateTo = exports.deleteSession = exports.newSession = exports.make = void 0;
 var fp_ts_1 = require("fp-ts");
 var fp_ts_std_1 = require("fp-ts-std");
 var function_1 = require("fp-ts/lib/function");
@@ -129,3 +129,46 @@ var forward = function (session) {
     });
 };
 exports.forward = forward;
+var refresh = function (session) {
+    return exports.make({
+        decoder: c.NullAsVoid,
+        fetch: {
+            endo: function_1.flow(endosession(session), fp_ts_std_1.string.append("/refresh")),
+            method: "POST",
+            body: {},
+        },
+    });
+};
+exports.refresh = refresh;
+var findElement = function (using, selector) { return function (session) {
+    return exports.make({
+        decoder: c.Element,
+        fetch: {
+            endo: function_1.flow(endosession(session), fp_ts_std_1.string.append("/element")),
+            method: "POST",
+            body: { using: using, value: selector },
+        },
+    });
+}; };
+exports.findElement = findElement;
+var elementSendKeys = function (text) { return function (element) { return function (session) {
+    return exports.make({
+        decoder: c.NullAsVoid,
+        fetch: {
+            endo: function_1.flow(endosession(session), fp_ts_std_1.string.append("/element/"), fp_ts_std_1.string.append(element["element-6066-11e4-a52e-4f735466cecf"]), fp_ts_std_1.string.append("/value")),
+            method: "POST",
+            body: { text: text },
+        },
+    });
+}; }; };
+exports.elementSendKeys = elementSendKeys;
+var getElementAttribute = function (attribute) { return function (element) { return function (session) {
+    return exports.make({
+        decoder: d.string,
+        fetch: {
+            endo: function_1.flow(endosession(session), fp_ts_std_1.string.append("/element/"), fp_ts_std_1.string.append(element["element-6066-11e4-a52e-4f735466cecf"]), fp_ts_std_1.string.append("/attribute/"), fp_ts_std_1.string.append(attribute)),
+            method: "GET",
+        },
+    });
+}; }; };
+exports.getElementAttribute = getElementAttribute;
