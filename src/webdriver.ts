@@ -121,3 +121,12 @@ export const back: WebdriverSession<void> = (session) =>
       body: {},
     },
   })
+
+export const getTimeouts: WebdriverSession<c.Timeouts> = (session) =>
+  make({
+    decoder: c.Timeouts,
+    fetch: {
+      endo: flow(endosession(session), string.append("/timeouts")),
+      method: "GET",
+    },
+  })
