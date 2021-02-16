@@ -5,7 +5,7 @@
  */
 import { either as E, readerTaskEither as RTE } from "fp-ts"
 import { constVoid, pipe } from "fp-ts/lib/function"
-import { webdriver as WD } from "../src"
+import { readerReaderTaskEither as RRTE, webdriver as WD } from "../src"
 import { Capabilities } from "../src/codecs"
 import { chromedriverJestSetup } from "./chromedriver"
 
@@ -19,13 +19,17 @@ const capabilities: Capabilities = {
   },
 }
 
+const body = { capabilities }
+
+jest.setTimeout(30000)
+
 describe("webdriver", () => {
   chromedriverJestSetup(port)()
 
   describe("newSession", () => {
     test("creates and deletes a new session", async () => {
       const result = await pipe(
-        WD.newSession({ capabilities }),
+        WD.newSession(body),
         RTE.chain(WD.deleteSession)
       )(dependencies)()
 
@@ -33,24 +37,29 @@ describe("webdriver", () => {
     })
 
     test("navigateTo", async () => {
-      const result = await pipe(
-        WD.newSession({ capabilities }),
-        RTE.chainFirst(WD.navigateTo("https://google.com.au")),
-        RTE.chain(WD.deleteSession)
-      )(dependencies)()
+      const test = WD.navigateTo("https://google.com.au")
+      const result = await pipe(test, WD.runSession(body))(dependencies)()
 
       expect(result).toMatchObject(E.right(constVoid()))
     })
   })
 
   describe("status", () => {
-    test("status", async () => {
-      const result = await pipe(
-        WD.newSession({ capabilities }),
-        RTE.bindW("status", () => WD.status),
-        RTE.chainFirst((session) => WD.deleteSession(session)),
-        RTE.map(({ status }) => status)
-      )(dependencies)()
+    test("status returns ready when a window is made", async () => {
+      const test = () => WD.status
+      const result = await pipe(test, WD.runSession(body))(dependencies)()
+
+      expect(result).toMatchObject(
+        E.right({
+          message: "ChromeDriver ready for new sessions.",
+          ready: true,
+        })
+      )
+    })
+
+    test("status returns ready when there is no session active", async () => {
+      const test = WD.status
+      const result = await test(dependencies)()
 
       expect(result).toMatchObject(
         E.right({
@@ -64,13 +73,11 @@ describe("webdriver", () => {
   describe("getCurrentUrl", () => {
     test("gets the current url", async () => {
       const url = "https://www.google.com.au/"
-      const result = await pipe(
-        WD.newSession({ capabilities }),
-        RTE.chainFirst(WD.navigateTo(url)),
-        RTE.bindW("url", WD.getCurrentUrl),
-        RTE.chainFirst((session) => WD.deleteSession(session)),
-        RTE.map(({ url }) => url)
-      )(dependencies)()
+      const test = pipe(
+        WD.navigateTo(url),
+        RRTE.chain(() => WD.getCurrentUrl)
+      )
+      const result = await pipe(test, WD.runSession(body))(dependencies)()
 
       expect(result).toMatchObject(E.right(url))
     })
@@ -80,21 +87,16 @@ describe("webdriver", () => {
     test("navigate to 2 urls and navigates back to the 1st", async () => {
       const urlA = "https://www.google.com.au/"
       const urlB = "https://www.youtube.com/"
-      const result = await pipe(
-        WD.newSession({ capabilities }),
-        RTE.chainFirst(WD.navigateTo(urlA)),
-        RTE.chainFirst(WD.navigateTo(urlB)),
-        RTE.chainFirst(WD.back),
-        RTE.bindW("url", WD.getCurrentUrl),
-        RTE.chainFirst((session) => WD.deleteSession(session)),
-        RTE.map(({ url }) => url),
-        RTE.mapLeft((e) => {
-          console.warn(e)
-          return e
-        })
-      )(dependencies)()
+      const test = pipe(
+        WD.navigateTo(urlA),
+        RRTE.chain(() => WD.navigateTo(urlB)),
+        RRTE.chain(() => WD.back),
+        RRTE.chain(() => WD.getCurrentUrl)
+      )
+
+      const result = await pipe(test, WD.runSession(body))(dependencies)()
 
       expect(result).toMatchObject(E.right(urlA))
-    }, 10000)
+    })
   })
 })
