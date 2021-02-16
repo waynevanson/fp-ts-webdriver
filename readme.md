@@ -35,23 +35,19 @@ With chromedriver the command is `chromedriver --port=4444`
 
 ```ts
 
-import { webdriver as WD } from "fp-ts-webdriver"
+import { webdriver as WD, readerReaderTaskEither as RRTE } from "fp-ts-webdriver"
 import { pipe } from "fp-ts/lib/function"
 import { readerTaskEither as RTE, taskEither as TE } from "fp-ts"
 
 const searchBar = WD.findElement("css selector", "input[name=\"q\"]")
 const searchButton = WD.findElement("css selector", "input[value=\"Google Search\"]")
 
-// R.Reader<
-//   WD.Session,
-//   RTE.ReaderTaskEither<WD.Dependencies, WD.Errors, void>
-// >
-const program: WD.WebdriverSession<void> = pipe(
+const program = pipe(
   WD.navigateTo("https://google.com.au"),
-  RTE.chain(() => searchBar),
-  RTE.chainFirst((element) => WD.sendKeys("dogs")(element)),
-  RTE.chain(() => searchButton)
-  RTE.chain(element => WD.elementClick(element))
+  RRTE.chain(() => searchBar),
+  RRTE.chainFirst((element) => WD.sendKeys("dogs")(element)),
+  RRTE.chain(() => searchButton)
+  RRTE.chain(element => WD.elementClick(element))
 )
 
 export const capabilities: WD.Capabilities = {}
@@ -60,13 +56,9 @@ const dependencies:WD.Dependencies =  {
   url: "localhost:4444",
 }
 
+// creates a session and closes it after runnning `program`
 const main = pipe(
-  // start a session
-  WD.newSession({ capabilities }),
-  // run your program
-  RTE.chainFirst(program),
-  // delete the session
-  RTE.chain(WD.deleteSession)
+  program, WD.runSession(capabilities)
 )
 
 // TE.TaskEither<WD.Errors, void>
