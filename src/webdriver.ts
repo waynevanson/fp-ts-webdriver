@@ -131,3 +131,15 @@ export const getTimeouts: WebdriverSession<c.Timeouts> = (session) =>
       method: "GET",
     },
   })
+
+export const setTimeouts = (timeouts: c.Timeouts): WebdriverSession<void> => (
+  session
+) =>
+  make({
+    decoder: c.NullAsVoid,
+    fetch: {
+      endo: flow(endosession(session), string.append("/timeouts")),
+      method: "POST",
+      body: timeouts,
+    },
+  })

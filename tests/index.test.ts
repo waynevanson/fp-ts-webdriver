@@ -114,4 +114,21 @@ describe("webdriver", () => {
       )
     })
   })
+
+  describe("setTimeouts", () => {
+    test("sets the timeouts, ensuring they've changed", async () => {
+      const timeouts = {
+        implicit: 0,
+        pageLoad: 40000,
+        script: 40000,
+      }
+      const test = pipe(
+        WD.setTimeouts(timeouts),
+        RRTE.chain(() => WD.getTimeouts)
+      )
+
+      const result = await pipe(test, WD.runSession(body))(dependencies)()
+      expect(result).toMatchObject(E.right(timeouts))
+    })
+  })
 })
