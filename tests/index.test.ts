@@ -99,4 +99,19 @@ describe("webdriver", () => {
       expect(result).toMatchObject(E.right(urlA))
     })
   })
+
+  describe("getTimeouts", () => {
+    test("get the default timeouts for the page", async () => {
+      const test = WD.getTimeouts
+
+      const result = await pipe(test, WD.runSession(body))(dependencies)()
+      expect(result).toMatchObject(
+        E.right({
+          implicit: 0,
+          pageLoad: 300000,
+          script: 30000,
+        })
+      )
+    })
+  })
 })
