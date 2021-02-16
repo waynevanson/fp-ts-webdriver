@@ -1,6 +1,8 @@
 import { reader as R, readerT, readerTaskEither as RTE } from "fp-ts"
 import { Monad4 } from "fp-ts/lib/Monad"
-import { pipeable } from "fp-ts/lib/pipeable"
+import { MonadTask4 } from "fp-ts/lib/MonadTask"
+import { MonadThrow4 } from "fp-ts/lib/MonadThrow"
+import { pipe, pipeable } from "fp-ts/lib/pipeable"
 
 export const URI = "ReaderReaderTaskEither"
 export type URI = typeof URI
@@ -18,7 +20,19 @@ const M = readerT.getReaderM(RTE.readerTaskEither)
 export const { ask, asks, fromM: fromReaderTaskEither, fromReader, of } = M
 
 export const Monad: Monad4<URI> = { URI, ...M }
-export const readerReaderTaskEither = { ...Monad }
+
+export const MonadThrow: MonadThrow4<URI> = {
+  ...Monad,
+  throwError: (e) => () => RTE.throwError(e),
+}
+
+export const MonadTask: MonadTask4<URI> = {
+  ...Monad,
+  fromIO: (fa) => () => pipe(RTE.fromIO(fa)),
+  fromTask: (fa) => () => pipe(RTE.fromTask(fa)),
+}
+
+export const readerReaderTaskEither = { ...MonadTask, ...MonadThrow }
 
 export const {
   ap,
@@ -28,4 +42,8 @@ export const {
   chainFirst,
   flatten,
   map,
+  filterOrElse,
+  fromEither,
+  fromOption,
+  fromPredicate,
 } = pipeable(readerReaderTaskEither)
