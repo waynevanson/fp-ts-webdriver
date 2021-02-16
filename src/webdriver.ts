@@ -94,6 +94,10 @@ export const navigateTo = (url: string): WebdriverSession<void> => (session) =>
     },
   })
 
+export const runSession = (body: c.NewSession) => <A>(
+  fa: WebdriverSession<A>
+) => RTE.bracket(newSession(body), (session) => fa(session), deleteSession)
+
 export const status: Webdriver<c.Status> = make({
   decoder: c.Status,
   fetch: { method: "GET", endo: string.append("/status") },
