@@ -17,7 +17,7 @@
     "build": "npm-run-all --parallel build:*",
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:es6": "tsc -p tsconfig.es6.json",
-    "test": "jest --coverage"
+    "test": "jest"
   },
   "peerDependencies": {
     "fp-ts": "^2.9.5",
