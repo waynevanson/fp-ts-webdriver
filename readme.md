@@ -74,8 +74,8 @@ We have tests in chromedriver and will expand to other drivers like geckodriver 
 | Session             | :heavy_check_mark: | newSession              |
 |                     | :heavy_check_mark: | deleteSession           |
 |                     | :heavy_check_mark: | status                  |
-|                     | :o:                | getTimeouts             |
-|                     | :o:                | setTimeouts             |
+|                     | :heavy_check_mark: | getTimeouts             |
+|                     | :heavy_check_mark: | setTimeouts             |
 | Navigation          | :heavy_check_mark: | navigateTo              |
 |                     | :heavy_check_mark: | getCurrentUrl           |
 |                     | :heavy_check_mark: | back                    |
