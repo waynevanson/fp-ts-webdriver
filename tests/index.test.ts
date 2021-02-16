@@ -37,6 +37,32 @@ describe("webdriver", () => {
         expect(result).toMatchObject(E.right(constVoid()))
       })
     })
+
+    describe("status", () => {
+      test("status returns ready when a window is made", async () => {
+        const test = () => WD.status
+        const result = await pipe(test, WD.runSession(body))(dependencies)()
+
+        expect(result).toMatchObject(
+          E.right({
+            message: "ChromeDriver ready for new sessions.",
+            ready: true,
+          })
+        )
+      })
+
+      test("status returns ready when there is no session active", async () => {
+        const test = WD.status
+        const result = await test(dependencies)()
+
+        expect(result).toMatchObject(
+          E.right({
+            message: "ChromeDriver ready for new sessions.",
+            ready: true,
+          })
+        )
+      })
+    })
   })
 
   describe("Navigation", () => {
@@ -85,32 +111,6 @@ describe("webdriver", () => {
   })
 
   describe("Navigation", () => {
-    describe("status", () => {
-      test("status returns ready when a window is made", async () => {
-        const test = () => WD.status
-        const result = await pipe(test, WD.runSession(body))(dependencies)()
-
-        expect(result).toMatchObject(
-          E.right({
-            message: "ChromeDriver ready for new sessions.",
-            ready: true,
-          })
-        )
-      })
-
-      test("status returns ready when there is no session active", async () => {
-        const test = WD.status
-        const result = await test(dependencies)()
-
-        expect(result).toMatchObject(
-          E.right({
-            message: "ChromeDriver ready for new sessions.",
-            ready: true,
-          })
-        )
-      })
-    })
-
     describe("getCurrentUrl", () => {
       test("gets the current url", async () => {
         const url = "https://www.google.com.au/"
