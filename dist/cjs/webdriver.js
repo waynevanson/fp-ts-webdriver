@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTimeouts = exports.back = exports.getCurrentUrl = exports.status = exports.runSession = exports.navigateTo = exports.deleteSession = exports.newSession = exports.make = void 0;
+exports.setTimeouts = exports.getTimeouts = exports.back = exports.getCurrentUrl = exports.status = exports.runSession = exports.navigateTo = exports.deleteSession = exports.newSession = exports.make = void 0;
 var fp_ts_1 = require("fp-ts");
 var fp_ts_std_1 = require("fp-ts-std");
 var function_1 = require("fp-ts/lib/function");
@@ -107,3 +107,14 @@ var getTimeouts = function (session) {
     });
 };
 exports.getTimeouts = getTimeouts;
+var setTimeouts = function (timeouts) { return function (session) {
+    return exports.make({
+        decoder: c.NullAsVoid,
+        fetch: {
+            endo: function_1.flow(endosession(session), fp_ts_std_1.string.append("/timeouts")),
+            method: "POST",
+            body: timeouts,
+        },
+    });
+}; };
+exports.setTimeouts = setTimeouts;

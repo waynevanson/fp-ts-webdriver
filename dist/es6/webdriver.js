@@ -1,4 +1,4 @@
-import { either as E, option as O, readerTaskEither as RTE, } from "fp-ts";
+import { either as E, option as O, readerTaskEither as RTE } from "fp-ts";
 import { string } from "fp-ts-std";
 import { flow, pipe } from "fp-ts/lib/function";
 import * as d from "io-ts/Decoder";
@@ -53,5 +53,13 @@ export const getTimeouts = (session) => make({
     fetch: {
         endo: flow(endosession(session), string.append("/timeouts")),
         method: "GET",
+    },
+});
+export const setTimeouts = (timeouts) => (session) => make({
+    decoder: c.NullAsVoid,
+    fetch: {
+        endo: flow(endosession(session), string.append("/timeouts")),
+        method: "POST",
+        body: timeouts,
     },
 });
