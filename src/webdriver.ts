@@ -1,14 +1,10 @@
 import { FetchError } from "fp-fetch"
-import {
-  either as E,
-  option as O,
-  reader as R,
-  readerTaskEither as RTE,
-} from "fp-ts"
+import { either as E, option as O, readerTaskEither as RTE } from "fp-ts"
 import { string } from "fp-ts-std"
 import { Endomorphism, flow, pipe } from "fp-ts/lib/function"
 import * as d from "io-ts/Decoder"
 import * as c from "./codecs"
+import { readerReaderTaskEither as RRTE } from "./fp-ts-modules"
 import { fetch, stringifyJson } from "./utils"
 
 export interface Dependencies {
@@ -62,7 +58,12 @@ export const make = <E extends object, A>({
   )
 
 export interface WebdriverSession<A>
-  extends R.Reader<c.Session, Webdriver<A>> {}
+  extends RRTE.ReaderReaderTaskEither<
+    c.Session,
+    Dependencies,
+    WebdriverErrors,
+    A
+  > {}
 
 const endosession = (session: c.Session) =>
   flow(string.append("/session/"), string.append(session.sessionId))
