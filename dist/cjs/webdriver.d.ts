@@ -33,3 +33,4 @@ export declare const getCurrentUrl: WebdriverSession<string>;
 export declare const back: WebdriverSession<void>;
 export declare const getTimeouts: WebdriverSession<c.Timeouts>;
 export declare const setTimeouts: (timeouts: c.Timeouts) => WebdriverSession<void>;
+export declare const forward: WebdriverSession<void>;

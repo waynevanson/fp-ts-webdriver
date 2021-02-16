@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.setTimeouts = exports.getTimeouts = exports.back = exports.getCurrentUrl = exports.status = exports.runSession = exports.navigateTo = exports.deleteSession = exports.newSession = exports.make = void 0;
+exports.forward = exports.setTimeouts = exports.getTimeouts = exports.back = exports.getCurrentUrl = exports.status = exports.runSession = exports.navigateTo = exports.deleteSession = exports.newSession = exports.make = void 0;
 var fp_ts_1 = require("fp-ts");
 var fp_ts_std_1 = require("fp-ts-std");
 var function_1 = require("fp-ts/lib/function");
@@ -118,3 +118,14 @@ var setTimeouts = function (timeouts) { return function (session) {
     });
 }; };
 exports.setTimeouts = setTimeouts;
+var forward = function (session) {
+    return exports.make({
+        decoder: c.NullAsVoid,
+        fetch: {
+            endo: function_1.flow(endosession(session), fp_ts_std_1.string.append("/forward")),
+            method: "POST",
+            body: {},
+        },
+    });
+};
+exports.forward = forward;

@@ -63,3 +63,11 @@ export const setTimeouts = (timeouts) => (session) => make({
         body: timeouts,
     },
 });
+export const forward = (session) => make({
+    decoder: c.NullAsVoid,
+    fetch: {
+        endo: flow(endosession(session), string.append("/forward")),
+        method: "POST",
+        body: {},
+    },
+});
