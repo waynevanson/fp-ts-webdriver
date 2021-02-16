@@ -166,7 +166,7 @@ describe("webdriver", () => {
 
   describe("Element Retrieval", () => {
     describe("findElement", () => {
-      test.only("finds css element", async () => {
+      test("finds css element", async () => {
         const searchBar = WD.findElement("css selector", 'input[name="q"]')
 
         const test = pipe(
