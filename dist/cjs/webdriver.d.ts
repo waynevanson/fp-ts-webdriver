@@ -30,3 +30,4 @@ export declare const runSession: (body: c.NewSession) => <A>(fa: WebdriverSessio
 export declare const status: Webdriver<c.Status>;
 export declare const getCurrentUrl: WebdriverSession<string>;
 export declare const back: WebdriverSession<void>;
+export declare const getTimeouts: WebdriverSession<c.Timeouts>;

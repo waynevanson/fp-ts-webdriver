@@ -48,3 +48,10 @@ export const back = (session) => make({
         body: {},
     },
 });
+export const getTimeouts = (session) => make({
+    decoder: c.Timeouts,
+    fetch: {
+        endo: flow(endosession(session), string.append("/timeouts")),
+        method: "GET",
+    },
+});
