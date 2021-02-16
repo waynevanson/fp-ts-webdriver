@@ -26,109 +26,119 @@ jest.setTimeout(30000)
 describe("webdriver", () => {
   chromedriverJestSetup(port)()
 
-  describe("newSession", () => {
-    test("creates and deletes a new session", async () => {
-      const result = await pipe(
-        WD.newSession(body),
-        RTE.chain(WD.deleteSession)
-      )(dependencies)()
+  describe("Sessions", () => {
+    describe("newSession/deleteSession", () => {
+      test("creates and deletes a new session", async () => {
+        const result = await pipe(
+          WD.newSession(body),
+          RTE.chain(WD.deleteSession)
+        )(dependencies)()
 
-      expect(result).toMatchObject(E.right(constVoid()))
-    })
-
-    test("navigateTo", async () => {
-      const test = WD.navigateTo("https://google.com.au")
-      const result = await pipe(test, WD.runSession(body))(dependencies)()
-
-      expect(result).toMatchObject(E.right(constVoid()))
+        expect(result).toMatchObject(E.right(constVoid()))
+      })
     })
   })
 
-  describe("status", () => {
-    test("status returns ready when a window is made", async () => {
-      const test = () => WD.status
-      const result = await pipe(test, WD.runSession(body))(dependencies)()
+  describe("Navigation", () => {
+    describe("navigateTo", () => {
+      test("navigateTo", async () => {
+        const test = WD.navigateTo("https://google.com.au")
+        const result = await pipe(test, WD.runSession(body))(dependencies)()
 
-      expect(result).toMatchObject(
-        E.right({
-          message: "ChromeDriver ready for new sessions.",
-          ready: true,
+        expect(result).toMatchObject(E.right(constVoid()))
+      })
+    })
+
+    describe("Timeouts", () => {
+      describe("getTimeouts", () => {
+        test("get the default timeouts for the page", async () => {
+          const test = WD.getTimeouts
+
+          const result = await pipe(test, WD.runSession(body))(dependencies)()
+          expect(result).toMatchObject(
+            E.right({
+              implicit: 0,
+              pageLoad: 300000,
+              script: 30000,
+            })
+          )
         })
-      )
+      })
     })
 
-    test("status returns ready when there is no session active", async () => {
-      const test = WD.status
-      const result = await test(dependencies)()
-
-      expect(result).toMatchObject(
-        E.right({
-          message: "ChromeDriver ready for new sessions.",
-          ready: true,
-        })
-      )
-    })
-  })
-
-  describe("getCurrentUrl", () => {
-    test("gets the current url", async () => {
-      const url = "https://www.google.com.au/"
-      const test = pipe(
-        WD.navigateTo(url),
-        RRTE.chain(() => WD.getCurrentUrl)
-      )
-      const result = await pipe(test, WD.runSession(body))(dependencies)()
-
-      expect(result).toMatchObject(E.right(url))
-    })
-  })
-
-  describe("back", () => {
-    test("navigate to 2 urls and navigates back to the 1st", async () => {
-      const urlA = "https://www.google.com.au/"
-      const urlB = "https://www.youtube.com/"
-      const test = pipe(
-        WD.navigateTo(urlA),
-        RRTE.chain(() => WD.navigateTo(urlB)),
-        RRTE.chain(() => WD.back),
-        RRTE.chain(() => WD.getCurrentUrl)
-      )
-
-      const result = await pipe(test, WD.runSession(body))(dependencies)()
-
-      expect(result).toMatchObject(E.right(urlA))
-    })
-  })
-
-  describe("getTimeouts", () => {
-    test("get the default timeouts for the page", async () => {
-      const test = WD.getTimeouts
-
-      const result = await pipe(test, WD.runSession(body))(dependencies)()
-      expect(result).toMatchObject(
-        E.right({
+    describe("setTimeouts", () => {
+      test("sets the timeouts, ensuring they've changed", async () => {
+        const timeouts = {
           implicit: 0,
-          pageLoad: 300000,
-          script: 30000,
-        })
-      )
+          pageLoad: 40000,
+          script: 40000,
+        }
+        const test = pipe(
+          WD.setTimeouts(timeouts),
+          RRTE.chain(() => WD.getTimeouts)
+        )
+
+        const result = await pipe(test, WD.runSession(body))(dependencies)()
+        expect(result).toMatchObject(E.right(timeouts))
+      })
     })
   })
 
-  describe("setTimeouts", () => {
-    test("sets the timeouts, ensuring they've changed", async () => {
-      const timeouts = {
-        implicit: 0,
-        pageLoad: 40000,
-        script: 40000,
-      }
-      const test = pipe(
-        WD.setTimeouts(timeouts),
-        RRTE.chain(() => WD.getTimeouts)
-      )
+  describe("Navigation", () => {
+    describe("status", () => {
+      test("status returns ready when a window is made", async () => {
+        const test = () => WD.status
+        const result = await pipe(test, WD.runSession(body))(dependencies)()
 
-      const result = await pipe(test, WD.runSession(body))(dependencies)()
-      expect(result).toMatchObject(E.right(timeouts))
+        expect(result).toMatchObject(
+          E.right({
+            message: "ChromeDriver ready for new sessions.",
+            ready: true,
+          })
+        )
+      })
+
+      test("status returns ready when there is no session active", async () => {
+        const test = WD.status
+        const result = await test(dependencies)()
+
+        expect(result).toMatchObject(
+          E.right({
+            message: "ChromeDriver ready for new sessions.",
+            ready: true,
+          })
+        )
+      })
+    })
+
+    describe("getCurrentUrl", () => {
+      test("gets the current url", async () => {
+        const url = "https://www.google.com.au/"
+        const test = pipe(
+          WD.navigateTo(url),
+          RRTE.chain(() => WD.getCurrentUrl)
+        )
+        const result = await pipe(test, WD.runSession(body))(dependencies)()
+
+        expect(result).toMatchObject(E.right(url))
+      })
+    })
+
+    describe("back", () => {
+      test("navigate to 2 urls and navigates back to the 1st", async () => {
+        const urlA = "https://www.google.com.au/"
+        const urlB = "https://www.youtube.com/"
+        const test = pipe(
+          WD.navigateTo(urlA),
+          RRTE.chain(() => WD.navigateTo(urlB)),
+          RRTE.chain(() => WD.back),
+          RRTE.chain(() => WD.getCurrentUrl)
+        )
+
+        const result = await pipe(test, WD.runSession(body))(dependencies)()
+
+        expect(result).toMatchObject(E.right(urlA))
+      })
     })
   })
 })
