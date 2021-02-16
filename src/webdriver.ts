@@ -153,3 +153,24 @@ export const forward: WebdriverSession<void> = (session) =>
       body: {},
     },
   })
+
+
+export type LocationStrategy =
+  | "css selector"
+  | "link text"
+  | "partial link text"
+  | "tag name"
+  | "xpath"
+
+export const findElement = (
+  using: LocationStrategy,
+  selector: string
+): WebdriverSession<c.Element> => (session) =>
+  make({
+    decoder: c.Element,
+    fetch: {
+      endo: flow(endosession(session), string.append("/element")),
+      method: "POST",
+      body: { using, value: selector },
+    },
+  })

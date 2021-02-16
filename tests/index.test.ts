@@ -163,4 +163,23 @@ describe("webdriver", () => {
       })
     })
   })
+
+  describe("Element Retrieval", () => {
+    describe("findElement", () => {
+      test.only("finds css element", async () => {
+        const searchBar = WD.findElement("css selector", 'input[name="q"]')
+
+        const test = pipe(
+          WD.navigateTo("https://www.google.com.au/"),
+          RRTE.chain(() => searchBar)
+        )
+
+        const result = await pipe(test, WD.runSession(body))(dependencies)()
+        expect(result).toHaveProperty([
+          "right",
+          "element-6066-11e4-a52e-4f735466cecf",
+        ])
+      })
+    })
+  })
 })

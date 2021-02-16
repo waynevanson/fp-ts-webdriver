@@ -92,7 +92,7 @@ We have tests in chromedriver and will expand to other drivers like geckodriver 
 |                     | :o:                | setWindowRect           |
 |                     | :o:                | maximizeWindow          |
 |                     | :o:                | minimizeWindow          |
-| Element Retrieval   | :o:                | findElement             |
+| Element Retrieval   | :heavy_check_mark: | findElement             |
 |                     | :o:                | findElements            |
 |                     | :o:                | findElementFromElement  |
 |                     | :o:                | findElementsFromElement |
