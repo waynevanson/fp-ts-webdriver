@@ -126,11 +126,11 @@ We have tests in chromedriver and will expand to other drivers like geckodriver 
 
 ## Contributing
 
-Run tests by calling `yarn test`.
-
-If you encounter problems, run `yarn add -D chromedriver`, and this will install a chromedriver on your system (along with chromium I presume).
-
-Follow angular commit syntax with `<fix|feat|docs|build|tests>: <message>`.
-The goal is to make commit history easy to walkthrough in the future.
-
-Project follows semantic versioning.
+- Fork and clone this repository `gh repo fork waynevanson/fp-ts-webdriver --clone --remote`
+- Install dependencies with `yarn install`
+- Ensure tests run in your environment with `yarn test`
+  - if chromedriver does not exist, run `yarn add -D chromedriver` to run it's install script, where it will install chromedriver on your machine.
+- Commiting
+  - Add a feature
+  - Add tests
+  - Commit message should be of `<fix|feat|docs|build|tests>: <message>`, which is used to generate a changelog.
