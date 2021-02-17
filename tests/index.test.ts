@@ -153,6 +153,25 @@ describe("webdriver", () => {
         expect(result).toMatchObject(E.right(urlB))
       })
     })
+  describe("Element Interaction", () => {
+    describe("elementSendKeys", () => {
+      test("sends keys to a search bar", async () => {
+        const searchBar = WD.findElement("css selector", 'input[name="q"]')
+        const searchBarText = WD.getElementAttribute("value")
+
+        const text = "Hello, World!"
+
+        const test = pipe(
+          WD.navigateTo("https://www.google.com.au/"),
+          RRTE.chain(() => searchBar),
+          RRTE.chainFirst(WD.elementSendKeys(text)),
+          RRTE.chain(searchBarText)
+        )
+
+        const result = await pipe(test, WD.runSession(body))(dependencies)()
+        expect(result).toMatchObject(E.right(text))
+      })
+    })
   })
 
   describe("Element Retrieval", () => {

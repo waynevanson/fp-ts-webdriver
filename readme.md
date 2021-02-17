@@ -106,7 +106,7 @@ We have tests in chromedriver and will expand to other drivers like geckodriver 
 |                     | :o:                | isElementEnabled        |
 | Element Interaction | :o:                | elementClick            |
 |                     | :o:                | elementClear            |
-|                     | :o:                | elementSendKeys         |
+|                     | :heavy_check_mark: | elementSendKeys         |
 | Document Handling   | :o:                | getPageSource           |
 |                     | :o:                | executeScript           |
 |                     | :o:                | executeAsyncScript      |

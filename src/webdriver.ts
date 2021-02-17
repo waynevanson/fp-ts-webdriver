@@ -175,6 +175,23 @@ export const findElement = (
     },
   })
 
+export const elementSendKeys = (text: string) => (
+  element: c.Element
+): WebdriverSession<void> => (session) =>
+  make({
+    decoder: c.NullAsVoid,
+    fetch: {
+      endo: flow(
+        endosession(session),
+        string.append("/element/"),
+        string.append(element["element-6066-11e4-a52e-4f735466cecf"]),
+        string.append("/value")
+      ),
+      method: "POST",
+      body: { text },
+    },
+  })
+
 export const getElementAttribute = (attribute: string) => (
   element: c.Element
 ): WebdriverSession<string> => (session) =>
