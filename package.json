@@ -14,7 +14,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "npm-run-all --parallel build:*",
+    "build": "rm -rf dist && npm-run-all --parallel build:*",
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:es6": "tsc -p tsconfig.es6.json",
     "test": "jest"
