@@ -133,6 +133,7 @@ We have tests in chromedriver and will expand to other drivers like geckodriver 
 - Commiting
   - Add a feature
   - Add tests
+  - Change the compatibility section of `readme.md` under the feature name from `:o:` to `:heavy_check_mark:`
   - Commit message should be of `<fix|feat|docs|build|tests>: <message>`, which is used to generate a changelog.
 - Pushing
   - After all commits have been applied, rebase from the master repo with `git pull --rebase`.
