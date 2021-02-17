@@ -172,5 +172,25 @@ describe("webdriver", () => {
         ])
       })
     })
+
+    describe("getElementAttribute", () => {
+      test("gets an attribute of an element", async () => {
+        const searchButton = WD.findElement(
+          "css selector",
+          'input[value="Google Search"]'
+        )
+
+        const attribute = WD.getElementAttribute("value")
+
+        const test = pipe(
+          WD.navigateTo("https://www.google.com.au/"),
+          RRTE.chain(() => searchButton),
+          RRTE.chain(attribute)
+        )
+
+        const result = await pipe(test, WD.runSession(body))(dependencies)()
+        expect(result).toMatchObject(E.right("Google Search"))
+      })
+    })
   })
 })

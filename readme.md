@@ -97,7 +97,7 @@ We have tests in chromedriver and will expand to other drivers like geckodriver 
 |                     | :o:                | findElementFromElement  |
 |                     | :o:                | findElementsFromElement |
 | Element State       | :o:                | isElementSelected       |
-|                     | :o:                | getElementAttribute     |
+|                     | :heavy_check_mark: | getElementAttribute     |
 |                     | :o:                | getElementProperty      |
 |                     | :o:                | getElementCSSValue      |
 |                     | :o:                | getElementText          |

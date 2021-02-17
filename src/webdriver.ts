@@ -174,3 +174,20 @@ export const findElement = (
       body: { using, value: selector },
     },
   })
+
+export const getElementAttribute = (attribute: string) => (
+  element: c.Element
+): WebdriverSession<string> => (session) =>
+  make({
+    decoder: d.string,
+    fetch: {
+      endo: flow(
+        endosession(session),
+        string.append("/element/"),
+        string.append(element["element-6066-11e4-a52e-4f735466cecf"]),
+        string.append("/attribute/"),
+        string.append(attribute)
+      ),
+      method: "GET",
+    },
+  })
