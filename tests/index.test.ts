@@ -1,8 +1,3 @@
-/**
- * @description
- * These tests must have the `--runInBand` flag in jest turned on,
- * so they're run in series.
- */
 import { either as E, readerTaskEither as RTE } from "fp-ts"
 import { constVoid, pipe } from "fp-ts/lib/function"
 import {
