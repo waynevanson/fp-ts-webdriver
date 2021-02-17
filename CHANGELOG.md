@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/waynevanson/fp-ts-webdriver/compare/v1.5.0...v2.0.0) (2021-02-17)
+
+
+### Build System
+
+* build script amends dist folder ([610281e](https://github.com/waynevanson/fp-ts-webdriver/commit/610281e3152373cb77397e4804e6ccdd69ee5e1e))
+
+
+### BREAKING CHANGES
+
+* files were not being removed before overwritten, so all the old dist files from previous versions were still available for use by users.
+
 # [1.5.0](https://github.com/waynevanson/fp-ts-webdriver/compare/v1.4.0...v1.5.0) (2021-02-16)
 
 
