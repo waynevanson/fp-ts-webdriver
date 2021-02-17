@@ -80,7 +80,7 @@ We have tests in chromedriver and will expand to other drivers like geckodriver 
 |                     | :heavy_check_mark: | getCurrentUrl           |
 |                     | :heavy_check_mark: | back                    |
 |                     | :heavy_check_mark: | forward                 |
-|                     | :o:                | refresh                 |
+|                     | :heavy_check_mark: | refresh                 |
 |                     | :o:                | getTitle                |
 | Command Contexts    | :o:                | getWindowHandle         |
 |                     | :o:                | closeWindow             |

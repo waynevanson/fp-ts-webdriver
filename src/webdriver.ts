@@ -154,6 +154,15 @@ export const forward: WebdriverSession<void> = (session) =>
     },
   })
 
+export const refresh: WebdriverSession<void> = (session) =>
+  make({
+    decoder: c.NullAsVoid,
+    fetch: {
+      endo: flow(endosession(session), string.append("/refresh")),
+      method: "POST",
+      body: {},
+    },
+  })
 
 export type LocationStrategy =
   | "css selector"

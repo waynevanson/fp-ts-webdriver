@@ -153,6 +153,31 @@ describe("webdriver", () => {
         expect(result).toMatchObject(E.right(urlB))
       })
     })
+
+    describe("refresh", () => {
+      test("go to a page, type in the box and refresh to see it gone", async () => {
+        const urlA = "https://www.google.com.au/"
+        const searchBar = WD.findElement("css selector", 'input[name="q"]')
+        const searchBarText = WD.getElementAttribute("value")
+        const text = "Hello, World!"
+
+        const test = pipe(
+          WD.navigateTo(urlA),
+          RRTE.chain(() => searchBar),
+          RRTE.chainFirst(WD.elementSendKeys(text)),
+          RRTE.chainFirst(() => WD.refresh),
+          // get element again because element hash has changed
+          RRTE.chain(() => searchBar),
+          RRTE.chain(searchBarText)
+        )
+
+        const result = await pipe(test, WD.runSession(body))(dependencies)()
+
+        expect(result).toMatchObject(E.right(""))
+      })
+    })
+  })
+
   describe("Element Interaction", () => {
     describe("elementSendKeys", () => {
       test("sends keys to a search bar", async () => {
