@@ -1,10 +1,6 @@
 import { either as E, readerTaskEither as RTE } from "fp-ts"
 import { constVoid, pipe } from "fp-ts/lib/function"
-import {
-  readerReaderTaskEither as RRTE,
-  webdriver as WD,
-  webdriver,
-} from "../src"
+import { readerReaderTaskEither as RRTE, webdriver as WD } from "../src"
 import { Capabilities } from "../src/codecs"
 import { chromedriverJestSetup } from "./chromedriver"
 
