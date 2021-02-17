@@ -134,3 +134,6 @@ We have tests in chromedriver and will expand to other drivers like geckodriver 
   - Add a feature
   - Add tests
   - Commit message should be of `<fix|feat|docs|build|tests>: <message>`, which is used to generate a changelog.
+- Pushing
+  - After all commits have been applied, rebase from the master repo with `git pull --rebase`.
+  - Push with `git push`
