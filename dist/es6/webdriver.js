@@ -4,15 +4,53 @@ import { flow, pipe } from "fp-ts/lib/function";
 import * as d from "io-ts/Decoder";
 import * as c from "./codecs";
 import { fetch, stringifyJson } from "./utils";
-// utils
-// me
-export const make = ({ decoder, fetch: { body, endo, method }, }) => pipe(RTE.ask(), RTE.bindW("body", () => pipe(O.fromNullable(body), O.traverse(E.Applicative)(stringifyJson), RTE.fromEither, RTE.map(O.toUndefined))), RTE.chainTaskEitherK(({ url, requestInit = {}, body }) => fetch(endo(url), Object.assign({}, requestInit, { method, body }))), RTE.chainEitherKW(c.Success(decoder).decode), RTE.map((success) => success.value));
+/**
+ * @summary
+ * Creates a `WebDriver` from a Decoder and a few request properties.
+ * Reduces boilerplate
+ *
+ * @param props
+ * @category Constructors
+ */
+export const make = ({ decoder, fetch: { body, endo, method }, }) => pipe(RTE.ask(), 
+// stringify JSON
+RTE.bindW("body", () => pipe(O.fromNullable(body), O.traverse(E.Applicative)(stringifyJson), RTE.fromEither, RTE.map(O.toUndefined))), 
+// fetch request
+RTE.chainTaskEitherK(({ endpoint, requestInit = {}, body }) => fetch(endo(endpoint), Object.assign({}, requestInit, { method, body }))), 
+// decodes a successful response
+RTE.chainEitherKW(c.Success(decoder).decode), 
+// get A from the response
+RTE.map((success) => success.value));
+/**
+ * @summary
+ * Appends the `sessionId` to the `endpoint`.
+ *
+ * @todo Rename to something more suitable.
+ * @internal
+ */
 const endosession = (session) => flow(string.append("/session/"), string.append(session.sessionId));
-// API
+/**
+ *
+ * @summary
+ * Creates a new webdriver session
+ *
+ * @param body
+ *
+ * @see [New Session](https://www.w3.org/TR/webdriver1/#dfn-creating-a-new-session)
+ * @category Constructors
+ */
 export const newSession = (body) => make({
     decoder: c.Session,
     fetch: { body, method: "POST", endo: string.append("/session") },
 });
+export const status = make({
+    decoder: c.Status,
+    fetch: { method: "GET", endo: string.append("/status") },
+});
+// -----
+// Please use `ReaderReaderTaskEither` to compose these sessions together
+// via `chain` and `chainFirst`
+// -----
 export const deleteSession = (session) => make({
     decoder: c.NullAsVoid,
     fetch: {
@@ -28,11 +66,15 @@ export const navigateTo = (url) => (session) => make({
         method: "POST",
     },
 });
+/**
+ * @summary
+ * Creates a `Session` that will always close if it opened,
+ * by calling a `WebDriverSession`.
+ *
+ * @param body
+ * @category Combinators
+ */
 export const runSession = (body) => (fa) => RTE.bracket(newSession(body), (session) => fa(session), deleteSession);
-export const status = make({
-    decoder: c.Status,
-    fetch: { method: "GET", endo: string.append("/status") },
-});
 export const getCurrentUrl = (session) => make({
     decoder: d.string,
     fetch: {

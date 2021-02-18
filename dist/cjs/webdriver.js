@@ -19,29 +19,59 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getElementAttribute = exports.elementSendKeys = exports.findElement = exports.refresh = exports.forward = exports.setTimeouts = exports.getTimeouts = exports.back = exports.getCurrentUrl = exports.status = exports.runSession = exports.navigateTo = exports.deleteSession = exports.newSession = exports.make = void 0;
+exports.getElementAttribute = exports.elementSendKeys = exports.findElement = exports.refresh = exports.forward = exports.setTimeouts = exports.getTimeouts = exports.back = exports.getCurrentUrl = exports.runSession = exports.navigateTo = exports.deleteSession = exports.status = exports.newSession = exports.make = void 0;
 var fp_ts_1 = require("fp-ts");
 var fp_ts_std_1 = require("fp-ts-std");
 var function_1 = require("fp-ts/lib/function");
 var d = __importStar(require("io-ts/Decoder"));
 var c = __importStar(require("./codecs"));
 var utils_1 = require("./utils");
-// utils
-// me
+/**
+ * @summary
+ * Creates a `WebDriver` from a Decoder and a few request properties.
+ * Reduces boilerplate
+ *
+ * @param props
+ * @category Constructors
+ */
 var make = function (_a) {
     var decoder = _a.decoder, _b = _a.fetch, body = _b.body, endo = _b.endo, method = _b.method;
-    return function_1.pipe(fp_ts_1.readerTaskEither.ask(), fp_ts_1.readerTaskEither.bindW("body", function () {
+    return function_1.pipe(fp_ts_1.readerTaskEither.ask(), 
+    // stringify JSON
+    fp_ts_1.readerTaskEither.bindW("body", function () {
         return function_1.pipe(fp_ts_1.option.fromNullable(body), fp_ts_1.option.traverse(fp_ts_1.either.Applicative)(utils_1.stringifyJson), fp_ts_1.readerTaskEither.fromEither, fp_ts_1.readerTaskEither.map(fp_ts_1.option.toUndefined));
-    }), fp_ts_1.readerTaskEither.chainTaskEitherK(function (_a) {
-        var url = _a.url, _b = _a.requestInit, requestInit = _b === void 0 ? {} : _b, body = _a.body;
-        return utils_1.fetch(endo(url), Object.assign({}, requestInit, { method: method, body: body }));
-    }), fp_ts_1.readerTaskEither.chainEitherKW(c.Success(decoder).decode), fp_ts_1.readerTaskEither.map(function (success) { return success.value; }));
+    }), 
+    // fetch request
+    fp_ts_1.readerTaskEither.chainTaskEitherK(function (_a) {
+        var endpoint = _a.endpoint, _b = _a.requestInit, requestInit = _b === void 0 ? {} : _b, body = _a.body;
+        return utils_1.fetch(endo(endpoint), Object.assign({}, requestInit, { method: method, body: body }));
+    }), 
+    // decodes a successful response
+    fp_ts_1.readerTaskEither.chainEitherKW(c.Success(decoder).decode), 
+    // get A from the response
+    fp_ts_1.readerTaskEither.map(function (success) { return success.value; }));
 };
 exports.make = make;
+/**
+ * @summary
+ * Appends the `sessionId` to the `endpoint`.
+ *
+ * @todo Rename to something more suitable.
+ * @internal
+ */
 var endosession = function (session) {
     return function_1.flow(fp_ts_std_1.string.append("/session/"), fp_ts_std_1.string.append(session.sessionId));
 };
-// API
+/**
+ *
+ * @summary
+ * Creates a new webdriver session
+ *
+ * @param body
+ *
+ * @see [New Session](https://www.w3.org/TR/webdriver1/#dfn-creating-a-new-session)
+ * @category Constructors
+ */
 var newSession = function (body) {
     return exports.make({
         decoder: c.Session,
@@ -49,6 +79,14 @@ var newSession = function (body) {
     });
 };
 exports.newSession = newSession;
+exports.status = exports.make({
+    decoder: c.Status,
+    fetch: { method: "GET", endo: fp_ts_std_1.string.append("/status") },
+});
+// -----
+// Please use `ReaderReaderTaskEither` to compose these sessions together
+// via `chain` and `chainFirst`
+// -----
 var deleteSession = function (session) {
     return exports.make({
         decoder: c.NullAsVoid,
@@ -70,12 +108,16 @@ var navigateTo = function (url) { return function (session) {
     });
 }; };
 exports.navigateTo = navigateTo;
+/**
+ * @summary
+ * Creates a `Session` that will always close if it opened,
+ * by calling a `WebDriverSession`.
+ *
+ * @param body
+ * @category Combinators
+ */
 var runSession = function (body) { return function (fa) { return fp_ts_1.readerTaskEither.bracket(exports.newSession(body), function (session) { return fa(session); }, exports.deleteSession); }; };
 exports.runSession = runSession;
-exports.status = exports.make({
-    decoder: c.Status,
-    fetch: { method: "GET", endo: fp_ts_std_1.string.append("/status") },
-});
 var getCurrentUrl = function (session) {
     return exports.make({
         decoder: d.string,

@@ -27,5 +27,9 @@ export declare const JsonArray: c.Codec<unknown, JsonArray, JsonArray>;
 export declare const JsonObject: c.Codec<unknown, JsonObject, JsonObject>;
 export declare const Json: c.Codec<unknown, Json, Json>;
 export declare const Session: c.Codec<unknown, Session, Session>;
+/**
+ * @summary
+ * `imap`s `null` to `void` to identify the combinator where the effect is important.
+ */
 export declare const NullAsVoid: c.Codec<unknown, null, void>;
 export declare const Status: c.Codec<unknown, Status, Status>;

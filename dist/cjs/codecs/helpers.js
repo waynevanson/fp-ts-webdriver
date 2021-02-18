@@ -37,6 +37,10 @@ exports.Json = function_1.pipe(d.union(exports.JsonPrimitive, exports.JsonArray,
 exports.Session = function_1.pipe(c.type({
     sessionId: c.string,
 }), c.intersect(c.partial({ capabilities: c.UnknownRecord })));
+/**
+ * @summary
+ * `imap`s `null` to `void` to identify the combinator where the effect is important.
+ */
 exports.NullAsVoid = function_1.pipe(c.literal(null), c.imap(function_1.constVoid, function_1.constNull));
 exports.Status = c.type({
     ready: c.boolean,

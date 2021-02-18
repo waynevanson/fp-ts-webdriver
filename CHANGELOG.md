@@ -1,3 +1,17 @@
+# [3.0.0](https://github.com/waynevanson/fp-ts-webdriver/compare/v2.0.0...v3.0.0) (2021-02-18)
+
+
+### Code Refactoring
+
+* renames url to endpoint ([9f53f01](https://github.com/waynevanson/fp-ts-webdriver/commit/9f53f013baec8bd636070a038a119ab444bad40a))
+* renames WebdriverProps to MakeProps ([f11d474](https://github.com/waynevanson/fp-ts-webdriver/commit/f11d474c98b47d0011746098b44921dc6d824fcc))
+
+
+### BREAKING CHANGES
+
+* Renames WebdriverProps to MakeProps
+* Renames url to endpoint in Dependencies type
+
 # [2.0.0](https://github.com/waynevanson/fp-ts-webdriver/compare/v1.5.0...v2.0.0) (2021-02-17)
 
 
