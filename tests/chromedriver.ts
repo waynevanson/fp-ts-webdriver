@@ -1,3 +1,7 @@
+/**
+ * @summary
+ * Start and stop chromedriver for testing in jest.
+ */
 import cd from "chromedriver"
 import { either as E, io as IO, task as T, taskEither as TE } from "fp-ts"
 import { identity, pipe } from "fp-ts/lib/function"
