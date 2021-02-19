@@ -1,5 +1,7 @@
 # fp-ts-webdriver
 
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
+
 W3C Webdriver API, optimized for usage with fp-ts.
 
 The goal is to be compatible with the [W3C Recommendation](https://www.w3.org/TR/webdriver1)
