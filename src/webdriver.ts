@@ -8,22 +8,82 @@ import { readerReaderTaskEither as RRTE } from "./fp-ts-modules"
 import { fetch, stringifyJson } from "./utils"
 
 export interface Dependencies {
-  url: string
+  /**
+   * @summary
+   * The `url` to the remote end of the webdriver.
+   *
+   * Local Servers:
+   * - Chromedriver runs by default `localhost:9515`.
+   *
+   * @todo Remote Servers example
+   *
+   * @example
+   * "localhost:4000"
+   */
+  /**
+   * @summary
+   * This is appended to fetch's `RequestInit`.
+   *
+   * `body` and `method` have been emitted as the webdriver protocol specifies
+   * these are reserved to specify the type of command.
+   */
   requestInit?: Omit<RequestInit, "body" | "method">
 }
-
+/**
+ * @summary
+ * Errors expected between:
+ * - Handling unsuccessful response codes.
+ * - Decoding responses.
+ * - Convert `JSON` to `string` via `JSONStringify`.
+ */
 export type WebdriverErrors = FetchError | d.DecodeError | TypeError
 
+/**
+ * @summary
+ * The connection between the local end and remote end of the web driver.
+ *
+ * @category Model
+ */
 export interface Webdriver<A>
   extends RTE.ReaderTaskEither<Dependencies, WebdriverErrors, A> {}
 
-// me
+/**
+ * @summary
+ * Allows composing a `Session` with the `WebDriver` model.
+ *
+ * @see WebDriver<A>
+ * @category Model
+ */
+export interface WebdriverSession<A>
+  extends RRTE.ReaderReaderTaskEither<
+    c.Session,
+    Dependencies,
+    WebdriverErrors,
+    A
+  > {}
+
+/**
+ * @summary
+ * Possible values for the `method` property
+ */
 export type RequestMethod = "PUT" | "POST" | "GET" | "DELETE" | "UPDATE"
 
-// me
-export interface FetchProps<A> {
+export interface FetchProps<A extends object> {
+  /**
+   * @summary
+   * Used to append values to the string
+   */
   endo: Endomorphism<string>
+  /**
+   * @summary
+   * The method used for the request to the remote end.
+   */
   method: RequestMethod
+  /**
+   * @summary
+   * The body of the request.
+   * This will be stringified and sent in the request to the remote end.
+   */
   body?: A
 }
 
@@ -35,13 +95,21 @@ export interface WebdriverProps<E extends object, A> {
 
 // utils
 
-// me
+/**
+ * @summary
+ * Creates a `WebDriver` from a Decoder and a few request properties.
+ * Reduces boilerplate
+ *
+ * @param props
+ * @category Constructors
+ */
 export const make = <E extends object, A>({
   decoder,
   fetch: { body, endo, method },
 }: WebdriverProps<E, A>): Webdriver<A> =>
   pipe(
     RTE.ask<Dependencies>(),
+    // stringify JSON
     RTE.bindW("body", () =>
       pipe(
         O.fromNullable(body),
@@ -50,31 +118,43 @@ export const make = <E extends object, A>({
         RTE.map(O.toUndefined)
       )
     ),
-    RTE.chainTaskEitherK(({ url, requestInit = {}, body }) =>
-      fetch(endo(url), Object.assign({}, requestInit, { method, body }))
+    // fetch request
     ),
+    // decodes a successful response
     RTE.chainEitherKW(c.Success(decoder).decode),
+    // get A from the response
     RTE.map((success) => success.value)
   )
 
-export interface WebdriverSession<A>
-  extends RRTE.ReaderReaderTaskEither<
-    c.Session,
-    Dependencies,
-    WebdriverErrors,
-    A
-  > {}
-
+/**
+ * @summary
+ * Appends the `sessionId` to the `endpoint`.
+ *
+ * @todo Rename to something more suitable.
+ */
 const endosession = (session: c.Session) =>
   flow(string.append("/session/"), string.append(session.sessionId))
 
-// API
-
+/**
+ *
+ * @summary
+ * Creates a new webdriver session
+ *
+ * @param body
+ *
+ * @see [New Session](https://www.w3.org/TR/webdriver1/#dfn-creating-a-new-session)
+ * @category Constructors
+ */
 export const newSession = (body: c.NewSession): Webdriver<c.Session> =>
   make({
     decoder: c.Session,
     fetch: { body, method: "POST", endo: string.append("/session") },
   })
+
+// -----
+// Please use `ReaderReaderTaskEither` to compose these sessions together
+// via `chain` and `chainFirst`
+// -----
 
 export const deleteSession: WebdriverSession<void> = (session: c.Session) =>
   make({

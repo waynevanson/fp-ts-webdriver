@@ -67,6 +67,10 @@ export const Session: c.Codec<unknown, Session, Session> = pipe(
   c.intersect(c.partial({ capabilities: c.UnknownRecord }))
 )
 
+/**
+ * @summary
+ * `imap`s `null` to `void` to identify the combinator where the effect is important.
+ */
 export const NullAsVoid = pipe(c.literal(null), c.imap(constVoid, constNull))
 
 export const Status: c.Codec<unknown, Status, Status> = c.type({
