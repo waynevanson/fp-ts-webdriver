@@ -5,7 +5,7 @@ import { Capabilities } from "../src/codecs"
 import { chromedriverJestSetup } from "./chromedriver"
 
 const port = 4444
-const dependencies = { url: `http://localhost:${port}` }
+const dependencies: WD.Dependencies = { endpoint: `http://localhost:${port}` }
 
 // runs in headless!
 const capabilities: Capabilities = {
