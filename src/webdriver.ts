@@ -179,6 +179,14 @@ export const navigateTo = (url: string): WebdriverSession<void> => (session) =>
     },
   })
 
+/**
+ * @summary
+ * Creates a `Session` that will always close if it opened,
+ * by calling a `WebDriverSession`.
+ *
+ * @param body
+ * @category Combinators
+ */
 export const runSession = (body: c.NewSession) => <A>(
   fa: WebdriverSession<A>
 ) => RTE.bracket(newSession(body), (session) => fa(session), deleteSession)
