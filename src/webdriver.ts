@@ -89,8 +89,7 @@ export interface FetchProps<A extends object> {
   body?: A
 }
 
-// me
-export interface WebdriverProps<E extends object, A> {
+export interface MakeProps<E extends object, A> {
   fetch: FetchProps<E>
   decoder: d.Decoder<unknown, A>
 }
@@ -108,7 +107,7 @@ export interface WebdriverProps<E extends object, A> {
 export const make = <E extends object, A>({
   decoder,
   fetch: { body, endo, method },
-}: WebdriverProps<E, A>): Webdriver<A> =>
+}: MakeProps<E, A>): Webdriver<A> =>
   pipe(
     RTE.ask<Dependencies>(),
     // stringify JSON
