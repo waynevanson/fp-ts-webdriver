@@ -94,8 +94,6 @@ export interface MakeProps<E extends object, A> {
   decoder: d.Decoder<unknown, A>
 }
 
-// utils
-
 /**
  * @summary
  * Creates a `WebDriver` from a Decoder and a few request properties.
