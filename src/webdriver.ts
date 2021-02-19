@@ -20,6 +20,8 @@ export interface Dependencies {
    * @example
    * "localhost:4000"
    */
+  endpoint: string
+
   /**
    * @summary
    * This is appended to fetch's `RequestInit`.
@@ -119,6 +121,8 @@ export const make = <E extends object, A>({
       )
     ),
     // fetch request
+    RTE.chainTaskEitherK(({ endpoint, requestInit = {}, body }) =>
+      fetch(endo(endpoint), Object.assign({}, requestInit, { method, body }))
     ),
     // decodes a successful response
     RTE.chainEitherKW(c.Success(decoder).decode),
