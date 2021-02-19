@@ -73,6 +73,15 @@ main(dependencies)()
 
 We have tests in chromedriver and will expand to other drivers like geckodriver when the time comes.
 
+### Need Something Now?
+
+We're adding features as WE need them in our other projects.
+
+If you would like something in particular, just ask!
+We're not taking donations at this stage.
+
+### Table
+
 | Category            | :o:                | Command                 |
 | :------------------ | ------------------ | :---------------------- |
 | Session             | :heavy_check_mark: | newSession              |
