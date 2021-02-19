@@ -134,6 +134,7 @@ export const make = <E extends object, A>({
  * Appends the `sessionId` to the `endpoint`.
  *
  * @todo Rename to something more suitable.
+ * @internal
  */
 const endosession = (session: c.Session) =>
   flow(string.append("/session/"), string.append(session.sessionId))
