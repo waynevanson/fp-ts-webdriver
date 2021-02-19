@@ -155,6 +155,11 @@ export const newSession = (body: c.NewSession): Webdriver<c.Session> =>
     fetch: { body, method: "POST", endo: string.append("/session") },
   })
 
+export const status: Webdriver<c.Status> = make({
+  decoder: c.Status,
+  fetch: { method: "GET", endo: string.append("/status") },
+})
+
 // -----
 // Please use `ReaderReaderTaskEither` to compose these sessions together
 // via `chain` and `chainFirst`
@@ -190,11 +195,6 @@ export const navigateTo = (url: string): WebdriverSession<void> => (session) =>
 export const runSession = (body: c.NewSession) => <A>(
   fa: WebdriverSession<A>
 ) => RTE.bracket(newSession(body), (session) => fa(session), deleteSession)
-
-export const status: Webdriver<c.Status> = make({
-  decoder: c.Status,
-  fetch: { method: "GET", endo: string.append("/status") },
-})
 
 export const getCurrentUrl: WebdriverSession<string> = (session) =>
   make({
