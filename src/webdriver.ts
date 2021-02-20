@@ -313,3 +313,17 @@ export function getElementAttribute(attribute: string) {
       },
     })
 }
+
+export function performActions(
+  actions: c.ActionSequence["actions"]
+): WebdriverSession<void> {
+  return (session) =>
+    make({
+      decoder: c.NullAsVoid,
+      fetch: {
+        endo: flow(endosession(session), string.append("/actions")),
+        method: "POST",
+        body: { actions },
+      },
+    })
+}

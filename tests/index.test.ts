@@ -237,4 +237,58 @@ describe("webdriver", () => {
       })
     })
   })
+
+  describe("Actions", () => {
+    describe("performActions", () => {
+      describe("null actions", () => {
+        test("duration is a number greater than 0", async () => {
+          const test = pipe(
+            WD.performActions([
+              {
+                id: "1212",
+                type: "none",
+                actions: [{ type: "pause", duration: 1000 }],
+              },
+            ])
+          )
+
+          const result = await pipe(test, WD.runSession(body))(dependencies)()
+
+          expect(result).toMatchObject(E.right(constVoid()))
+        })
+
+        test("duration is 0", async () => {
+          const test = pipe(
+            WD.performActions([
+              {
+                id: "1212",
+                type: "none",
+                actions: [{ type: "pause", duration: 0 }],
+              },
+            ])
+          )
+
+          const result = await pipe(test, WD.runSession(body))(dependencies)()
+
+          expect(result).toMatchObject(E.right(constVoid()))
+        })
+
+        test("duration is undefined", async () => {
+          const test = pipe(
+            WD.performActions([
+              {
+                id: "1212",
+                type: "none",
+                actions: [{ type: "pause" }],
+              },
+            ])
+          )
+
+          const result = await pipe(test, WD.runSession(body))(dependencies)()
+
+          expect(result).toMatchObject(E.right(constVoid()))
+        })
+      })
+    })
+  })
 })
