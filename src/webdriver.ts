@@ -31,6 +31,7 @@ export interface Dependencies {
    */
   requestInit?: Omit<RequestInit, "body" | "method">
 }
+
 /**
  * @summary
  * Errors expected between:
