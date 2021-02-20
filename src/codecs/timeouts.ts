@@ -1,3 +1,6 @@
+/**
+ * @since 3.2.0
+ */
 import * as c from "io-ts/Codec"
 
 // TYPES

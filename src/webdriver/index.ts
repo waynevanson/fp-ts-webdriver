@@ -1,3 +1,6 @@
+/**
+ * @since 3.2.0
+ */
 import { FetchError } from "fp-fetch"
 import { either as E, option as O, readerTaskEither as RTE } from "fp-ts"
 import { string } from "fp-ts-std"
