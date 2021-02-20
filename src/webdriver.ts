@@ -69,7 +69,7 @@ export interface WebdriverSession<A>
  * @summary
  * Possible values for the `method` property
  */
-export type RequestMethod = "PUT" | "POST" | "GET" | "DELETE" | "UPDATE"
+export type RequestMethod = "POST" | "GET" | "DELETE"
 
 export interface FetchProps<A extends object> {
   /**
