@@ -20,8 +20,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Timeouts = void 0;
+/**
+ * @since 3.2.0
+ */
 var c = __importStar(require("io-ts/Codec"));
 // CODECS
+/**
+ * @since 3.2.0
+ */
 exports.Timeouts = c.partial({
     script: c.nullable(c.number),
     pageLoad: c.number,

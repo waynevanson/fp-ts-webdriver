@@ -20,7 +20,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Element = void 0;
+/**
+ * @since 3.2.0
+ */
 var c = __importStar(require("io-ts/Codec"));
+/**
+ * @since 3.2.0
+ */
 exports.Element = c.type({
     "element-6066-11e4-a52e-4f735466cecf": c.string,
 });

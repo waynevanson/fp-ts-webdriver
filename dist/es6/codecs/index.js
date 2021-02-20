@@ -1,7 +1,103 @@
-export * from "./processing-capabilities";
-export * from "./proxy-configuration";
-export * from "./timeouts";
-export * from "./new-session";
-export * from "./helpers";
-export * from "./element-retrieval";
-export * from "./actions";
+export { 
+/**
+ * @since 3.2.0
+ */
+Element, } from "./element-retrieval";
+export { 
+/**
+ * @since 3.2.0
+ */
+Literal, 
+/**
+ * @since 3.2.0
+ */
+Null, 
+/**
+ * @since 3.2.0
+ */
+NullAsVoid, 
+/**
+ * @since 3.2.0
+ */
+Session, 
+/**
+ * @since 3.2.0
+ */
+Status, 
+/**
+ * @since 3.2.0
+ */
+Success, } from "./helpers";
+export { 
+/**
+ * @since 3.2.0
+ */
+Json, 
+/**
+ * @since 3.2.0
+ */
+JsonArray, 
+/**
+ * @since 3.2.0
+ */
+JsonObject, 
+/**
+ * @since 3.2.0
+ */
+JsonPrimitive, } from "./json";
+export { 
+/**
+ * @since 3.2.0
+ */
+NewSession, } from "./new-session";
+export { 
+/**
+ * @since 3.2.0
+ */
+Capabilities, 
+/**
+ * @since 3.2.0
+ */
+ExtensionCapabilities, 
+/**
+ * @since 3.2.0
+ */
+NonEmptyArray, 
+/**
+ * @since 3.2.0
+ */
+RequiredCapabilities, 
+/**
+ * @since 3.2.0
+ */
+StandardCapabilities, } from "./processing-capabilities";
+export { 
+/**
+ * @since 3.2.0
+ */
+ProxyConfiguration, 
+/**
+ * @since 3.2.0
+ */
+ProxyConfigurationBase, 
+/**
+ * @since 3.2.0
+ */
+ProxyConfigurationManual, 
+/**
+ * @since 3.2.0
+ */
+ProxyConfigurationPac, 
+/**
+ * @since 3.2.0
+ */
+ProxyType, 
+/**
+ * @since 3.2.0
+ */
+ProxyTypeBase, } from "./proxy-configuration";
+export { 
+/**
+ * @since 3.2.0
+ */
+Timeouts, } from "./timeouts";

@@ -1,3 +1,10 @@
+## [3.1.1](https://github.com/waynevanson/fp-ts-webdriver/compare/v3.1.0...v3.1.1) (2021-02-20)
+
+
+### Bug Fixes
+
+* removes PUT and UPDATE from RequestMethod type ([0d21211](https://github.com/waynevanson/fp-ts-webdriver/commit/0d212118e4772688d4a67939408660b2d03b95ee))
+
 # [3.1.0](https://github.com/waynevanson/fp-ts-webdriver/compare/v3.0.0...v3.1.0) (2021-02-20)
 
 

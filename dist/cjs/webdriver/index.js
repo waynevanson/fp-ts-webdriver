@@ -24,8 +24,8 @@ var fp_ts_1 = require("fp-ts");
 var fp_ts_std_1 = require("fp-ts-std");
 var function_1 = require("fp-ts/lib/function");
 var d = __importStar(require("io-ts/Decoder"));
-var c = __importStar(require("./codecs"));
-var utils_1 = require("./utils");
+var c = __importStar(require("../codecs"));
+var utils_1 = require("../utils");
 /**
  * @summary
  * Creates a `WebDriver` from a Decoder and a few request properties.
@@ -33,6 +33,7 @@ var utils_1 = require("./utils");
  *
  * @param props
  * @category Constructors
+ * @internal
  */
 var make = function (_a) {
     var decoder = _a.decoder, _b = _a.fetch, body = _b.body, endo = _b.endo, method = _b.method;
@@ -71,6 +72,7 @@ var endosession = function (session) {
  *
  * @see [New Session](https://www.w3.org/TR/webdriver1/#dfn-creating-a-new-session)
  * @category Constructors
+ * @since 3.2.0
  */
 function newSession(body) {
     return exports.make({
@@ -79,6 +81,16 @@ function newSession(body) {
     });
 }
 exports.newSession = newSession;
+/**
+ *
+ *
+ * @description
+ * Status returns information about whether a remote end is in a state in which
+ * it can create new sessions, but may additionally include arbitrary meta
+ * information that is specific to the implementation.
+ *
+ * @see [Status](https://www.w3.org/TR/webdriver1/#dfn-status)
+ */
 exports.status = exports.make({
     decoder: c.Status,
     fetch: { method: "GET", endo: fp_ts_std_1.string.append("/status") },
@@ -87,6 +99,13 @@ exports.status = exports.make({
 // Please use `ReaderReaderTaskEither` to compose these sessions together
 // via `chain` and `chainFirst`
 // -----
+/**
+ * @summary
+ * Deletes the given `Session`.
+ *
+ * @see [Delete Session](https://www.w3.org/TR/webdriver1/#delete-session)
+ * @since 3.2.0
+ */
 var deleteSession = function (session) {
     return exports.make({
         decoder: c.NullAsVoid,
@@ -97,6 +116,9 @@ var deleteSession = function (session) {
     });
 };
 exports.deleteSession = deleteSession;
+/**
+ * @since 3.2.0
+ */
 function navigateTo(url) {
     return function (session) {
         return exports.make({
@@ -117,6 +139,7 @@ exports.navigateTo = navigateTo;
  *
  * @param body
  * @category Combinators
+ * @since 3.2.0
  */
 function runSession(body) {
     return function (fa) {
@@ -124,6 +147,9 @@ function runSession(body) {
     };
 }
 exports.runSession = runSession;
+/**
+ * @since 3.2.0
+ */
 var getCurrentUrl = function (session) {
     return exports.make({
         decoder: d.string,
@@ -134,6 +160,9 @@ var getCurrentUrl = function (session) {
     });
 };
 exports.getCurrentUrl = getCurrentUrl;
+/**
+ * @since 3.2.0
+ */
 var back = function (session) {
     return exports.make({
         decoder: c.NullAsVoid,
@@ -145,6 +174,9 @@ var back = function (session) {
     });
 };
 exports.back = back;
+/**
+ * @since 3.2.0
+ */
 var getTimeouts = function (session) {
     return exports.make({
         decoder: c.Timeouts,
@@ -155,6 +187,9 @@ var getTimeouts = function (session) {
     });
 };
 exports.getTimeouts = getTimeouts;
+/**
+ * @since 3.2.0
+ */
 function setTimeouts(timeouts) {
     return function (session) {
         return exports.make({
@@ -168,6 +203,9 @@ function setTimeouts(timeouts) {
     };
 }
 exports.setTimeouts = setTimeouts;
+/**
+ * @since 3.2.0
+ */
 var forward = function (session) {
     return exports.make({
         decoder: c.NullAsVoid,
@@ -179,6 +217,9 @@ var forward = function (session) {
     });
 };
 exports.forward = forward;
+/**
+ * @since 3.2.0
+ */
 var refresh = function (session) {
     return exports.make({
         decoder: c.NullAsVoid,
@@ -190,6 +231,9 @@ var refresh = function (session) {
     });
 };
 exports.refresh = refresh;
+/**
+ * @since 3.2.0
+ */
 function findElement(using, selector) {
     return function (session) {
         return exports.make({
@@ -203,6 +247,9 @@ function findElement(using, selector) {
     };
 }
 exports.findElement = findElement;
+/**
+ * @since 3.2.0
+ */
 function elementSendKeys(text) {
     return function (element) { return function (session) {
         return exports.make({
@@ -216,6 +263,9 @@ function elementSendKeys(text) {
     }; };
 }
 exports.elementSendKeys = elementSendKeys;
+/**
+ * @since 3.2.0
+ */
 function getElementAttribute(attribute) {
     return function (element) { return function (session) {
         return exports.make({
@@ -228,6 +278,9 @@ function getElementAttribute(attribute) {
     }; };
 }
 exports.getElementAttribute = getElementAttribute;
+/**
+ * @since 3.2.0
+ */
 function performActions(actions) {
     return function (session) {
         return exports.make({

@@ -2,8 +2,8 @@ import { either as E, option as O, readerTaskEither as RTE } from "fp-ts";
 import { string } from "fp-ts-std";
 import { flow, pipe } from "fp-ts/lib/function";
 import * as d from "io-ts/Decoder";
-import * as c from "./codecs";
-import { fetch, stringifyJson } from "./utils";
+import * as c from "../codecs";
+import { fetch, stringifyJson } from "../utils";
 /**
  * @summary
  * Creates a `WebDriver` from a Decoder and a few request properties.
@@ -11,6 +11,7 @@ import { fetch, stringifyJson } from "./utils";
  *
  * @param props
  * @category Constructors
+ * @internal
  */
 export const make = ({ decoder, fetch: { body, endo, method }, }) => pipe(RTE.ask(), 
 // stringify JSON
@@ -38,6 +39,7 @@ const endosession = (session) => flow(string.append("/session/"), string.append(
  *
  * @see [New Session](https://www.w3.org/TR/webdriver1/#dfn-creating-a-new-session)
  * @category Constructors
+ * @since 3.2.0
  */
 export function newSession(body) {
     return make({
@@ -45,6 +47,16 @@ export function newSession(body) {
         fetch: { body, method: "POST", endo: string.append("/session") },
     });
 }
+/**
+ *
+ *
+ * @description
+ * Status returns information about whether a remote end is in a state in which
+ * it can create new sessions, but may additionally include arbitrary meta
+ * information that is specific to the implementation.
+ *
+ * @see [Status](https://www.w3.org/TR/webdriver1/#dfn-status)
+ */
 export const status = make({
     decoder: c.Status,
     fetch: { method: "GET", endo: string.append("/status") },
@@ -53,6 +65,13 @@ export const status = make({
 // Please use `ReaderReaderTaskEither` to compose these sessions together
 // via `chain` and `chainFirst`
 // -----
+/**
+ * @summary
+ * Deletes the given `Session`.
+ *
+ * @see [Delete Session](https://www.w3.org/TR/webdriver1/#delete-session)
+ * @since 3.2.0
+ */
 export const deleteSession = (session) => make({
     decoder: c.NullAsVoid,
     fetch: {
@@ -60,6 +79,9 @@ export const deleteSession = (session) => make({
         method: "DELETE",
     },
 });
+/**
+ * @since 3.2.0
+ */
 export function navigateTo(url) {
     return (session) => make({
         decoder: c.NullAsVoid,
@@ -77,10 +99,14 @@ export function navigateTo(url) {
  *
  * @param body
  * @category Combinators
+ * @since 3.2.0
  */
 export function runSession(body) {
     return (fa) => RTE.bracket(newSession(body), (session) => fa(session), deleteSession);
 }
+/**
+ * @since 3.2.0
+ */
 export const getCurrentUrl = (session) => make({
     decoder: d.string,
     fetch: {
@@ -88,6 +114,9 @@ export const getCurrentUrl = (session) => make({
         method: "GET",
     },
 });
+/**
+ * @since 3.2.0
+ */
 export const back = (session) => make({
     decoder: c.NullAsVoid,
     fetch: {
@@ -96,6 +125,9 @@ export const back = (session) => make({
         body: {},
     },
 });
+/**
+ * @since 3.2.0
+ */
 export const getTimeouts = (session) => make({
     decoder: c.Timeouts,
     fetch: {
@@ -103,6 +135,9 @@ export const getTimeouts = (session) => make({
         method: "GET",
     },
 });
+/**
+ * @since 3.2.0
+ */
 export function setTimeouts(timeouts) {
     return (session) => make({
         decoder: c.NullAsVoid,
@@ -113,6 +148,9 @@ export function setTimeouts(timeouts) {
         },
     });
 }
+/**
+ * @since 3.2.0
+ */
 export const forward = (session) => make({
     decoder: c.NullAsVoid,
     fetch: {
@@ -121,6 +159,9 @@ export const forward = (session) => make({
         body: {},
     },
 });
+/**
+ * @since 3.2.0
+ */
 export const refresh = (session) => make({
     decoder: c.NullAsVoid,
     fetch: {
@@ -129,6 +170,9 @@ export const refresh = (session) => make({
         body: {},
     },
 });
+/**
+ * @since 3.2.0
+ */
 export function findElement(using, selector) {
     return (session) => make({
         decoder: c.Element,
@@ -139,6 +183,9 @@ export function findElement(using, selector) {
         },
     });
 }
+/**
+ * @since 3.2.0
+ */
 export function elementSendKeys(text) {
     return (element) => (session) => make({
         decoder: c.NullAsVoid,
@@ -149,6 +196,9 @@ export function elementSendKeys(text) {
         },
     });
 }
+/**
+ * @since 3.2.0
+ */
 export function getElementAttribute(attribute) {
     return (element) => (session) => make({
         decoder: d.string,
@@ -158,6 +208,9 @@ export function getElementAttribute(attribute) {
         },
     });
 }
+/**
+ * @since 3.2.0
+ */
 export function performActions(actions) {
     return (session) => make({
         decoder: c.NullAsVoid,
