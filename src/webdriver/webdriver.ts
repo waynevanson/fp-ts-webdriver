@@ -3,9 +3,9 @@ import { either as E, option as O, readerTaskEither as RTE } from "fp-ts"
 import { string } from "fp-ts-std"
 import { Endomorphism, flow, pipe } from "fp-ts/lib/function"
 import * as d from "io-ts/Decoder"
-import * as c from "./codecs"
-import { readerReaderTaskEither as RRTE } from "./fp-ts-modules"
-import { fetch, stringifyJson } from "./utils"
+import * as c from "../codecs"
+import { readerReaderTaskEither as RRTE } from "../fp-ts-modules"
+import { fetch, stringifyJson } from "../utils"
 
 export interface Dependencies {
   /**
