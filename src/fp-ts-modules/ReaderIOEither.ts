@@ -1,3 +1,6 @@
+/**
+ * @since 3.2.0
+ */
 import {
   ioEither as IOE,
   monadIO,

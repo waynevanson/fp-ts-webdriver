@@ -1,7 +1,8 @@
 /**
  * [Documentation](https://www.w3.org/TR/webdriver1/#processing-capabilities)
+ *
+ * @since 3.2.0
  */
-
 import { array, either as E, nonEmptyArray as NEA } from "fp-ts"
 import { flow, pipe } from "fp-ts/lib/function"
 import * as c from "io-ts/Codec"

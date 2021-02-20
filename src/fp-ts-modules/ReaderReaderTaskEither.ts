@@ -1,3 +1,6 @@
+/**
+ * @since 3.2.0
+ */
 import { reader as R, readerT, readerTaskEither as RTE } from "fp-ts"
 import { Monad4 } from "fp-ts/lib/Monad"
 import { MonadTask4 } from "fp-ts/lib/MonadTask"

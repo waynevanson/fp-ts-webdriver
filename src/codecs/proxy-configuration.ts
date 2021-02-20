@@ -1,3 +1,6 @@
+/**
+ * @since 3.2.0
+ */
 import { pipe } from "fp-ts/lib/function"
 import * as c from "io-ts/Codec"
 import * as d from "io-ts/Decoder"

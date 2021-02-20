@@ -1,3 +1,6 @@
+/**
+ * @since 3.2.0
+ */
 import { default as crossfetch } from "cross-fetch"
 import { fetchCustom, jsonParser } from "fp-fetch"
 import { either as E, reader as R } from "fp-ts"
