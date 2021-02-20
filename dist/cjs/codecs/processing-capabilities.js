@@ -1,7 +1,4 @@
 "use strict";
-/**
- * [Documentation](https://www.w3.org/TR/webdriver1/#processing-capabilities)
- */
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
@@ -23,15 +20,23 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Capabilities = exports.NonEmptyArray = exports.RequiredCapabilities = exports.ExtensionCapabilities = exports.StandardCapabilities = void 0;
+/**
+ * [Documentation](https://www.w3.org/TR/webdriver1/#processing-capabilities)
+ *
+ * @since 3.2.0
+ */
 var fp_ts_1 = require("fp-ts");
 var function_1 = require("fp-ts/lib/function");
 var c = __importStar(require("io-ts/Codec"));
 var d = __importStar(require("io-ts/Decoder"));
 var g = __importStar(require("io-ts/Guard"));
-var helpers_1 = require("./helpers");
+var json_1 = require("./json");
 var proxy_configuration_1 = require("./proxy-configuration");
 var timeouts_1 = require("./timeouts");
 // CODECS
+/**
+ * @since 3.2.0
+ */
 exports.StandardCapabilities = c.partial({
     acceptInsecureCerts: c.boolean,
     browserName: c.string,
@@ -43,17 +48,35 @@ exports.StandardCapabilities = c.partial({
     timeouts: timeouts_1.Timeouts,
     unhandledPromptBehaviour: c.string,
 });
-exports.ExtensionCapabilities = helpers_1.Json;
+/**
+ * @since 3.2.0
+ */
+exports.ExtensionCapabilities = json_1.Json;
+/**
+ * @since 3.2.0
+ */
 exports.RequiredCapabilities = function_1.pipe(d.union(function_1.pipe(exports.StandardCapabilities, c.intersect(c.record(exports.ExtensionCapabilities))), exports.StandardCapabilities), c.fromDecoder);
+/**
+ * @since 3.2.0
+ */
 var guardNonEmptyArray = function_1.flow(g.array, g.refine(fp_ts_1.array.isNonEmpty));
+/**
+ * @since 3.2.0
+ */
 var decoderToGuard = function (decoder) { return ({
     is: function (i) { return fp_ts_1.either.isRight(decoder.decode(i)); },
 }); };
+/**
+ * @since 3.2.0
+ */
 var NonEmptyArray = function (codec) {
     return function_1.pipe(d.fromGuard(guardNonEmptyArray({ is: function (i) { return decoderToGuard(codec).is(i); } }), "NonEmptyArray"), c.fromDecoder);
 };
 exports.NonEmptyArray = NonEmptyArray;
+/**
+ * @since 3.2.0
+ */
 exports.Capabilities = function_1.pipe(c.partial({
     alwaysMatch: exports.RequiredCapabilities,
     firstMatch: exports.NonEmptyArray(exports.RequiredCapabilities),
-}), c.intersect(helpers_1.JsonObject));
+}), c.intersect(json_1.JsonObject));

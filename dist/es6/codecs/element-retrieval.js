@@ -1,4 +1,10 @@
+/**
+ * @since 3.2.0
+ */
 import * as c from "io-ts/Codec";
+/**
+ * @since 3.2.0
+ */
 export const Element = c.type({
     "element-6066-11e4-a52e-4f735466cecf": c.string,
 });

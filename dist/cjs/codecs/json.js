@@ -19,15 +19,31 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.readerReaderTaskEither = exports.readerIOEither = void 0;
+exports.Json = exports.JsonObject = exports.JsonArray = exports.JsonPrimitive = void 0;
+/**
+ * @description
+ * Please note that `fp-ts/Either#Json` is not being used because the objects
+ * are ready only, leading to a poor developer experience.
+ *
+ * @since 3.2.0
+ */
+var function_1 = require("fp-ts/lib/function");
+var c = __importStar(require("io-ts/Codec"));
+var d = __importStar(require("io-ts/Decoder"));
+var helpers_1 = require("./helpers");
 /**
  * @since 3.2.0
  */
+exports.JsonPrimitive = helpers_1.Literal;
 /**
  * @since 3.2.0
  */
-exports.readerIOEither = __importStar(require("./ReaderIOEither"));
+exports.JsonArray = function_1.pipe(c.array(c.lazy("Json", function () { return exports.Json; })));
 /**
  * @since 3.2.0
  */
-exports.readerReaderTaskEither = __importStar(require("./ReaderReaderTaskEither"));
+exports.JsonObject = function_1.pipe(c.record(c.lazy("Json", function () { return exports.Json; })));
+/**
+ * @since 3.2.0
+ */
+exports.Json = function_1.pipe(d.union(exports.JsonPrimitive, exports.JsonArray, exports.JsonObject), c.fromDecoder);

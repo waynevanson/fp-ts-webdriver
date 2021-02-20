@@ -20,20 +20,41 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProxyType = exports.ProxyConfiguration = exports.ProxyConfigurationManual = exports.ProxyConfigurationPac = exports.ProxyConfigurationBase = exports.ProxyTypeBase = void 0;
+/**
+ * @since 3.2.0
+ */
 var function_1 = require("fp-ts/lib/function");
 var c = __importStar(require("io-ts/Codec"));
 var d = __importStar(require("io-ts/Decoder"));
 // CODECS
+/**
+ * @since 3.2.0
+ */
 exports.ProxyTypeBase = c.literal("direct", "autodetect", "system");
+/**
+ * @since 3.2.0
+ */
 exports.ProxyConfigurationBase = c.type({
     proxyType: exports.ProxyTypeBase,
 });
+/**
+ * @since 3.2.0
+ */
 var ProxyTypePac = c.literal("pac");
+/**
+ * @since 3.2.0
+ */
 exports.ProxyConfigurationPac = c.type({
     proxyType: ProxyTypePac,
     proxyAutoconfigUrl: c.string,
 });
+/**
+ * @since 3.2.0
+ */
 var ProxyTypeManual = c.literal("manual");
+/**
+ * @since 3.2.0
+ */
 exports.ProxyConfigurationManual = c.type({
     proxyType: ProxyTypeManual,
     ftpProxy: c.string,
@@ -43,5 +64,11 @@ exports.ProxyConfigurationManual = c.type({
     socksProxy: c.string,
     socksVersion: c.number,
 });
+/**
+ * @since 3.2.0
+ */
 exports.ProxyConfiguration = function_1.pipe(d.union(exports.ProxyConfigurationBase, exports.ProxyConfigurationPac, exports.ProxyConfigurationManual), c.fromDecoder);
+/**
+ * @since 3.2.0
+ */
 exports.ProxyType = function_1.pipe(d.union(exports.ProxyTypeBase, ProxyTypeManual, ProxyTypePac), c.fromDecoder);

@@ -20,8 +20,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NewSession = void 0;
+/**
+ * @since 3.2.0
+ */
 var function_1 = require("fp-ts/lib/function");
 var c = __importStar(require("io-ts/Codec"));
-var helpers_1 = require("./helpers");
+var json_1 = require("./json");
 var processing_capabilities_1 = require("./processing-capabilities");
-exports.NewSession = function_1.pipe(c.type({ capabilities: processing_capabilities_1.Capabilities }), c.intersect(helpers_1.JsonObject));
+/**
+ * @since 3.2.0
+ */
+exports.NewSession = function_1.pipe(c.type({ capabilities: processing_capabilities_1.Capabilities }), c.intersect(json_1.JsonObject));

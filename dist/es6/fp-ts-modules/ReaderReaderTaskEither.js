@@ -1,3 +1,6 @@
+/**
+ * @since 3.2.0
+ */
 import { readerT, readerTaskEither as RTE } from "fp-ts";
 import { pipe, pipeable } from "fp-ts/lib/pipeable";
 export const URI = "ReaderReaderTaskEither";
