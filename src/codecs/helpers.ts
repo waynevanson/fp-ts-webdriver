@@ -8,12 +8,8 @@ import * as s from "io-ts/Schemable"
 export interface Success<A> {
   value: A
 }
-export type Literal = s.Literal
 
-export type JsonPrimitive = string | boolean | number | null
-export type JsonArray = Array<Json>
-export type JsonObject = { [x: string]: Json }
-export type Json = JsonPrimitive | JsonArray | JsonObject
+export type Literal = s.Literal
 
 export interface Session {
   sessionId: string
@@ -38,25 +34,6 @@ export const Null = c.literal(null)
 export const Literal: c.Codec<unknown, Literal, Literal> = pipe(
   d.union(c.string, c.number, c.boolean),
   d.nullable,
-  c.fromDecoder
-)
-
-export const JsonPrimitive: c.Codec<
-  unknown,
-  JsonPrimitive,
-  JsonPrimitive
-> = Literal
-
-export const JsonArray: c.Codec<unknown, JsonArray, JsonArray> = pipe(
-  c.array(c.lazy("Json", () => Json))
-)
-
-export const JsonObject: c.Codec<unknown, JsonObject, JsonObject> = pipe(
-  c.record(c.lazy("Json", () => Json))
-)
-
-export const Json: c.Codec<unknown, Json, Json> = pipe(
-  d.union(JsonPrimitive, JsonArray, JsonObject),
   c.fromDecoder
 )
 

@@ -7,9 +7,10 @@ import { flow, pipe } from "fp-ts/lib/function"
 import * as c from "io-ts/Codec"
 import * as d from "io-ts/Decoder"
 import * as g from "io-ts/Guard"
-import { Json, JsonObject } from "./helpers"
+import { Json, JsonObject } from "./json"
 import { ProxyConfiguration } from "./proxy-configuration"
 import { Timeouts } from "./timeouts"
+
 // TYPES
 
 export interface StandardCapabilities {
