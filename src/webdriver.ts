@@ -147,11 +147,12 @@ const endosession = (session: c.Session) =>
  * @see [New Session](https://www.w3.org/TR/webdriver1/#dfn-creating-a-new-session)
  * @category Constructors
  */
-export const newSession = (body: c.NewSession): Webdriver<c.Session> =>
-  make({
+export function newSession(body: c.NewSession): Webdriver<c.Session> {
+  return make({
     decoder: c.Session,
     fetch: { body, method: "POST", endo: string.append("/session") },
   })
+}
 
 export const status: Webdriver<c.Status> = make({
   decoder: c.Status,
@@ -172,15 +173,17 @@ export const deleteSession: WebdriverSession<void> = (session: c.Session) =>
     },
   })
 
-export const navigateTo = (url: string): WebdriverSession<void> => (session) =>
-  make({
-    decoder: c.NullAsVoid,
-    fetch: {
-      body: { url },
-      endo: flow(endosession(session), string.append("/url")),
-      method: "POST",
-    },
-  })
+export function navigateTo(url: string): WebdriverSession<void> {
+  return (session) =>
+    make({
+      decoder: c.NullAsVoid,
+      fetch: {
+        body: { url },
+        endo: flow(endosession(session), string.append("/url")),
+        method: "POST",
+      },
+    })
+}
 
 /**
  * @summary
@@ -190,9 +193,10 @@ export const navigateTo = (url: string): WebdriverSession<void> => (session) =>
  * @param body
  * @category Combinators
  */
-export const runSession = (body: c.NewSession) => <A>(
-  fa: WebdriverSession<A>
-) => RTE.bracket(newSession(body), (session) => fa(session), deleteSession)
+export function runSession(body: c.NewSession) {
+  return <A>(fa: WebdriverSession<A>): Webdriver<A> =>
+    RTE.bracket(newSession(body), (session) => fa(session), deleteSession)
+}
 
 export const getCurrentUrl: WebdriverSession<string> = (session) =>
   make({
@@ -222,17 +226,17 @@ export const getTimeouts: WebdriverSession<c.Timeouts> = (session) =>
     },
   })
 
-export const setTimeouts = (timeouts: c.Timeouts): WebdriverSession<void> => (
-  session
-) =>
-  make({
-    decoder: c.NullAsVoid,
-    fetch: {
-      endo: flow(endosession(session), string.append("/timeouts")),
-      method: "POST",
-      body: timeouts,
-    },
-  })
+export function setTimeouts(timeouts: c.Timeouts): WebdriverSession<void> {
+  return (session) =>
+    make({
+      decoder: c.NullAsVoid,
+      fetch: {
+        endo: flow(endosession(session), string.append("/timeouts")),
+        method: "POST",
+        body: timeouts,
+      },
+    })
+}
 
 export const forward: WebdriverSession<void> = (session) =>
   make({
@@ -261,49 +265,51 @@ export type LocationStrategy =
   | "tag name"
   | "xpath"
 
-export const findElement = (
+export function findElement(
   using: LocationStrategy,
   selector: string
-): WebdriverSession<c.Element> => (session) =>
-  make({
-    decoder: c.Element,
-    fetch: {
-      endo: flow(endosession(session), string.append("/element")),
-      method: "POST",
-      body: { using, value: selector },
-    },
-  })
+): WebdriverSession<c.Element> {
+  return (session) =>
+    make({
+      decoder: c.Element,
+      fetch: {
+        endo: flow(endosession(session), string.append("/element")),
+        method: "POST",
+        body: { using, value: selector },
+      },
+    })
+}
 
-export const elementSendKeys = (text: string) => (
-  element: c.Element
-): WebdriverSession<void> => (session) =>
-  make({
-    decoder: c.NullAsVoid,
-    fetch: {
-      endo: flow(
-        endosession(session),
-        string.append("/element/"),
-        string.append(element["element-6066-11e4-a52e-4f735466cecf"]),
-        string.append("/value")
-      ),
-      method: "POST",
-      body: { text },
-    },
-  })
+export function elementSendKeys(text: string) {
+  return (element: c.Element): WebdriverSession<void> => (session) =>
+    make({
+      decoder: c.NullAsVoid,
+      fetch: {
+        endo: flow(
+          endosession(session),
+          string.append("/element/"),
+          string.append(element["element-6066-11e4-a52e-4f735466cecf"]),
+          string.append("/value")
+        ),
+        method: "POST",
+        body: { text },
+      },
+    })
+}
 
-export const getElementAttribute = (attribute: string) => (
-  element: c.Element
-): WebdriverSession<string> => (session) =>
-  make({
-    decoder: d.string,
-    fetch: {
-      endo: flow(
-        endosession(session),
-        string.append("/element/"),
-        string.append(element["element-6066-11e4-a52e-4f735466cecf"]),
-        string.append("/attribute/"),
-        string.append(attribute)
-      ),
-      method: "GET",
-    },
-  })
+export function getElementAttribute(attribute: string) {
+  return (element: c.Element): WebdriverSession<string> => (session) =>
+    make({
+      decoder: d.string,
+      fetch: {
+        endo: flow(
+          endosession(session),
+          string.append("/element/"),
+          string.append(element["element-6066-11e4-a52e-4f735466cecf"]),
+          string.append("/attribute/"),
+          string.append(attribute)
+        ),
+        method: "GET",
+      },
+    })
+}
