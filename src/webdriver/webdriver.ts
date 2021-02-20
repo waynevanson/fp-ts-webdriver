@@ -165,6 +165,12 @@ export const status: Webdriver<c.Status> = make({
 // via `chain` and `chainFirst`
 // -----
 
+/**
+ * @summary
+ * Deletes the given `Session`.
+ *
+ * @see [Delete Session](https://www.w3.org/TR/webdriver1/#delete-session)
+ */
 export const deleteSession: WebdriverSession<void> = (session: c.Session) =>
   make({
     decoder: c.NullAsVoid,
