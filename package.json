@@ -75,6 +75,10 @@
     "fp-fetch": "^0.1.1"
   },
   "release": {
+    "branches": [
+      "main",
+      "next"
+    ],
     "plugins": [
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
