@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/waynevanson/fp-ts-webdriver/compare/v3.0.0...v3.1.0) (2021-02-20)
+
+
+### Features
+
+* adds performActions for NullActions ([3ad7557](https://github.com/waynevanson/fp-ts-webdriver/commit/3ad7557231217f2aed5d3b9509144238a15dbb3a))
+
 # [3.0.0](https://github.com/waynevanson/fp-ts-webdriver/compare/v2.0.0...v3.0.0) (2021-02-18)
 
 

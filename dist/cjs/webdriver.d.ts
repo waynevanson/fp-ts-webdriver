@@ -98,10 +98,10 @@ export declare const make: <E extends object, A>({ decoder, fetch: { body, endo,
  * @see [New Session](https://www.w3.org/TR/webdriver1/#dfn-creating-a-new-session)
  * @category Constructors
  */
-export declare const newSession: (body: c.NewSession) => Webdriver<c.Session>;
+export declare function newSession(body: c.NewSession): Webdriver<c.Session>;
 export declare const status: Webdriver<c.Status>;
 export declare const deleteSession: WebdriverSession<void>;
-export declare const navigateTo: (url: string) => WebdriverSession<void>;
+export declare function navigateTo(url: string): WebdriverSession<void>;
 /**
  * @summary
  * Creates a `Session` that will always close if it opened,
@@ -110,14 +110,15 @@ export declare const navigateTo: (url: string) => WebdriverSession<void>;
  * @param body
  * @category Combinators
  */
-export declare const runSession: (body: c.NewSession) => <A>(fa: WebdriverSession<A>) => RTE.ReaderTaskEither<Dependencies, WebdriverErrors, A>;
+export declare function runSession(body: c.NewSession): <A>(fa: WebdriverSession<A>) => Webdriver<A>;
 export declare const getCurrentUrl: WebdriverSession<string>;
 export declare const back: WebdriverSession<void>;
 export declare const getTimeouts: WebdriverSession<c.Timeouts>;
-export declare const setTimeouts: (timeouts: c.Timeouts) => WebdriverSession<void>;
+export declare function setTimeouts(timeouts: c.Timeouts): WebdriverSession<void>;
 export declare const forward: WebdriverSession<void>;
 export declare const refresh: WebdriverSession<void>;
 export declare type LocationStrategy = "css selector" | "link text" | "partial link text" | "tag name" | "xpath";
-export declare const findElement: (using: LocationStrategy, selector: string) => WebdriverSession<c.Element>;
-export declare const elementSendKeys: (text: string) => (element: c.Element) => WebdriverSession<void>;
-export declare const getElementAttribute: (attribute: string) => (element: c.Element) => WebdriverSession<string>;
+export declare function findElement(using: LocationStrategy, selector: string): WebdriverSession<c.Element>;
+export declare function elementSendKeys(text: string): (element: c.Element) => WebdriverSession<void>;
+export declare function getElementAttribute(attribute: string): (element: c.Element) => WebdriverSession<string>;
+export declare function performActions(actions: c.ActionSequence["actions"]): WebdriverSession<void>;

@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getElementAttribute = exports.elementSendKeys = exports.findElement = exports.refresh = exports.forward = exports.setTimeouts = exports.getTimeouts = exports.back = exports.getCurrentUrl = exports.runSession = exports.navigateTo = exports.deleteSession = exports.status = exports.newSession = exports.make = void 0;
+exports.performActions = exports.getElementAttribute = exports.elementSendKeys = exports.findElement = exports.refresh = exports.forward = exports.setTimeouts = exports.getTimeouts = exports.back = exports.getCurrentUrl = exports.runSession = exports.navigateTo = exports.deleteSession = exports.status = exports.newSession = exports.make = void 0;
 var fp_ts_1 = require("fp-ts");
 var fp_ts_std_1 = require("fp-ts-std");
 var function_1 = require("fp-ts/lib/function");
@@ -72,12 +72,12 @@ var endosession = function (session) {
  * @see [New Session](https://www.w3.org/TR/webdriver1/#dfn-creating-a-new-session)
  * @category Constructors
  */
-var newSession = function (body) {
+function newSession(body) {
     return exports.make({
         decoder: c.Session,
         fetch: { body: body, method: "POST", endo: fp_ts_std_1.string.append("/session") },
     });
-};
+}
 exports.newSession = newSession;
 exports.status = exports.make({
     decoder: c.Status,
@@ -97,16 +97,18 @@ var deleteSession = function (session) {
     });
 };
 exports.deleteSession = deleteSession;
-var navigateTo = function (url) { return function (session) {
-    return exports.make({
-        decoder: c.NullAsVoid,
-        fetch: {
-            body: { url: url },
-            endo: function_1.flow(endosession(session), fp_ts_std_1.string.append("/url")),
-            method: "POST",
-        },
-    });
-}; };
+function navigateTo(url) {
+    return function (session) {
+        return exports.make({
+            decoder: c.NullAsVoid,
+            fetch: {
+                body: { url: url },
+                endo: function_1.flow(endosession(session), fp_ts_std_1.string.append("/url")),
+                method: "POST",
+            },
+        });
+    };
+}
 exports.navigateTo = navigateTo;
 /**
  * @summary
@@ -116,7 +118,11 @@ exports.navigateTo = navigateTo;
  * @param body
  * @category Combinators
  */
-var runSession = function (body) { return function (fa) { return fp_ts_1.readerTaskEither.bracket(exports.newSession(body), function (session) { return fa(session); }, exports.deleteSession); }; };
+function runSession(body) {
+    return function (fa) {
+        return fp_ts_1.readerTaskEither.bracket(newSession(body), function (session) { return fa(session); }, exports.deleteSession);
+    };
+}
 exports.runSession = runSession;
 var getCurrentUrl = function (session) {
     return exports.make({
@@ -149,16 +155,18 @@ var getTimeouts = function (session) {
     });
 };
 exports.getTimeouts = getTimeouts;
-var setTimeouts = function (timeouts) { return function (session) {
-    return exports.make({
-        decoder: c.NullAsVoid,
-        fetch: {
-            endo: function_1.flow(endosession(session), fp_ts_std_1.string.append("/timeouts")),
-            method: "POST",
-            body: timeouts,
-        },
-    });
-}; };
+function setTimeouts(timeouts) {
+    return function (session) {
+        return exports.make({
+            decoder: c.NullAsVoid,
+            fetch: {
+                endo: function_1.flow(endosession(session), fp_ts_std_1.string.append("/timeouts")),
+                method: "POST",
+                body: timeouts,
+            },
+        });
+    };
+}
 exports.setTimeouts = setTimeouts;
 var forward = function (session) {
     return exports.make({
@@ -182,35 +190,54 @@ var refresh = function (session) {
     });
 };
 exports.refresh = refresh;
-var findElement = function (using, selector) { return function (session) {
-    return exports.make({
-        decoder: c.Element,
-        fetch: {
-            endo: function_1.flow(endosession(session), fp_ts_std_1.string.append("/element")),
-            method: "POST",
-            body: { using: using, value: selector },
-        },
-    });
-}; };
+function findElement(using, selector) {
+    return function (session) {
+        return exports.make({
+            decoder: c.Element,
+            fetch: {
+                endo: function_1.flow(endosession(session), fp_ts_std_1.string.append("/element")),
+                method: "POST",
+                body: { using: using, value: selector },
+            },
+        });
+    };
+}
 exports.findElement = findElement;
-var elementSendKeys = function (text) { return function (element) { return function (session) {
-    return exports.make({
-        decoder: c.NullAsVoid,
-        fetch: {
-            endo: function_1.flow(endosession(session), fp_ts_std_1.string.append("/element/"), fp_ts_std_1.string.append(element["element-6066-11e4-a52e-4f735466cecf"]), fp_ts_std_1.string.append("/value")),
-            method: "POST",
-            body: { text: text },
-        },
-    });
-}; }; };
+function elementSendKeys(text) {
+    return function (element) { return function (session) {
+        return exports.make({
+            decoder: c.NullAsVoid,
+            fetch: {
+                endo: function_1.flow(endosession(session), fp_ts_std_1.string.append("/element/"), fp_ts_std_1.string.append(element["element-6066-11e4-a52e-4f735466cecf"]), fp_ts_std_1.string.append("/value")),
+                method: "POST",
+                body: { text: text },
+            },
+        });
+    }; };
+}
 exports.elementSendKeys = elementSendKeys;
-var getElementAttribute = function (attribute) { return function (element) { return function (session) {
-    return exports.make({
-        decoder: d.string,
-        fetch: {
-            endo: function_1.flow(endosession(session), fp_ts_std_1.string.append("/element/"), fp_ts_std_1.string.append(element["element-6066-11e4-a52e-4f735466cecf"]), fp_ts_std_1.string.append("/attribute/"), fp_ts_std_1.string.append(attribute)),
-            method: "GET",
-        },
-    });
-}; }; };
+function getElementAttribute(attribute) {
+    return function (element) { return function (session) {
+        return exports.make({
+            decoder: d.string,
+            fetch: {
+                endo: function_1.flow(endosession(session), fp_ts_std_1.string.append("/element/"), fp_ts_std_1.string.append(element["element-6066-11e4-a52e-4f735466cecf"]), fp_ts_std_1.string.append("/attribute/"), fp_ts_std_1.string.append(attribute)),
+                method: "GET",
+            },
+        });
+    }; };
+}
 exports.getElementAttribute = getElementAttribute;
+function performActions(actions) {
+    return function (session) {
+        return exports.make({
+            decoder: c.NullAsVoid,
+            fetch: {
+                endo: function_1.flow(endosession(session), fp_ts_std_1.string.append("/actions")),
+                method: "POST",
+                body: { actions: actions },
+            },
+        });
+    };
+}
+exports.performActions = performActions;

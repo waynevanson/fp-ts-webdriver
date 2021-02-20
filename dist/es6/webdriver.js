@@ -39,10 +39,12 @@ const endosession = (session) => flow(string.append("/session/"), string.append(
  * @see [New Session](https://www.w3.org/TR/webdriver1/#dfn-creating-a-new-session)
  * @category Constructors
  */
-export const newSession = (body) => make({
-    decoder: c.Session,
-    fetch: { body, method: "POST", endo: string.append("/session") },
-});
+export function newSession(body) {
+    return make({
+        decoder: c.Session,
+        fetch: { body, method: "POST", endo: string.append("/session") },
+    });
+}
 export const status = make({
     decoder: c.Status,
     fetch: { method: "GET", endo: string.append("/status") },
@@ -58,14 +60,16 @@ export const deleteSession = (session) => make({
         method: "DELETE",
     },
 });
-export const navigateTo = (url) => (session) => make({
-    decoder: c.NullAsVoid,
-    fetch: {
-        body: { url },
-        endo: flow(endosession(session), string.append("/url")),
-        method: "POST",
-    },
-});
+export function navigateTo(url) {
+    return (session) => make({
+        decoder: c.NullAsVoid,
+        fetch: {
+            body: { url },
+            endo: flow(endosession(session), string.append("/url")),
+            method: "POST",
+        },
+    });
+}
 /**
  * @summary
  * Creates a `Session` that will always close if it opened,
@@ -74,7 +78,9 @@ export const navigateTo = (url) => (session) => make({
  * @param body
  * @category Combinators
  */
-export const runSession = (body) => (fa) => RTE.bracket(newSession(body), (session) => fa(session), deleteSession);
+export function runSession(body) {
+    return (fa) => RTE.bracket(newSession(body), (session) => fa(session), deleteSession);
+}
 export const getCurrentUrl = (session) => make({
     decoder: d.string,
     fetch: {
@@ -97,14 +103,16 @@ export const getTimeouts = (session) => make({
         method: "GET",
     },
 });
-export const setTimeouts = (timeouts) => (session) => make({
-    decoder: c.NullAsVoid,
-    fetch: {
-        endo: flow(endosession(session), string.append("/timeouts")),
-        method: "POST",
-        body: timeouts,
-    },
-});
+export function setTimeouts(timeouts) {
+    return (session) => make({
+        decoder: c.NullAsVoid,
+        fetch: {
+            endo: flow(endosession(session), string.append("/timeouts")),
+            method: "POST",
+            body: timeouts,
+        },
+    });
+}
 export const forward = (session) => make({
     decoder: c.NullAsVoid,
     fetch: {
@@ -121,26 +129,42 @@ export const refresh = (session) => make({
         body: {},
     },
 });
-export const findElement = (using, selector) => (session) => make({
-    decoder: c.Element,
-    fetch: {
-        endo: flow(endosession(session), string.append("/element")),
-        method: "POST",
-        body: { using, value: selector },
-    },
-});
-export const elementSendKeys = (text) => (element) => (session) => make({
-    decoder: c.NullAsVoid,
-    fetch: {
-        endo: flow(endosession(session), string.append("/element/"), string.append(element["element-6066-11e4-a52e-4f735466cecf"]), string.append("/value")),
-        method: "POST",
-        body: { text },
-    },
-});
-export const getElementAttribute = (attribute) => (element) => (session) => make({
-    decoder: d.string,
-    fetch: {
-        endo: flow(endosession(session), string.append("/element/"), string.append(element["element-6066-11e4-a52e-4f735466cecf"]), string.append("/attribute/"), string.append(attribute)),
-        method: "GET",
-    },
-});
+export function findElement(using, selector) {
+    return (session) => make({
+        decoder: c.Element,
+        fetch: {
+            endo: flow(endosession(session), string.append("/element")),
+            method: "POST",
+            body: { using, value: selector },
+        },
+    });
+}
+export function elementSendKeys(text) {
+    return (element) => (session) => make({
+        decoder: c.NullAsVoid,
+        fetch: {
+            endo: flow(endosession(session), string.append("/element/"), string.append(element["element-6066-11e4-a52e-4f735466cecf"]), string.append("/value")),
+            method: "POST",
+            body: { text },
+        },
+    });
+}
+export function getElementAttribute(attribute) {
+    return (element) => (session) => make({
+        decoder: d.string,
+        fetch: {
+            endo: flow(endosession(session), string.append("/element/"), string.append(element["element-6066-11e4-a52e-4f735466cecf"]), string.append("/attribute/"), string.append(attribute)),
+            method: "GET",
+        },
+    });
+}
+export function performActions(actions) {
+    return (session) => make({
+        decoder: c.NullAsVoid,
+        fetch: {
+            endo: flow(endosession(session), string.append("/actions")),
+            method: "POST",
+            body: { actions },
+        },
+    });
+}

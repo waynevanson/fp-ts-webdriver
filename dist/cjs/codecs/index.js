@@ -16,3 +16,4 @@ __exportStar(require("./timeouts"), exports);
 __exportStar(require("./new-session"), exports);
 __exportStar(require("./helpers"), exports);
 __exportStar(require("./element-retrieval"), exports);
+__exportStar(require("./actions"), exports);
