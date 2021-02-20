@@ -1,6 +1,6 @@
 import { pipe } from "fp-ts/lib/function"
 import * as c from "io-ts/Codec"
-import { JsonObject } from "./helpers"
+import { JsonObject } from "./json"
 import { Capabilities } from "./processing-capabilities"
 
 export type NewSession = JsonObject & {
