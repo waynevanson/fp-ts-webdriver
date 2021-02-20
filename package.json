@@ -56,6 +56,7 @@
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.27",
     "chromedriver": "^88.0.0",
+    "docs-ts": "^0.6.3",
     "fp-ts": "^2.9.5",
     "fp-ts-std": "^0.8.0",
     "io-ts": "^2.2.14",
