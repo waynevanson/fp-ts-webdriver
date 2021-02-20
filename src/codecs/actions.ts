@@ -1,3 +1,22 @@
+// export interface PointerParameters {
+//   /**
+//    * Note - Default value is implemented by remote end.
+//    * @default "mouse"
+//    */
+//   pointerType?: "mouse" | "pen" | "touch"
+// }
+
+// export type PointerAction = {
+//   id: string
+//   type: "pointer"
+//   parameters?: PointerParameters
+// }
+
+// export type KeyAction = {
+//   id: string
+//   type: "key"
+// }
+
 export type NullActionItem = {
   type: "pause"
   /**
@@ -13,6 +32,7 @@ export type NullAction = {
 }
 
 export type Action = NullAction
+// | KeyAction | PointerAction
 
 export type Actions = Array<Action>
 
