@@ -155,6 +155,16 @@ export function newSession(body: c.NewSession): Webdriver<c.Session> {
   })
 }
 
+/**
+ *
+ *
+ * @description
+ * Status returns information about whether a remote end is in a state in which
+ * it can create new sessions, but may additionally include arbitrary meta
+ * information that is specific to the implementation.
+ *
+ * @see [Status](https://www.w3.org/TR/webdriver1/#dfn-status)
+ */
 export const status: Webdriver<c.Status> = make({
   decoder: c.Status,
   fetch: { method: "GET", endo: string.append("/status") },

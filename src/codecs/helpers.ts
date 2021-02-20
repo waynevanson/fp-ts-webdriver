@@ -73,7 +73,19 @@ export const Session: c.Codec<unknown, Session, Session> = pipe(
  */
 export const NullAsVoid = pipe(c.literal(null), c.imap(constVoid, constNull))
 
+/**
+ * @summary
+ * Information about the remote end's readiness state and why it is/isn't ready.
+ */
 export const Status: c.Codec<unknown, Status, Status> = c.type({
+  /**
+   * @summary
+   * The remote end's readiness state: ready to take commands.
+   */
   ready: c.boolean,
+  /**
+   * @summary
+   * Message related about the ready state.
+   */
   message: c.string,
 })
