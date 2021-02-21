@@ -5,7 +5,6 @@ import { either as E, reader as R } from "fp-ts"
 /**
  * @summary
  * Removes the `Reader` interface and converts it to a standard function.
- 
  */
 export const readerToFn = <R, A>(fa: R.Reader<R, A>): ((r: R) => A) => fa
 
