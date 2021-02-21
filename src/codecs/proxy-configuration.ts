@@ -7,20 +7,38 @@ import * as d from "io-ts/Decoder"
 
 // TYPES
 
+/**
+ * @since 3.2.0
+ */
 export type ProxyTypeBase = "direct" | "autodetect" | "system"
 
+/**
+ * @since 3.2.0
+ */
 export interface ProxyConfigurationBase {
   proxyType: ProxyTypeBase
 }
 
+/**
+ * @since 3.2.0
+ */
 export type ProxyTypePac = "pac"
 
+/**
+ * @since 3.2.0
+ */
 export interface ProxyConfigurationPac {
   proxyType: ProxyTypePac
   proxyAutoconfigUrl: string
 }
 
+/**
+ * @since 3.2.0
+ */
 export type ProxyTypeManual = "manual"
+/**
+ * @since 3.2.0
+ */
 export interface ProxyConfigurationManual {
   proxyType: ProxyTypeManual
   ftpProxy: string
@@ -31,23 +49,41 @@ export interface ProxyConfigurationManual {
   socksVersion: number
 }
 
+/**
+ * @since 3.2.0
+ */
 export type ProxyConfiguration =
   | ProxyConfigurationPac
   | ProxyConfigurationManual
   | ProxyConfigurationBase
 
+/**
+ * @since 3.2.0
+ */
 export type ProxyType = ProxyConfiguration["proxyType"]
 
 // CODECS
 
+/**
+ * @since 3.2.0
+ */
 export const ProxyTypeBase = c.literal("direct", "autodetect", "system")
 
+/**
+ * @since 3.2.0
+ */
 export const ProxyConfigurationBase = c.type({
   proxyType: ProxyTypeBase,
 })
 
+/**
+ * @since 3.2.0
+ */
 const ProxyTypePac = c.literal("pac")
 
+/**
+ * @since 3.2.0
+ */
 export const ProxyConfigurationPac: c.Codec<
   unknown,
   ProxyConfigurationPac,
@@ -57,8 +93,14 @@ export const ProxyConfigurationPac: c.Codec<
   proxyAutoconfigUrl: c.string,
 })
 
+/**
+ * @since 3.2.0
+ */
 const ProxyTypeManual = c.literal("manual")
 
+/**
+ * @since 3.2.0
+ */
 export const ProxyConfigurationManual: c.Codec<
   unknown,
   ProxyConfigurationManual,
@@ -73,6 +115,9 @@ export const ProxyConfigurationManual: c.Codec<
   socksVersion: c.number,
 })
 
+/**
+ * @since 3.2.0
+ */
 export const ProxyConfiguration: c.Codec<
   unknown,
   ProxyConfiguration,
@@ -86,6 +131,9 @@ export const ProxyConfiguration: c.Codec<
   c.fromDecoder
 )
 
+/**
+ * @since 3.2.0
+ */
 export const ProxyType: c.Codec<unknown, ProxyType, ProxyType> = pipe(
   d.union(ProxyTypeBase, ProxyTypeManual, ProxyTypePac),
   c.fromDecoder
