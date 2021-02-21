@@ -18,10 +18,6 @@ export {
    * @since 3.2.0
    */
   NullAction,
-  /**
-   * @since 3.2.0
-   */
-  NullActionItem,
 } from "./actions"
 export {
   /**
