@@ -52,12 +52,7 @@ export {
    */
   JsonPrimitive,
 } from "./json"
-export {
-  /**
-   * @since 3.2.0
-   */
-  NewSession,
-} from "./new-session"
+
 export {
   /**
    * @since 3.2.0

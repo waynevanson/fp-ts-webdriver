@@ -56,3 +56,11 @@ export type {
    */
   PointerAction,
 } from "./actions"
+
+export {
+  /**
+   * @since 4.0.0
+   */
+  NewSession,
+} from "./parameters"
+
