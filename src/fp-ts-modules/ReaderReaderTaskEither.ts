@@ -1,5 +1,20 @@
 /**
  * @since 3.2.0
+ *
+ * @todo chainW
+ * @todo chainFirstW
+ * @todo chainEitherK
+ * @todo chainEitherKW
+ * @todo chainIOK
+ * @todo chainIOKW
+ * @todo chainIOEitherK
+ * @todo chainIOEitherKW
+ * @todo chainTaskK
+ * @todo chainTaskW
+ * @todo chainTaskEitherKW
+ * @todo chainTaskEitherK
+ * @todo chainReaderTaskEitherK
+ * @todo chainReaderTaskEitherKW
  */
 import { reader as R, readerT, readerTaskEither as RTE } from "fp-ts"
 import { Monad4 } from "fp-ts/lib/Monad"
