@@ -1,3 +1,22 @@
+# [4.0.0-next.2](https://github.com/waynevanson/fp-ts-webdriver/compare/v4.0.0-next.1...v4.0.0-next.2) (2021-02-21)
+
+
+### Bug Fixes
+
+* **exports:** fix export path for webdriver ([d97cdb4](https://github.com/waynevanson/fp-ts-webdriver/commit/d97cdb45177b7c119367443f367b0f9a442ce5fb))
+
+
+### Features
+
+* **exports:** adds named exports from webdriver/types ([ef79c30](https://github.com/waynevanson/fp-ts-webdriver/commit/ef79c30e0b5e7f30ac872220a5ed5655bf3e7266))
+* removes ReaderIOEither ([a71617a](https://github.com/waynevanson/fp-ts-webdriver/commit/a71617a276426184f1c899821c6e3fb8ece0b381))
+* **exports:** exports all relevant types from webdriver module ([2e9260d](https://github.com/waynevanson/fp-ts-webdriver/commit/2e9260d65a0bb334ebe42aa0dba08980ec8e9336))
+
+
+### BREAKING CHANGES
+
+* Removes ReaderIOEither
+
 # [4.0.0-next.1](https://github.com/waynevanson/fp-ts-webdriver/compare/v3.1.1-next.1...v4.0.0-next.1) (2021-02-21)
 
 

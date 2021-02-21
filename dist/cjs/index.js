@@ -19,20 +19,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.readerReaderTaskEither = exports.readerIOEither = exports.webdriver = void 0;
-/**
- * @since 3.2.0
- */
-/**
- * @since 3.2.0
- */
+exports.readerReaderTaskEither = exports.webdriver = void 0;
 exports.webdriver = __importStar(require("./webdriver"));
-var fp_ts_modules_1 = require("./fp-ts-modules");
-/**
- * @since 3.2.0
- */
-Object.defineProperty(exports, "readerIOEither", { enumerable: true, get: function () { return fp_ts_modules_1.readerIOEither; } });
-/**
- * @since 3.2.0
- */
-Object.defineProperty(exports, "readerReaderTaskEither", { enumerable: true, get: function () { return fp_ts_modules_1.readerReaderTaskEither; } });
+exports.readerReaderTaskEither = __importStar(require("./reader-reader-task-either"));

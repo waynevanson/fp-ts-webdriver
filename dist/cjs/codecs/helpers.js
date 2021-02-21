@@ -20,46 +20,29 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Status = exports.NullAsVoid = exports.Session = exports.Literal = exports.Null = exports.Success = void 0;
-/**
- * @since 3.2.0
- */
 var function_1 = require("fp-ts/lib/function");
 var c = __importStar(require("io-ts/Codec"));
 var d = __importStar(require("io-ts/Decoder"));
 // CODECS
-/**
- * @since 3.2.0
- */
 function Success(value) {
     return c.type({ value: c.fromDecoder(value) });
 }
 exports.Success = Success;
-/**
- * @since 3.2.0
- */
 exports.Null = c.literal(null);
-/**
- * @since 3.2.0
- */
 exports.Literal = function_1.pipe(d.union(c.string, c.number, c.boolean), d.nullable, c.fromDecoder);
-/**
- * @since 3.2.0
- */
 exports.Session = function_1.pipe(c.type({
     sessionId: c.string,
 }), c.intersect(c.partial({ capabilities: c.UnknownRecord })));
 /**
  * @summary
  * `imap`s `null` to `void` to identify the combinator where the effect is important.
- *
- * @since 3.2.0
+ 
  */
 exports.NullAsVoid = function_1.pipe(c.literal(null), c.imap(function_1.constVoid, function_1.constNull));
 /**
  * @summary
  * Information about the remote end's readiness state and why it is/isn't ready.
- *
- * @since 3.2.0
+ 
  */
 exports.Status = c.type({
     /**
