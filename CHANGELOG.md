@@ -1,3 +1,17 @@
+# [4.0.0-next.1](https://github.com/waynevanson/fp-ts-webdriver/compare/v3.1.1-next.1...v4.0.0-next.1) (2021-02-21)
+
+
+### Features
+
+* **command:** adds Pointer and Key actions for performActions ([0bebbf9](https://github.com/waynevanson/fp-ts-webdriver/commit/0bebbf933f39fb3a3979120db146c38ce6f64517))
+* **command:** adds release actions ([b9f0411](https://github.com/waynevanson/fp-ts-webdriver/commit/b9f0411c1a18123761e78f0457ff27f4a71990e3))
+* removes NullActionItem from Action ([488f1f5](https://github.com/waynevanson/fp-ts-webdriver/commit/488f1f528569e7c0f808b5a7e8084aeedc6fb485))
+
+
+### BREAKING CHANGES
+
+* Renaming a few types, so `NullActionItem` is no longer available for use
+
 ## [3.1.1-next.1](https://github.com/waynevanson/fp-ts-webdriver/compare/v3.1.0...v3.1.1-next.1) (2021-02-20)
 
 

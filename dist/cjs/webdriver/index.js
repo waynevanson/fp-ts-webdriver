@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.performActions = exports.getElementAttribute = exports.elementSendKeys = exports.findElement = exports.refresh = exports.forward = exports.setTimeouts = exports.getTimeouts = exports.back = exports.getCurrentUrl = exports.runSession = exports.navigateTo = exports.deleteSession = exports.status = exports.newSession = exports.make = void 0;
+exports.releaseActions = exports.performActions = exports.getElementAttribute = exports.elementSendKeys = exports.findElement = exports.refresh = exports.forward = exports.setTimeouts = exports.getTimeouts = exports.back = exports.getCurrentUrl = exports.runSession = exports.navigateTo = exports.deleteSession = exports.status = exports.newSession = exports.make = void 0;
 var fp_ts_1 = require("fp-ts");
 var fp_ts_std_1 = require("fp-ts-std");
 var function_1 = require("fp-ts/lib/function");
@@ -294,3 +294,16 @@ function performActions(actions) {
     };
 }
 exports.performActions = performActions;
+/**
+ * @since 3.2.0
+ */
+var releaseActions = function (session) {
+    return exports.make({
+        decoder: c.NullAsVoid,
+        fetch: {
+            method: "DELETE",
+            endo: function_1.flow(endosession(session), fp_ts_std_1.string.append("/actions")),
+        },
+    });
+};
+exports.releaseActions = releaseActions;

@@ -199,3 +199,7 @@ export declare function getElementAttribute(attribute: string): (element: c.Elem
  * @since 3.2.0
  */
 export declare function performActions(actions: c.ActionSequence["actions"]): WebdriverSession<void>;
+/**
+ * @since 3.2.0
+ */
+export declare const releaseActions: WebdriverSession<void>;
