@@ -16,9 +16,14 @@ const capabilities: Capabilities = {
 
 const body = { capabilities }
 
+const runTest = <A>(fa: WD.WebdriverSession<A>) =>
+  pipe(fa, WD.runSession(body))(dependencies)
+
+// increase this if tests timeout
 jest.setTimeout(30000)
 
 describe("webdriver", () => {
+  // engage jest hooks for the chromedriver.
   chromedriverJestSetup(port)()
 
   describe("Sessions", () => {
@@ -35,8 +40,7 @@ describe("webdriver", () => {
 
     describe("status", () => {
       test("status returns ready when a window is made", async () => {
-        const test = () => WD.status
-        const result = await pipe(test, WD.runSession(body))(dependencies)()
+        const result = await pipe(() => WD.status, runTest)()
 
         expect(result).toMatchObject(
           E.right({
@@ -47,8 +51,7 @@ describe("webdriver", () => {
       })
 
       test("status returns ready when there is no session active", async () => {
-        const test = WD.status
-        const result = await test(dependencies)()
+        const result = await WD.status(dependencies)()
 
         expect(result).toMatchObject(
           E.right({
@@ -63,8 +66,10 @@ describe("webdriver", () => {
   describe("Navigation", () => {
     describe("navigateTo", () => {
       test("navigateTo", async () => {
-        const test = WD.navigateTo("https://google.com.au")
-        const result = await pipe(test, WD.runSession(body))(dependencies)()
+        const result = await pipe(
+          WD.navigateTo("https://google.com.au"),
+          runTest
+        )()
 
         expect(result).toMatchObject(E.right(constVoid()))
       })
@@ -73,9 +78,8 @@ describe("webdriver", () => {
     describe("Timeouts", () => {
       describe("getTimeouts", () => {
         test("get the default timeouts for the page", async () => {
-          const test = WD.getTimeouts
+          const result = await pipe(WD.getTimeouts, runTest)()
 
-          const result = await pipe(test, WD.runSession(body))(dependencies)()
           expect(result).toMatchObject(
             E.right({
               implicit: 0,
@@ -94,12 +98,13 @@ describe("webdriver", () => {
           pageLoad: 40000,
           script: 40000,
         }
-        const test = pipe(
-          WD.setTimeouts(timeouts),
-          RRTE.chain(() => WD.getTimeouts)
-        )
 
-        const result = await pipe(test, WD.runSession(body))(dependencies)()
+        const result = await pipe(
+          WD.setTimeouts(timeouts),
+          RRTE.chain(() => WD.getTimeouts),
+          runTest
+        )()
+
         expect(result).toMatchObject(E.right(timeouts))
       })
     })
@@ -109,11 +114,12 @@ describe("webdriver", () => {
     describe("getCurrentUrl", () => {
       test("gets the current url", async () => {
         const url = "https://www.google.com.au/"
-        const test = pipe(
+
+        const result = await pipe(
           WD.navigateTo(url),
-          RRTE.chain(() => WD.getCurrentUrl)
-        )
-        const result = await pipe(test, WD.runSession(body))(dependencies)()
+          RRTE.chain(() => WD.getCurrentUrl),
+          runTest
+        )()
 
         expect(result).toMatchObject(E.right(url))
       })
@@ -123,14 +129,13 @@ describe("webdriver", () => {
       test("navigate to 2 urls and navigates back to the 1st", async () => {
         const urlA = "https://www.google.com.au/"
         const urlB = "https://www.youtube.com/"
-        const test = pipe(
+        const result = await pipe(
           WD.navigateTo(urlA),
           RRTE.chain(() => WD.navigateTo(urlB)),
           RRTE.chain(() => WD.back),
-          RRTE.chain(() => WD.getCurrentUrl)
-        )
-
-        const result = await pipe(test, WD.runSession(body))(dependencies)()
+          RRTE.chain(() => WD.getCurrentUrl),
+          runTest
+        )()
 
         expect(result).toMatchObject(E.right(urlA))
       })
@@ -140,15 +145,14 @@ describe("webdriver", () => {
       test("navigate to 2 urls, then back, then forward", async () => {
         const urlA = "https://www.google.com.au/"
         const urlB = "https://www.youtube.com/"
-        const test = pipe(
+        const result = await pipe(
           WD.navigateTo(urlA),
           RRTE.chain(() => WD.navigateTo(urlB)),
           RRTE.chain(() => WD.back),
           RRTE.chain(() => WD.forward),
-          RRTE.chain(() => WD.getCurrentUrl)
-        )
-
-        const result = await pipe(test, WD.runSession(body))(dependencies)()
+          RRTE.chain(() => WD.getCurrentUrl),
+          runTest
+        )()
 
         expect(result).toMatchObject(E.right(urlB))
       })
@@ -161,17 +165,16 @@ describe("webdriver", () => {
         const searchBarText = WD.getElementAttribute("value")
         const text = "Hello, World!"
 
-        const test = pipe(
+        const result = await pipe(
           WD.navigateTo(urlA),
           RRTE.chain(() => searchBar),
           RRTE.chainFirst(WD.elementSendKeys(text)),
           RRTE.chainFirst(() => WD.refresh),
           // get element again because element hash has changed
           RRTE.chain(() => searchBar),
-          RRTE.chain(searchBarText)
-        )
-
-        const result = await pipe(test, WD.runSession(body))(dependencies)()
+          RRTE.chain(searchBarText),
+          runTest
+        )()
 
         expect(result).toMatchObject(E.right(""))
       })
@@ -186,14 +189,14 @@ describe("webdriver", () => {
 
         const text = "Hello, World!"
 
-        const test = pipe(
+        const result = await pipe(
           WD.navigateTo("https://www.google.com.au/"),
           RRTE.chain(() => searchBar),
           RRTE.chainFirst(WD.elementSendKeys(text)),
-          RRTE.chain(searchBarText)
-        )
+          RRTE.chain(searchBarText),
+          runTest
+        )()
 
-        const result = await pipe(test, WD.runSession(body))(dependencies)()
         expect(result).toMatchObject(E.right(text))
       })
     })
@@ -242,47 +245,50 @@ describe("webdriver", () => {
     describe("performActions", () => {
       describe("null actions", () => {
         test("duration is a number greater than 0", async () => {
-          const test = pipe(
+          const result = await pipe(
             WD.performActions([
               {
                 id: "1212",
                 type: "none",
                 actions: [{ type: "pause", duration: 1000 }],
               },
-            ])
-          )
-
-          const result = await pipe(test, WD.runSession(body))(dependencies)()
-
+            ]),
+            runTest
+          )()
           expect(result).toMatchObject(E.right(constVoid()))
         })
 
         test("duration is 0", async () => {
-          const test = pipe(
+          const result = await pipe(
             WD.performActions([
               {
                 id: "1212",
                 type: "none",
                 actions: [{ type: "pause", duration: 0 }],
               },
-            ])
-          )
-
-          const result = await pipe(test, WD.runSession(body))(dependencies)()
+            ]),
+            runTest
+          )()
 
           expect(result).toMatchObject(E.right(constVoid()))
         })
 
         test("duration is undefined", async () => {
-          const test = pipe(
+          const result = await pipe(
             WD.performActions([
               {
                 id: "1212",
                 type: "none",
                 actions: [{ type: "pause" }],
               },
-            ])
-          )
+            ]),
+            runTest
+          )()
+
+          expect(result).toMatchObject(E.right(constVoid()))
+        })
+      })
+
 
           const result = await pipe(test, WD.runSession(body))(dependencies)()
 
