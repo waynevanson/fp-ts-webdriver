@@ -419,4 +419,11 @@ describe("webdriver", () => {
       })
     })
   })
+
+  describe("releaseActions", () => {
+    test("", async () => {
+      const result = await pipe(WD.releaseActions, runTest)()
+      expect(result).toMatchObject(E.right(constVoid()))
+    })
+  })
 })

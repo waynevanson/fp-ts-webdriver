@@ -404,3 +404,15 @@ export function performActions(
       },
     })
 }
+
+/**
+ * @since 3.2.0
+ */
+export const releaseActions: WebdriverSession<void> = (session) =>
+  make({
+    decoder: c.NullAsVoid,
+    fetch: {
+      method: "DELETE",
+      endo: flow(endosession(session), string.append("/actions")),
+    },
+  })
