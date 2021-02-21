@@ -175,3 +175,5 @@ export {
    */
   ProxyTypeBase,
 } from "./proxy-configuration"
+
+export * from "./models"
