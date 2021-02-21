@@ -64,3 +64,22 @@ export {
   NewSession,
 } from "./parameters"
 
+export {
+  /**
+   * @since 4.0.0
+   */
+  Capabilities,
+  /**
+   * @since 4.0.0
+   */
+  ExtensionCapabilities,
+  /**
+   * @since 4.0.0
+   */
+  RequiredCapabilities,
+  /**
+   * @since 4.0.0
+   */
+  StandardCapabilities,
+} from "./processing-capabilities"
+

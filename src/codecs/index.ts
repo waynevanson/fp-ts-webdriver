@@ -57,28 +57,6 @@ export {
   /**
    * @since 3.2.0
    */
-  Capabilities,
-  /**
-   * @since 3.2.0
-   */
-  ExtensionCapabilities,
-  /**
-   * @since 3.2.0
-   */
-  NonEmptyArray,
-  /**
-   * @since 3.2.0
-   */
-  RequiredCapabilities,
-  /**
-   * @since 3.2.0
-   */
-  StandardCapabilities,
-} from "./processing-capabilities"
-export {
-  /**
-   * @since 3.2.0
-   */
   ProxyConfiguration,
   /**
    * @since 3.2.0
