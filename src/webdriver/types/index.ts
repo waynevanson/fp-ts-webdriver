@@ -83,3 +83,37 @@ export {
   StandardCapabilities,
 } from "./processing-capabilities"
 
+export {
+  /**
+   * @since 4.0.0
+   */
+  ProxyTypePac,
+  /**
+   * @since 4.0.0
+   */
+  ProxyTypeManual,
+  /**
+   * @since 4.0.0
+   */
+  ProxyConfiguration,
+  /**
+   * @since 4.0.0
+   */
+  ProxyConfigurationBase,
+  /**
+   * @since 4.0.0
+   */
+  ProxyConfigurationManual,
+  /**
+   * @since 4.0.0
+   */
+  ProxyConfigurationPac,
+  /**
+   * @since 4.0.0
+   */
+  ProxyType,
+  /**
+   * @since 4.0.0
+   */
+  ProxyTypeBase,
+} from "./proxy-configuration"

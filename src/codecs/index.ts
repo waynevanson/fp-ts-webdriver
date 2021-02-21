@@ -34,6 +34,7 @@ export {
    */
   Success,
 } from "./helpers"
+
 export {
   /**
    * @since 3.2.0
@@ -53,40 +54,6 @@ export {
   JsonPrimitive,
 } from "./json"
 
-export {
-  /**
-   * @since 3.2.0
-   */
-  ProxyConfiguration,
-  /**
-   * @since 3.2.0
-   */
-  ProxyConfigurationBase,
-  /**
-   * @since 3.2.0
-   */
-  ProxyConfigurationManual,
-  /**
-   * @since 3.2.0
-   */
-  ProxyConfigurationPac,
-  /**
-   * @since 3.2.0
-   */
-  ProxyType,
-  /**
-   * @since 3.2.0
-   */
-  ProxyTypeBase,
-  /**
-   * @since 3.2.0
-   */
-  ProxyTypeManual,
-  /**
-   * @since 3.2.0
-   */
-  ProxyTypePac,
-} from "./proxy-configuration"
 export {
   /**
    * @since 3.2.0
