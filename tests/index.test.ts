@@ -289,9 +289,131 @@ describe("webdriver", () => {
         })
       })
 
+      describe("pointer actions", () => {
+        describe("ActionItemPointerUpDown", () => {
+          test("expect to pass", async () => {
+            const result = await pipe(
+              WD.performActions([
+                {
+                  id: "1",
+                  actions: [
+                    { type: "pointerDown", button: 0 },
+                    { type: "pointerUp", button: 0 },
+                  ],
+                  type: "pointer",
+                  parameters: { pointerType: "mouse" },
+                },
+              ]),
+              runTest
+            )()
 
-          const result = await pipe(test, WD.runSession(body))(dependencies)()
+            expect(result).toMatchObject(E.right(constVoid()))
+          })
+        })
 
+        describe("ActionItemPointerMove", () => {
+          test("issue pointer move actions", async () => {
+            const result = await pipe(
+              WD.performActions([
+                {
+                  actions: [
+                    { type: "pointerMove", x: 100, y: 100, duration: 1000 },
+                    {
+                      type: "pointerMove",
+                      x: 200,
+                      y: 200,
+                      duration: 100,
+                      origin: "pointer",
+                    },
+                    {
+                      type: "pointerMove",
+                      x: 100,
+                      y: 100,
+                      duration: 10,
+                      origin: "viewport",
+                    },
+                  ],
+                  type: "pointer",
+                  id: "1",
+                  parameters: { pointerType: "mouse" },
+                },
+              ]),
+              runTest
+            )()
+
+            expect(result).toMatchObject(E.right(constVoid()))
+          })
+        })
+
+        describe("ActionItemPointerCancel", () => {
+          test("", async () => {
+            const result = await pipe(
+              WD.performActions([
+                {
+                  type: "pointer",
+                  id: "1",
+                  actions: [{ type: "pointerCancel" }],
+                  parameters: { pointerType: "mouse" },
+                },
+              ]),
+              runTest
+            )()
+
+            expect(result).toMatchObject(E.right(constVoid()))
+          })
+        })
+
+        describe("ActionItemPointerPause", () => {
+          test("", async () => {
+            const result = await pipe(
+              WD.performActions([
+                {
+                  id: "1",
+                  type: "pointer",
+                  parameters: { pointerType: "mouse" },
+                  actions: [{ type: "pause", duration: 1000 }],
+                },
+              ]),
+              runTest
+            )()
+            expect(result).toMatchObject(E.right(constVoid()))
+          })
+        })
+      })
+    })
+
+    describe("KeyActions", () => {
+      describe("keyActionUpDown", () => {
+        test("", async () => {
+          const result = await pipe(
+            WD.performActions([
+              {
+                type: "key",
+                id: "2",
+                actions: [
+                  { type: "keyDown", value: "a" },
+                  { type: "keyUp", value: "a" },
+                ],
+              },
+            ]),
+            runTest
+          )()
+          expect(result).toMatchObject(E.right(constVoid()))
+        })
+      })
+
+      describe("keyActionPause", () => {
+        test("", async () => {
+          const result = await pipe(
+            WD.performActions([
+              {
+                type: "key",
+                id: "2",
+                actions: [{ type: "pause" }],
+              },
+            ]),
+            runTest
+          )()
           expect(result).toMatchObject(E.right(constVoid()))
         })
       })
