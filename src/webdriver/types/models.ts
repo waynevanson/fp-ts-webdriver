@@ -3,7 +3,7 @@ import { readerTaskEither as RTE } from "fp-ts"
 import { Endomorphism } from "fp-ts/lib/function"
 import * as d from "io-ts/Decoder"
 import { Session } from "../../codecs"
-import { readerReaderTaskEither as RRTE } from "../../fp-ts-modules"
+import * as RRTE from "../../reader-reader-task-either"
 
 export interface Dependencies {
   /**

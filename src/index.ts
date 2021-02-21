@@ -1,2 +1,4 @@
+import { readerReaderTaskEither } from "./reader-reader-task-either"
+
 export * as webdriver from "./webdriver"
-export { readerIOEither, readerReaderTaskEither } from "./fp-ts-modules"
+export * as readerReaderTaskEither from "./reader-reader-task-either"
