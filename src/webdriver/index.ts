@@ -22,6 +22,9 @@ import {
   Webdriver,
   WebdriverSession,
 } from "./types"
+
+export * from "./types"
+
 /**
  * @since 3.2.0
  * @internal
