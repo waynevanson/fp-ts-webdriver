@@ -1,6 +1,3 @@
-/**
- * @since 3.2.0
- */
 import { either as E, option as O, readerTaskEither as RTE } from "fp-ts"
 import { string } from "fp-ts-std"
 import { flow, pipe } from "fp-ts/lib/function"
@@ -25,8 +22,7 @@ import {
 
 export * from "./types"
 
-/**
- * @since 3.2.0
+/*
  * @internal
  */
 export interface MakeProps<E extends object, A> {
@@ -132,9 +128,6 @@ export const deleteSession: WebdriverSession<void> = (session: Session) =>
     },
   })
 
-/**
- * @since 3.2.0
- */
 export function navigateTo(url: string): WebdriverSession<void> {
   return (session) =>
     make({
@@ -161,9 +154,6 @@ export function runSession(body: NewSession) {
     RTE.bracket(newSession(body), (session) => fa(session), deleteSession)
 }
 
-/**
- * @since 3.2.0
- */
 export const getCurrentUrl: WebdriverSession<string> = (session) =>
   make({
     decoder: d.string,
@@ -173,9 +163,6 @@ export const getCurrentUrl: WebdriverSession<string> = (session) =>
     },
   })
 
-/**
- * @since 3.2.0
- */
 export const back: WebdriverSession<void> = (session) =>
   make({
     decoder: NullAsVoid,
@@ -186,9 +173,6 @@ export const back: WebdriverSession<void> = (session) =>
     },
   })
 
-/**
- * @since 3.2.0
- */
 export const getTimeouts: WebdriverSession<Timeouts> = (session) =>
   make({
     decoder: Timeouts,
@@ -198,9 +182,6 @@ export const getTimeouts: WebdriverSession<Timeouts> = (session) =>
     },
   })
 
-/**
- * @since 3.2.0
- */
 export function setTimeouts(timeouts: Timeouts): WebdriverSession<void> {
   return (session) =>
     make({
@@ -213,9 +194,6 @@ export function setTimeouts(timeouts: Timeouts): WebdriverSession<void> {
     })
 }
 
-/**
- * @since 3.2.0
- */
 export const forward: WebdriverSession<void> = (session) =>
   make({
     decoder: NullAsVoid,
@@ -226,9 +204,6 @@ export const forward: WebdriverSession<void> = (session) =>
     },
   })
 
-/**
- * @since 3.2.0
- */
 export const refresh: WebdriverSession<void> = (session) =>
   make({
     decoder: NullAsVoid,
@@ -239,9 +214,6 @@ export const refresh: WebdriverSession<void> = (session) =>
     },
   })
 
-/**
- * @since 3.2.0
- */
 export type LocationStrategy =
   | "css selector"
   | "link text"
@@ -249,9 +221,6 @@ export type LocationStrategy =
   | "tag name"
   | "xpath"
 
-/**
- * @since 3.2.0
- */
 export function findElement(
   using: LocationStrategy,
   selector: string
@@ -267,9 +236,6 @@ export function findElement(
     })
 }
 
-/**
- * @since 3.2.0
- */
 export function elementSendKeys(text: string) {
   return (element: Element): WebdriverSession<void> => (session) =>
     make({
@@ -287,9 +253,6 @@ export function elementSendKeys(text: string) {
     })
 }
 
-/**
- * @since 3.2.0
- */
 export function getElementAttribute(attribute: string) {
   return (element: Element): WebdriverSession<string> => (session) =>
     make({
@@ -307,9 +270,6 @@ export function getElementAttribute(attribute: string) {
     })
 }
 
-/**
- * @since 3.2.0
- */
 export function performActions(
   actions: ActionSequence["actions"]
 ): WebdriverSession<void> {
@@ -324,9 +284,6 @@ export function performActions(
     })
 }
 
-/**
- * @since 3.2.0
- */
 export const releaseActions: WebdriverSession<void> = (session) =>
   make({
     decoder: NullAsVoid,

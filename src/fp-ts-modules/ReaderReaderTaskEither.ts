@@ -1,5 +1,4 @@
-/**
- * @since 3.2.0
+/*
  *
  * @todo chainW
  * @todo chainFirstW

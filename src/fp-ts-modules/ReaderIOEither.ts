@@ -1,6 +1,3 @@
-/**
- * @since 3.2.0
- */
 import {
   ioEither as IOE,
   reader as R,
@@ -33,20 +30,11 @@ export const {
   of,
 } = M
 
-/**
- * @since 3.2.0
- */
 export interface ReaderIOEIther<R, E, A>
   extends R.Reader<R, IOE.IOEither<E, A>> {}
 
-/**
- * @since 3.2.0
- */
 export const URI = "ReaderIOEither"
 
-/**
- * @since 3.2.0
- */
 export type URI = typeof URI
 
 declare module "fp-ts/HKT" {
@@ -55,37 +43,22 @@ declare module "fp-ts/HKT" {
   }
 }
 
-/**
- * @since 3.2.0
- */
 export const Monad: Monad3<URI> = { URI, ...M }
 
-/**
- * @since 3.2.0
- */
 export const MonadThrow: MonadThrow3<URI> = {
   ...Monad,
   throwError: (e) => () => IOE.throwError(e),
 }
 
-/**
- * @since 3.2.0
- */
 export const MonadIO: MonadIO3<URI> = {
   ...Monad,
   fromIO: (fa) => () => IOE.fromIO(fa),
 }
 
-/**
- * @since 3.2.0
- */
 export const fromReaderEither = <R, E, A>(
   fa: RE.ReaderEither<R, E, A>
 ): ReaderIOEIther<R, E, A> => pipe(fa, R.map(IOE.fromEither))
 
-/**
- * @since 3.2.0
- */
 export const ReaderIOEither = { ...MonadThrow, ...MonadIO }
 
 export const {
@@ -95,9 +68,6 @@ export const {
   fromIO,
 } = MonadIO
 
-/**
- * @since 3.2.0
- */
 export const {
   /**
    * @since 3.2.0
@@ -145,9 +115,6 @@ export const {
   map,
 } = pipeable(ReaderIOEither)
 
-/**
- * @since 3.2.0
- */
 export const chainIOEitherKW = <G, A, B>(fab: (a: A) => IOE.IOEither<G, B>) => <
   R,
   E

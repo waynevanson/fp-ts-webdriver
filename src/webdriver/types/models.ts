@@ -1,6 +1,3 @@
-/**
- * @since 3.2.0
- */
 import { FetchError } from "fp-fetch"
 import { readerTaskEither as RTE } from "fp-ts"
 import { Endomorphism } from "fp-ts/lib/function"
@@ -8,9 +5,6 @@ import * as d from "io-ts/Decoder"
 import { Session } from "../../codecs"
 import { readerReaderTaskEither as RRTE } from "../../fp-ts-modules"
 
-/**
- * @since 3.2.0
- */
 export interface Dependencies {
   /**
    * @summary
@@ -42,8 +36,7 @@ export interface Dependencies {
  * - Handling unsuccessful response codes.
  * - Decoding responses.
  * - Convert `JSON` to `string` via `JSONStringify`.
- *
- * @since 3.2.0
+ 
  */
 export type WebdriverErrors = FetchError | d.DecodeError | TypeError
 
@@ -76,14 +69,12 @@ export interface WebdriverSession<A>
 /**
  * @summary
  * Possible values for the `method` property
- *
- * @since 3.2.0
+ 
  * @internal
  */
 export type RequestMethod = "POST" | "GET" | "DELETE"
 
-/**
- * @since 3.2.0
+/*
  * @internal
  */
 export interface FetchProps<A extends object> {

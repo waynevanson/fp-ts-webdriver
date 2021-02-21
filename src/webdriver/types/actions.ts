@@ -1,13 +1,9 @@
 /**
  * @summary
  * Low level API for controlling the browser.
- *
- * @since 3.2.0
+ 
  */
 
-/**
- * @since 3.2.0
- */
 export interface PointerParameters {
   /**
    * Note - Default value is implemented by remote end.
@@ -16,9 +12,6 @@ export interface PointerParameters {
   pointerType?: "mouse" | "pen" | "touch"
 }
 
-/**
- * @since 3.2.0
- */
 export interface ActionItemPause {
   type: "pause"
   /**
@@ -27,9 +20,6 @@ export interface ActionItemPause {
   duration?: number
 }
 
-/**
- * @since 3.2.0
- */
 export interface ActionItemPointerUpDown {
   type: "pointerUp" | "pointerDown"
   /**
@@ -39,9 +29,6 @@ export interface ActionItemPointerUpDown {
   button: number
 }
 
-/**
- * @since 3.2.0
- */
 export interface ActionItemPointerMove {
   type: "pointerMove"
   /**
@@ -60,9 +47,6 @@ export interface ActionItemPointerMove {
   y: number
 }
 
-/**
- * @since 3.2.0
- */
 export interface ActionItemPointerCancel {
   type: "pointerCancel"
 }
@@ -74,9 +58,7 @@ export interface ActionItemKeyUpDown {
    */
   value: string
 }
-/**
- * @since 3.2.0
- */
+
 export type ActionItemPointer =
   | ActionItemPointerCancel
   | ActionItemPointerUpDown
@@ -85,9 +67,6 @@ export type ActionItemPointer =
 
 export type ActionItemKey = ActionItemKeyUpDown | ActionItemPause
 
-/**
- * @since 3.2.0
- */
 export type PointerAction = {
   id: string
   type: "pointer"
@@ -95,37 +74,22 @@ export type PointerAction = {
   actions: Array<ActionItemPointer>
 }
 
-/**
- * @since 3.2.0
- */
 export type KeyAction = {
   id: string
   type: "key"
   actions: Array<ActionItemKey>
 }
 
-/**
- * @since 3.2.0
- */
 export type NullAction = {
   id: string
   type: "none"
   actions: Array<ActionItemPause>
 }
 
-/**
- * @since 3.2.0
- */
 export type Action = NullAction | PointerAction | KeyAction
 
-/**
- * @since 3.2.0
- */
 export type Actions = Array<Action>
 
-/**
- * @since 3.2.0
- */
 export interface ActionSequence {
   actions: Actions
 }
