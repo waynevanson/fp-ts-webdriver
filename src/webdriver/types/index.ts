@@ -1,3 +1,61 @@
+/**
+ * An namespace for all the types within the file.
+ *
+ * Expected to be exported from the main entry point
+ *
+ * @since 4.0.0
+ */
+export type {
+  /**
+   * @since 4.0.0
+   */
+  JsonArray,
+  /**
+   * @since 4.0.0
+   */
+  Json,
+  /**
+   * @since 4.0.0
+   */
+  JsonObject,
+  /**
+   * @since 4.0.0
+   */
+  JsonPrimitive,
+  /**
+   * @since 4.0.0
+   */
+  Element,
+  /**
+   * @since 4.0.0
+   */
+  NullAsVoid,
+  /**
+   * @since 4.0.0
+   */
+  Literal,
+  /**
+   * @since 4.0.0
+   */
+  Null,
+  /**
+   * @since 4.0.0
+   */
+  Session,
+  /**
+   * @since 4.0.0
+   */
+  Status,
+  /**
+   * @since 4.0.0
+   */
+  Timeouts,
+  /**
+   * @since 4.0.0
+   */
+  Success,
+} from "../../codecs"
+
 export type {
   /**
    * @since 4.0.0
