@@ -1,14 +1,13 @@
 import { either as E, readerTaskEither as RTE } from "fp-ts"
 import { constVoid, pipe } from "fp-ts/lib/function"
 import { readerReaderTaskEither as RRTE, webdriver as WD } from "../src"
-import { Capabilities } from "../src/codecs"
 import { chromedriverJestSetup } from "./chromedriver"
 
 const port = 4444
 const dependencies: WD.Dependencies = { endpoint: `http://localhost:${port}` }
 
 // runs in headless!
-const capabilities: Capabilities = {
+const capabilities: WD.Capabilities = {
   alwaysMatch: {
     "goog:chromeOptions": { args: ["--headless"] },
   },
