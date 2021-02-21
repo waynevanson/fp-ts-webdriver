@@ -10,6 +10,9 @@ import * as c from "../codecs"
 import { readerReaderTaskEither as RRTE } from "../fp-ts-modules"
 import { fetch, stringifyJson } from "../utils"
 
+/**
+ * @since 3.2.0
+ */
 export interface Dependencies {
   /**
    * @summary
@@ -41,6 +44,8 @@ export interface Dependencies {
  * - Handling unsuccessful response codes.
  * - Decoding responses.
  * - Convert `JSON` to `string` via `JSONStringify`.
+ *
+ * @since 3.2.0
  */
 export type WebdriverErrors = FetchError | d.DecodeError | TypeError
 
@@ -49,6 +54,7 @@ export type WebdriverErrors = FetchError | d.DecodeError | TypeError
  * The connection between the local end and remote end of the web driver.
  *
  * @category Model
+ * @since 3.2.0
  */
 export interface Webdriver<A>
   extends RTE.ReaderTaskEither<Dependencies, WebdriverErrors, A> {}
@@ -59,6 +65,7 @@ export interface Webdriver<A>
  *
  * @see WebDriver<A>
  * @category Model
+ * @since 3.2.0
  */
 export interface WebdriverSession<A>
   extends RRTE.ReaderReaderTaskEither<
@@ -71,9 +78,16 @@ export interface WebdriverSession<A>
 /**
  * @summary
  * Possible values for the `method` property
+ *
+ * @since 3.2.0
+ * @internal
  */
 export type RequestMethod = "POST" | "GET" | "DELETE"
 
+/**
+ * @since 3.2.0
+ * @internal
+ */
 export interface FetchProps<A extends object> {
   /**
    * @summary
@@ -92,7 +106,10 @@ export interface FetchProps<A extends object> {
    */
   body?: A
 }
-
+/**
+ * @since 3.2.0
+ * @internal
+ */
 export interface MakeProps<E extends object, A> {
   fetch: FetchProps<E>
   decoder: d.Decoder<unknown, A>
@@ -105,6 +122,7 @@ export interface MakeProps<E extends object, A> {
  *
  * @param props
  * @category Constructors
+ * @internal
  */
 export const make = <E extends object, A>({
   decoder,
@@ -150,6 +168,7 @@ const endosession = (session: c.Session) =>
  *
  * @see [New Session](https://www.w3.org/TR/webdriver1/#dfn-creating-a-new-session)
  * @category Constructors
+ * @since 3.2.0
  */
 export function newSession(body: c.NewSession): Webdriver<c.Session> {
   return make({
@@ -183,6 +202,7 @@ export const status: Webdriver<c.Status> = make({
  * Deletes the given `Session`.
  *
  * @see [Delete Session](https://www.w3.org/TR/webdriver1/#delete-session)
+ * @since 3.2.0
  */
 export const deleteSession: WebdriverSession<void> = (session: c.Session) =>
   make({
@@ -193,6 +213,9 @@ export const deleteSession: WebdriverSession<void> = (session: c.Session) =>
     },
   })
 
+/**
+ * @since 3.2.0
+ */
 export function navigateTo(url: string): WebdriverSession<void> {
   return (session) =>
     make({
@@ -212,12 +235,16 @@ export function navigateTo(url: string): WebdriverSession<void> {
  *
  * @param body
  * @category Combinators
+ * @since 3.2.0
  */
 export function runSession(body: c.NewSession) {
   return <A>(fa: WebdriverSession<A>): Webdriver<A> =>
     RTE.bracket(newSession(body), (session) => fa(session), deleteSession)
 }
 
+/**
+ * @since 3.2.0
+ */
 export const getCurrentUrl: WebdriverSession<string> = (session) =>
   make({
     decoder: d.string,
@@ -227,6 +254,9 @@ export const getCurrentUrl: WebdriverSession<string> = (session) =>
     },
   })
 
+/**
+ * @since 3.2.0
+ */
 export const back: WebdriverSession<void> = (session) =>
   make({
     decoder: c.NullAsVoid,
@@ -237,6 +267,9 @@ export const back: WebdriverSession<void> = (session) =>
     },
   })
 
+/**
+ * @since 3.2.0
+ */
 export const getTimeouts: WebdriverSession<c.Timeouts> = (session) =>
   make({
     decoder: c.Timeouts,
@@ -246,6 +279,9 @@ export const getTimeouts: WebdriverSession<c.Timeouts> = (session) =>
     },
   })
 
+/**
+ * @since 3.2.0
+ */
 export function setTimeouts(timeouts: c.Timeouts): WebdriverSession<void> {
   return (session) =>
     make({
@@ -258,6 +294,9 @@ export function setTimeouts(timeouts: c.Timeouts): WebdriverSession<void> {
     })
 }
 
+/**
+ * @since 3.2.0
+ */
 export const forward: WebdriverSession<void> = (session) =>
   make({
     decoder: c.NullAsVoid,
@@ -268,6 +307,9 @@ export const forward: WebdriverSession<void> = (session) =>
     },
   })
 
+/**
+ * @since 3.2.0
+ */
 export const refresh: WebdriverSession<void> = (session) =>
   make({
     decoder: c.NullAsVoid,
@@ -278,6 +320,9 @@ export const refresh: WebdriverSession<void> = (session) =>
     },
   })
 
+/**
+ * @since 3.2.0
+ */
 export type LocationStrategy =
   | "css selector"
   | "link text"
@@ -285,6 +330,9 @@ export type LocationStrategy =
   | "tag name"
   | "xpath"
 
+/**
+ * @since 3.2.0
+ */
 export function findElement(
   using: LocationStrategy,
   selector: string
@@ -300,6 +348,9 @@ export function findElement(
     })
 }
 
+/**
+ * @since 3.2.0
+ */
 export function elementSendKeys(text: string) {
   return (element: c.Element): WebdriverSession<void> => (session) =>
     make({
@@ -317,6 +368,9 @@ export function elementSendKeys(text: string) {
     })
 }
 
+/**
+ * @since 3.2.0
+ */
 export function getElementAttribute(attribute: string) {
   return (element: c.Element): WebdriverSession<string> => (session) =>
     make({
@@ -334,6 +388,9 @@ export function getElementAttribute(attribute: string) {
     })
 }
 
+/**
+ * @since 3.2.0
+ */
 export function performActions(
   actions: c.ActionSequence["actions"]
 ): WebdriverSession<void> {

@@ -14,6 +14,9 @@ import { Timeouts } from "./timeouts"
 
 // TYPES
 
+/**
+ * @since 3.2.0
+ */
 export interface StandardCapabilities {
   acceptInsecureCerts?: boolean
   browserName?: string
@@ -26,8 +29,14 @@ export interface StandardCapabilities {
   unhandledPromptBehaviour?: string
 }
 
+/**
+ * @since 3.2.0
+ */
 export type ExtensionCapabilities = Json
 
+/**
+ * @since 3.2.0
+ */
 export type RequiredCapabilities =
   | StandardCapabilities
   | (StandardCapabilities &
@@ -35,6 +44,9 @@ export type RequiredCapabilities =
       // should we validate these on local end? maybe later.
       Record<string, ExtensionCapabilities>)
 
+/**
+ * @since 3.2.0
+ */
 export type Capabilities = {
   alwaysMatch?: RequiredCapabilities
   firstMatch?: NEA.NonEmptyArray<RequiredCapabilities>
@@ -42,6 +54,9 @@ export type Capabilities = {
 
 // CODECS
 
+/**
+ * @since 3.2.0
+ */
 export const StandardCapabilities: c.Codec<
   unknown,
   StandardCapabilities,
@@ -58,12 +73,18 @@ export const StandardCapabilities: c.Codec<
   unhandledPromptBehaviour: c.string,
 })
 
+/**
+ * @since 3.2.0
+ */
 export const ExtensionCapabilities: c.Codec<
   unknown,
   ExtensionCapabilities,
   ExtensionCapabilities
 > = Json
 
+/**
+ * @since 3.2.0
+ */
 export const RequiredCapabilities: c.Codec<
   unknown,
   RequiredCapabilities,
@@ -76,14 +97,23 @@ export const RequiredCapabilities: c.Codec<
   c.fromDecoder
 )
 
+/**
+ * @since 3.2.0
+ */
 const guardNonEmptyArray = flow(g.array, g.refine(array.isNonEmpty))
 
+/**
+ * @since 3.2.0
+ */
 const decoderToGuard = <A>(
   decoder: d.Decoder<unknown, A>
 ): g.Guard<unknown, A> => ({
   is: (i: unknown): i is A => E.isRight(decoder.decode(i)),
 })
 
+/**
+ * @since 3.2.0
+ */
 export const NonEmptyArray = <O, A>(
   codec: c.Codec<unknown, O, A>
 ): c.Codec<unknown, NEA.NonEmptyArray<O>, NEA.NonEmptyArray<A>> =>
@@ -95,6 +125,9 @@ export const NonEmptyArray = <O, A>(
     c.fromDecoder
   )
 
+/**
+ * @since 3.2.0
+ */
 export const Capabilities: c.Codec<unknown, Capabilities, Capabilities> = pipe(
   c.partial({
     alwaysMatch: RequiredCapabilities,

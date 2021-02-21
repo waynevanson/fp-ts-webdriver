@@ -20,6 +20,9 @@
 //   type: "key"
 // }
 
+/**
+ * @since 3.2.0
+ */
 export type NullActionItem = {
   type: "pause"
   /**
@@ -28,17 +31,29 @@ export type NullActionItem = {
   duration?: number
 }
 
+/**
+ * @since 3.2.0
+ */
 export type NullAction = {
   id: string
   type: "none"
   actions: Array<NullActionItem>
 }
 
+/**
+ * @since 3.2.0
+ */
 export type Action = NullAction
 // | KeyAction | PointerAction
 
+/**
+ * @since 3.2.0
+ */
 export type Actions = Array<Action>
 
+/**
+ * @since 3.2.0
+ */
 export interface ActionSequence {
   actions: Actions
 }
