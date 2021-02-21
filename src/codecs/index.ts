@@ -5,26 +5,9 @@ export {
   /**
    * @since 3.2.0
    */
-  Action,
-  /**
-   * @since 3.2.0
-   */
-  Actions,
-  /**
-   * @since 3.2.0
-   */
-  ActionSequence,
-  /**
-   * @since 3.2.0
-   */
-  NullAction,
-} from "./actions"
-export {
-  /**
-   * @since 3.2.0
-   */
   Element,
 } from "./element-retrieval"
+
 export {
   /**
    * @since 3.2.0

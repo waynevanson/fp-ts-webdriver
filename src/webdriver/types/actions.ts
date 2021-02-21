@@ -19,6 +19,17 @@ export interface PointerParameters {
 /**
  * @since 3.2.0
  */
+export interface ActionItemPause {
+  type: "pause"
+  /**
+   * Number must be greater than `0`
+   */
+  duration?: number
+}
+
+/**
+ * @since 3.2.0
+ */
 export interface ActionItemPointerUpDown {
   type: "pointerUp" | "pointerDown"
   /**
@@ -56,6 +67,13 @@ export interface ActionItemPointerCancel {
   type: "pointerCancel"
 }
 
+export interface ActionItemKeyUpDown {
+  type: "keyUp" | "keyDown"
+  /**
+   * Single unicode code point.
+   */
+  value: string
+}
 /**
  * @since 3.2.0
  */
@@ -64,6 +82,8 @@ export type ActionItemPointer =
   | ActionItemPointerUpDown
   | ActionItemPause
   | ActionItemPointerMove
+
+export type ActionItemKey = ActionItemKeyUpDown | ActionItemPause
 
 /**
  * @since 3.2.0
@@ -75,16 +95,6 @@ export type PointerAction = {
   actions: Array<ActionItemPointer>
 }
 
-export interface ActionItemKeyUpDown {
-  type: "keyUp" | "keyDown"
-  /**
-   * Single unicode code point.
-   */
-  value: string
-}
-
-export type ActionItemKey = ActionItemKeyUpDown | ActionItemPause
-
 /**
  * @since 3.2.0
  */
@@ -92,17 +102,6 @@ export type KeyAction = {
   id: string
   type: "key"
   actions: Array<ActionItemKey>
-}
-
-/**
- * @since 3.2.0
- */
-export interface ActionItemPause {
-  type: "pause"
-  /**
-   * Number must be greater than `0`
-   */
-  duration?: number
 }
 
 /**
