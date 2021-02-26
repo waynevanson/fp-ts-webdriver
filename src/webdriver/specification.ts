@@ -1,6 +1,8 @@
 import { string } from "fp-ts-std"
 import { flow } from "fp-ts/lib/function"
 import * as d from "io-ts/Decoder"
+import { clearConfigCache } from "prettier"
+import { webdriver } from ".."
 import { Element, NullAsVoid, Session, Status, Timeouts } from "../codecs"
 import { make } from "./combinators"
 import {
@@ -143,6 +145,15 @@ export const refresh: WebdriverSession<void> = (session) =>
       endo: flow(endosession(session), string.append("/refresh")),
       method: "POST",
       body: {},
+    },
+  })
+
+export const getTitle: WebdriverSession<string> = (session) =>
+  make({
+    decoder: d.string,
+    fetch: {
+      endo: flow(endosession(session), string.append("/title")),
+      method: "GET",
     },
   })
 

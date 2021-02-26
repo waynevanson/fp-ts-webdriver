@@ -96,7 +96,7 @@ We're not taking donations at this stage.
 |                     | :heavy_check_mark: | back                    |
 |                     | :heavy_check_mark: | forward                 |
 |                     | :heavy_check_mark: | refresh                 |
-|                     | :o:                | getTitle                |
+|                     | :heavy_check_mark: | getTitle                |
 | Command Contexts    | :o:                | getWindowHandle         |
 |                     | :o:                | closeWindow             |
 |                     | :o:                | switchToWindow          |

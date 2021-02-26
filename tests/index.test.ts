@@ -141,7 +141,7 @@ describe("webdriver", () => {
     })
 
     describe("forward", () => {
-      test("navigate to 2 urls, then back, then forward", async () => {
+      test("navigate to 2 urls, then back, then f`orward", async () => {
         const urlA = "https://www.google.com.au/"
         const urlB = "https://www.youtube.com/"
         const result = await pipe(
@@ -176,6 +176,19 @@ describe("webdriver", () => {
         )()
 
         expect(result).toMatchObject(E.right(""))
+      })
+    })
+
+    describe("getTitle", () => {
+      const urlA = "https://www.google.com.au/"
+      test("title is `Google`", async () => {
+        const result = await pipe(
+          WD.navigateTo(urlA),
+          RRTE.chain(() => WD.getTitle),
+          runTest
+        )()
+
+        expect(result).toMatchObject(E.right("Google"))
       })
     })
   })
