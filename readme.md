@@ -130,8 +130,8 @@ We're not taking donations at this stage.
 |                     | :o:                | addCookie               |
 |                     | :o:                | deleteCookie            |
 |                     | :o:                | deleteAllCookies        |
-| Actions             | :o:                | performActions          |
-|                     | :o:                | releaseActions          |
+| Actions             | :heavy_check_mark: | performActions          |
+|                     | :heavy_check_mark: | releaseActions          |
 | User Prompts        | :o:                | dismissAlert            |
 |                     | :o:                | acceptAlert             |
 |                     | :o:                | getAlertText            |
