@@ -1,3 +1,10 @@
+# [4.0.0-next.3](https://github.com/waynevanson/fp-ts-webdriver/compare/v4.0.0-next.2...v4.0.0-next.3) (2021-02-26)
+
+
+### Features
+
+* **webdriver:** adds navigation#getTitle ([397eae8](https://github.com/waynevanson/fp-ts-webdriver/commit/397eae83f30b82a910a1455930ee9784cb007312))
+
 # [4.0.0-next.2](https://github.com/waynevanson/fp-ts-webdriver/compare/v4.0.0-next.1...v4.0.0-next.2) (2021-02-21)
 
 

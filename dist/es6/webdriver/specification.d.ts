@@ -38,6 +38,7 @@ export declare const getTimeouts: WebdriverSession<Timeouts>;
 export declare function setTimeouts(timeouts: Timeouts): WebdriverSession<void>;
 export declare const forward: WebdriverSession<void>;
 export declare const refresh: WebdriverSession<void>;
+export declare const getTitle: WebdriverSession<string>;
 export declare type LocationStrategy = "css selector" | "link text" | "partial link text" | "tag name" | "xpath";
 export declare function findElement(using: LocationStrategy, selector: string): WebdriverSession<Element>;
 export declare function elementSendKeys(text: string): (element: Element) => WebdriverSession<void>;

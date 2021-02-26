@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.releaseActions = exports.performActions = exports.getElementAttribute = exports.elementSendKeys = exports.findElement = exports.refresh = exports.forward = exports.setTimeouts = exports.getTimeouts = exports.back = exports.getCurrentUrl = exports.navigateTo = exports.deleteSession = exports.status = exports.newSession = void 0;
+exports.releaseActions = exports.performActions = exports.getElementAttribute = exports.elementSendKeys = exports.findElement = exports.getTitle = exports.refresh = exports.forward = exports.setTimeouts = exports.getTimeouts = exports.back = exports.getCurrentUrl = exports.navigateTo = exports.deleteSession = exports.status = exports.newSession = void 0;
 var fp_ts_std_1 = require("fp-ts-std");
 var function_1 = require("fp-ts/lib/function");
 var d = __importStar(require("io-ts/Decoder"));
@@ -167,6 +167,16 @@ var refresh = function (session) {
     });
 };
 exports.refresh = refresh;
+var getTitle = function (session) {
+    return combinators_1.make({
+        decoder: d.string,
+        fetch: {
+            endo: function_1.flow(endosession(session), fp_ts_std_1.string.append("/title")),
+            method: "GET",
+        },
+    });
+};
+exports.getTitle = getTitle;
 function findElement(using, selector) {
     return function (session) {
         return combinators_1.make({
