@@ -118,6 +118,13 @@ export const refresh = (session) => make({
         body: {},
     },
 });
+export const getTitle = (session) => make({
+    decoder: d.string,
+    fetch: {
+        endo: flow(endosession(session), string.append("/title")),
+        method: "GET",
+    },
+});
 export function findElement(using, selector) {
     return (session) => make({
         decoder: Element,

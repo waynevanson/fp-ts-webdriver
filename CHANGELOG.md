@@ -1,3 +1,28 @@
+# [4.0.0](https://github.com/waynevanson/fp-ts-webdriver/compare/v3.1.0...v4.0.0) (2021-02-26)
+
+
+### Bug Fixes
+
+* **exports:** fix export path for webdriver ([d97cdb4](https://github.com/waynevanson/fp-ts-webdriver/commit/d97cdb45177b7c119367443f367b0f9a442ce5fb))
+* removes PUT and UPDATE from RequestMethod type ([47b3399](https://github.com/waynevanson/fp-ts-webdriver/commit/47b3399c0c3d51f0d502d9a2ce95ee71dc074c00))
+
+
+### Features
+
+* **command:** adds Pointer and Key actions for performActions ([0bebbf9](https://github.com/waynevanson/fp-ts-webdriver/commit/0bebbf933f39fb3a3979120db146c38ce6f64517))
+* **command:** adds release actions ([b9f0411](https://github.com/waynevanson/fp-ts-webdriver/commit/b9f0411c1a18123761e78f0457ff27f4a71990e3))
+* **exports:** adds named exports from webdriver/types ([ef79c30](https://github.com/waynevanson/fp-ts-webdriver/commit/ef79c30e0b5e7f30ac872220a5ed5655bf3e7266))
+* **exports:** exports all relevant types from webdriver module ([2e9260d](https://github.com/waynevanson/fp-ts-webdriver/commit/2e9260d65a0bb334ebe42aa0dba08980ec8e9336))
+* **webdriver:** adds navigation#getTitle ([397eae8](https://github.com/waynevanson/fp-ts-webdriver/commit/397eae83f30b82a910a1455930ee9784cb007312))
+* removes NullActionItem from Action ([488f1f5](https://github.com/waynevanson/fp-ts-webdriver/commit/488f1f528569e7c0f808b5a7e8084aeedc6fb485))
+* removes ReaderIOEither ([a71617a](https://github.com/waynevanson/fp-ts-webdriver/commit/a71617a276426184f1c899821c6e3fb8ece0b381))
+
+
+### BREAKING CHANGES
+
+* Removes ReaderIOEither
+* Renaming a few types, so `NullActionItem` is no longer available for use
+
 # [4.0.0-next.2](https://github.com/waynevanson/fp-ts-webdriver/compare/v4.0.0-next.1...v4.0.0-next.2) (2021-02-21)
 
 
