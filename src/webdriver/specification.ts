@@ -1,9 +1,8 @@
 import { string } from "fp-ts-std"
 import { flow } from "fp-ts/lib/function"
 import * as d from "io-ts/Decoder"
-import { clearConfigCache } from "prettier"
-import { webdriver } from ".."
 import { Element, NullAsVoid, Session, Status, Timeouts } from "../codecs"
+import { Rect } from "../codecs/rectangle"
 import { make } from "./combinators"
 import {
   ActionSequence,
@@ -207,6 +206,22 @@ export function getElementAttribute(attribute: string) {
           string.append(element["element-6066-11e4-a52e-4f735466cecf"]),
           string.append("/attribute/"),
           string.append(attribute)
+        ),
+        method: "GET",
+      },
+    })
+}
+
+export function getElementRect(element: Element): WebdriverSession<Rect> {
+  return (session) =>
+    make({
+      decoder: Rect,
+      fetch: {
+        endo: flow(
+          endosession(session),
+          string.append("/element/"),
+          string.append(element["element-6066-11e4-a52e-4f735466cecf"]),
+          string.append("/rect")
         ),
         method: "GET",
       },

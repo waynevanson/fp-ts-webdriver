@@ -117,7 +117,7 @@ We're not taking donations at this stage.
 |                     | :o:                | getElementCSSValue      |
 |                     | :o:                | getElementText          |
 |                     | :o:                | getElementTagName       |
-|                     | :o:                | getElementRect          |
+|                     | :heavy_check_mark: | getElementRect          |
 |                     | :o:                | isElementEnabled        |
 | Element Interaction | :o:                | elementClick            |
 |                     | :o:                | elementClear            |

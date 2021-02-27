@@ -251,6 +251,27 @@ describe("webdriver", () => {
         expect(result).toMatchObject(E.right("Google Search"))
       })
     })
+
+    describe("getElementRect", () => {
+      const searchBar = WD.findElement("css selector", 'input[name="q"]')
+
+      test("retrieve the rectangle", async () => {
+        const result = await pipe(
+          WD.navigateTo("https://www.google.com.au/"),
+          RRTE.chain(() => searchBar),
+          RRTE.chain(WD.getElementRect),
+          WD.runSession(body)
+        )(dependencies)()
+        expect(result).toMatchObject(
+          E.right({
+            height: 34,
+            width: 487,
+            x: 156,
+            y: 183.5,
+          })
+        )
+      })
+    })
   })
 
   describe("Actions", () => {
