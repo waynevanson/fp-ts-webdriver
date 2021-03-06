@@ -16,6 +16,7 @@
  * @todo chainReaderTaskEitherKW
  */
 import { reader as R, readerT, readerTaskEither as RTE } from "fp-ts"
+import { Applicative4 } from "fp-ts/lib/Applicative"
 import { Monad4 } from "fp-ts/lib/Monad"
 import { MonadTask4 } from "fp-ts/lib/MonadTask"
 import { MonadThrow4 } from "fp-ts/lib/MonadThrow"
@@ -36,15 +37,22 @@ declare module "fp-ts/HKT" {
 const M = readerT.getReaderM(RTE.readerTaskEither)
 export const { ask, asks, fromM: fromReaderTaskEither, fromReader, of } = M
 
-export const Monad: Monad4<URI> = { URI, ...M }
+export const MonadPar: Monad4<URI> = { URI, ...M }
+
+export const MonadSeq: Monad4<URI> = {
+  ...MonadPar,
+  ap: (rrteab, rrtea) => (r) => RTE.ApplicativeSeq.ap(rrteab(r), rrtea(r)),
+}
+
+export const ApplicativeSeq: Applicative4<URI> = { ...MonadSeq }
 
 export const MonadThrow: MonadThrow4<URI> = {
-  ...Monad,
+  ...MonadPar,
   throwError: (e) => () => RTE.throwError(e),
 }
 
 export const MonadTask: MonadTask4<URI> = {
-  ...Monad,
+  ...MonadPar,
   fromIO: (fa) => () => pipe(RTE.fromIO(fa)),
   fromTask: (fa) => () => pipe(RTE.fromTask(fa)),
 }

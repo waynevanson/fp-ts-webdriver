@@ -1,9 +1,12 @@
 import { either as E, option as O, readerTaskEither as RTE } from "fp-ts"
+import { Applicative4 } from "fp-ts/lib/Applicative"
 import { pipe } from "fp-ts/lib/function"
+import { Kind4, URIS4 } from "fp-ts/lib/HKT"
 import * as d from "io-ts/Decoder"
-import { Success } from "../codecs"
+import { Element, Success } from "../codecs"
+import { Rect } from "../codecs/rectangle"
 import { fetch, stringifyJson } from "../utils"
-import { deleteSession, newSession } from "./specification"
+import { deleteSession, newSession, performActions } from "./specification"
 import {
   Dependencies,
   FetchProps,
@@ -11,7 +14,6 @@ import {
   Webdriver,
   WebdriverSession,
 } from "./types"
-
 /**
  * @summary
  * Custom combinators for the webdriver, not specified in the webdriver protocol.
@@ -59,6 +61,16 @@ export const make = <E extends object, A>({
     RTE.map((success) => success.value)
   )
 
+declare module "fp-ts/ReadonlyRecord" {
+  export function traverse<F extends URIS4>(
+    F: Applicative4<F>
+  ): <S, R, E, A, B>(
+    f: (a: A) => Kind4<F, S, R, E, B>
+  ) => <K extends string>(
+    ta: ReadonlyRecord<K, A>
+  ) => Kind4<F, S, R, E, ReadonlyRecord<K, B>>
+}
+
 /**
  * @summary
  * Creates a `Session` that will always close if it opened,
@@ -71,4 +83,51 @@ export const make = <E extends object, A>({
 export function runSession(body: NewSession) {
   return <A>(fa: WebdriverSession<A>): Webdriver<A> =>
     RTE.bracket(newSession(body), (session) => fa(session), deleteSession)
+}
+
+const rectCenter = ({ x, y, height, width }: Rect) => ({
+  x: x + width / 2,
+  y: y + height / 2,
+})
+
+export function dragAndDrop(from: Element, to: Element) {
+  return performActions([
+    {
+      id: `drag and drop from ${JSON.stringify(from)} to ${JSON.stringify(to)}`,
+      type: "pointer",
+      parameters: { pointerType: "mouse" },
+      actions: [
+        {
+          type: "pointerMove",
+          origin: from,
+          duration: 1000,
+          x: 0,
+          y: 0,
+        },
+        {
+          type: "pointerDown",
+          button: 0,
+        },
+        {
+          type: "pointerMove",
+          origin: "pointer",
+          duration: 100,
+          x: 20,
+          y: 0,
+        },
+        {
+          type: "pointerMove",
+          origin: to,
+          duration: 1000,
+          x: 0,
+          y: 0,
+        },
+        { type: "pause", duration: 100 },
+        {
+          type: "pointerUp",
+          button: 0,
+        },
+      ],
+    },
+  ])
 }

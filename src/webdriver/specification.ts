@@ -75,6 +75,15 @@ export const deleteSession: WebdriverSession<void> = (session: Session) =>
     },
   })
 
+export const getPageSource: WebdriverSession<string> = (session) =>
+  make({
+    decoder: d.string,
+    fetch: {
+      method: "GET",
+      endo: flow(endosession(session), string.append("/source")),
+    },
+  })
+
 export function navigateTo(url: string): WebdriverSession<void> {
   return (session) =>
     make({

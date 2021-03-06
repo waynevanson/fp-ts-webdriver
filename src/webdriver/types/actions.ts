@@ -1,3 +1,5 @@
+import { Element } from "./index"
+
 /**
  * @summary
  * Low level API for controlling the browser.
@@ -35,8 +37,7 @@ export interface ActionItemPointerMove {
    * Number must be greater than `0`
    */
   duration?: number
-  // these strings and an object?
-  origin?: "viewport" | "pointer"
+  origin: "viewport" | "pointer" | Element
   /**
    * Number must be greater than `0`
    */
@@ -46,7 +47,6 @@ export interface ActionItemPointerMove {
    */
   y: number
 }
-
 export interface ActionItemPointerCancel {
   type: "pointerCancel"
 }
