@@ -1,12 +1,6 @@
 import { default as crossfetch } from "cross-fetch"
 import { fetchCustom, jsonParser } from "fp-fetch"
-import { either as E, reader as R } from "fp-ts"
-
-/**
- * @summary
- * Removes the `Reader` interface and converts it to a standard function.
- */
-export const readerToFn = <R, A>(fa: R.Reader<R, A>): ((r: R) => A) => fa
+import { either as E } from "fp-ts"
 
 export const fetch = fetchCustom<unknown, E.Json>({
   parser: jsonParser,
@@ -14,5 +8,9 @@ export const fetch = fetchCustom<unknown, E.Json>({
   fetch: crossfetch,
 })
 
+/**
+ * @summary
+ * `JSON.stringify` that returns the error as `Left<TypeError>` instead of being uncast.
+ */
 export const stringifyJson = (i: unknown) =>
   E.stringifyJSON(i, (e) => e as TypeError)
