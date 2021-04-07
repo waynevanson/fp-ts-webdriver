@@ -58,7 +58,7 @@ const program = pipe(
 
 export const capabilities: WD.Capabilities = {}
 
-const dependencies:WD.Dependencies =  {
+const dependencies: WD.Dependencies =  {
   url: "localhost:4444",
 }
 

@@ -1,5 +1,4 @@
 /*
- *
  * @todo chainW
  * @todo chainFirstW
  * @todo chainEitherK
@@ -25,7 +24,7 @@ export const URI = "ReaderReaderTaskEither"
 export type URI = typeof URI
 
 export interface ReaderReaderTaskEither<S, R, E, A>
-  extends R.Reader<S, RTE.ReaderTaskEither<R, E, A>> {}
+  extends R.Reader<S, RTE.ReaderTaskEither<R, E, A>> { }
 
 declare module "fp-ts/HKT" {
   export interface URItoKind4<S, R, E, A> {

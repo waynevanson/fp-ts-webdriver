@@ -1,8 +1,11 @@
+/**
+ * @summary
+ * These functions are strictly derived from the specification.
+ * Anything else will be in the combinators.
+ */
 import { string } from "fp-ts-std"
 import { flow } from "fp-ts/lib/function"
 import * as d from "io-ts/Decoder"
-import { clearConfigCache } from "prettier"
-import { webdriver } from ".."
 import { Element, NullAsVoid, Session, Status, Timeouts } from "../codecs"
 import { make } from "./combinators"
 import {

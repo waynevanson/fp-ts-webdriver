@@ -46,15 +46,13 @@ export const Session: c.Codec<unknown, Session, Session> = pipe(
 
 /**
  * @summary
- * `imap`s `null` to `void` to identify the combinator where the effect is important.
- 
+ * `imap` `null` to `void` to identify the combinator where the effect is important.
  */
 export const NullAsVoid = pipe(c.literal(null), c.imap(constVoid, constNull))
 
 /**
  * @summary
  * Information about the remote end's readiness state and why it is/isn't ready.
- 
  */
 export const Status: c.Codec<unknown, Status, Status> = c.type({
   /**

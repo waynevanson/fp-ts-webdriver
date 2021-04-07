@@ -2,7 +2,6 @@
  * @description
  * Please note that `fp-ts/Either#Json` is not being used because the objects
  * are ready only, leading to a poor developer experience.
- 
  */
 import { pipe } from "fp-ts/lib/function"
 import * as c from "io-ts/Codec"
