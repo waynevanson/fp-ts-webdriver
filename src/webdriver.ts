@@ -1,23 +1,19 @@
 /**
  *
  */
-import { FetchError } from "fp-fetch"
 import {
   either as E,
   json as JSON,
   option as O,
   readerTaskEither as RTE,
-  task as T,
   taskEither as TE,
 } from "fp-ts"
-import { string } from "fp-ts-std"
-import { sequenceS } from "fp-ts/lib/Apply"
-import { constVoid, flow, pipe } from "fp-ts/lib/function"
+import { constVoid, pipe } from "fp-ts/lib/function"
 import { Json } from "fp-ts/lib/Json"
+import * as d from "io-ts/Decoder"
 import { Session as SessionCodec, Success } from "./codecs"
 import { fetch } from "./utils"
-import { Capabilities, capabilities } from "./webdriver/index"
-import * as d from "io-ts/Decoder"
+import { Capabilities } from "./webdriver/index"
 
 export * from "./webdriver"
 
