@@ -25,8 +25,14 @@ export interface Status {
 
 export function Success<A>(
   value: d.Decoder<unknown, A>
-): c.Codec<unknown, Success<A>, Success<A>> {
-  return c.type({ value: c.fromDecoder(value) })
+): c.Codec<unknown, Success<A>, A> {
+  return pipe(
+    c.struct({ value: c.fromDecoder(value) }),
+    c.imap(
+      (a) => a.value,
+      (value) => ({ value })
+    )
+  )
 }
 
 export const Null = c.literal(null)
