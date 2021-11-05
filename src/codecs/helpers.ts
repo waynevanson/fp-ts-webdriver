@@ -35,8 +35,6 @@ export function Success<A>(
   )
 }
 
-export const Null = c.literal(null)
-
 export const Literal: c.Codec<unknown, Literal, Literal> = pipe(
   d.union(c.string, c.number, c.boolean),
   d.nullable,

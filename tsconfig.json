@@ -4,8 +4,7 @@
     "strict": true,
     "esModuleInterop": true,
     "outDir": "dist",
-    "declaration": true,
-    "target": "es6",
-    "forceConsistentCasingInFileNames": true
+    "target": "es5",
+    "module": "commonjs"
   }
 }

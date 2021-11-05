@@ -1,3 +1,9 @@
 {
-  "excludeVersion": true
+  "enforceVersion": false,
+  "exclude": [
+    "src/**/index.ts",
+    "src/webdriver/**",
+    "src/utils/**",
+    "src/codecs/**"
+  ]
 }
