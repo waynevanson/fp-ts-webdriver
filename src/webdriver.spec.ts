@@ -6,7 +6,7 @@ console.log(globalThis.port)
 
 const deps: webdriver.WebdriverDeps = {
   //@ts-ignore
-  endpoint: `http://localhost:${globalThis.port as string}`,
+  endpoint: `http://127.0.0.1:${globalThis.port as string}`,
   capabilities: {},
   requestInit: {},
 }
