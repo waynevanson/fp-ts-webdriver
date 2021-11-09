@@ -2,7 +2,6 @@ import { Config } from "@jest/types"
 import { array as MA } from "fp-ts"
 import { pipe } from "fp-ts/lib/function"
 import { defaults } from "ts-jest/presets"
-import { WebdriverDeps } from "./src/webdriver"
 import { Capabilities } from "./src/webdriver/index"
 
 export interface WebdriverGlobals {
@@ -63,24 +62,24 @@ const config: Config.InitialOptions = {
         },
         testMatch: [SPECS],
       },
-      {
-        displayName: "gecko",
-        globalSetup: "./jest/geckodriver/globalSetup.ts",
-        globalTeardown: "./jest/geckodriver/globalTeardown.ts",
-        globals: {
-          "ts-jest": {},
-          webdriver: {
-            port: 7000,
-            host: "http://localhost",
-            capabilities: {
-              alwaysMatch: {
-                browserName: "firefox",
-              },
-            },
-          },
-        },
-        testMatch: [SPECS],
-      },
+      // {
+      //   displayName: "gecko",
+      //   globalSetup: "./jest/geckodriver/globalSetup.ts",
+      //   globalTeardown: "./jest/geckodriver/globalTeardown.ts",
+      //   globals: {
+      //     "ts-jest": {},
+      //     webdriver: {
+      //       port: 7000,
+      //       host: "http://localhost",
+      //       capabilities: {
+      //         alwaysMatch: {
+      //           browserName: "firefox",
+      //         },
+      //       },
+      //     },
+      //   },
+      //   testMatch: [SPECS],
+      // },
     ] as Array<Config.InitialProjectOptions>,
     MA.map((most) => ({ ...most, ...ALL }))
   ),
