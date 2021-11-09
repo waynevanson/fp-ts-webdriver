@@ -3,13 +3,11 @@
  
  */
 import { readonlyArray as A, readonlyNonEmptyArray as NEA } from "fp-ts"
-import { ProxyConfiguration } from "./proxy-configuration"
-import { Json, JsonObject } from "../../codecs"
-import { Timeouts } from "../codecs"
 import { pipe } from "fp-ts/lib/function"
 import * as c from "io-ts/Codec"
-import * as d from "io-ts/Decoder"
-import * as e from "io-ts/Encoder"
+import { Json, JsonObject, JsonRecord } from "./json"
+import { ProxyConfiguration } from "./proxy-configuration"
+import { Timeouts } from "./timeouts"
 
 export interface StandardCapabilities {
   acceptInsecureCerts?: boolean
@@ -22,7 +20,6 @@ export interface StandardCapabilities {
   timeouts?: Timeouts
   unhandledPromptBehaviour?: string
 }
-
 export const standardCapabilities = pipe(
   c.partial({
     acceptInsecureCerts: c.boolean,
@@ -34,22 +31,21 @@ export const standardCapabilities = pipe(
 )
 
 export type ExtensionCapabilities = Json
+export const ExtensionCapabilities = Json
 
 export type RequiredCapabilities = StandardCapabilities &
   // strings should have ":" in them.
   // should we validate these on local end? maybe later.
   Record<string, ExtensionCapabilities>
-
 export const requiredCapabilities = pipe(
-  c.record(Json),
+  c.record(ExtensionCapabilities),
   c.intersect(standardCapabilities)
 )
 
-export type Capabilities = JsonObject & {
+export type Capabilities = JsonRecord & {
   alwaysMatch?: RequiredCapabilities
   firstMatch?: NEA.ReadonlyNonEmptyArray<RequiredCapabilities>
 }
-
 export const capabilities = pipe(
   c.partial({
     alwaysMatch: requiredCapabilities,

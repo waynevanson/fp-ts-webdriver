@@ -5,9 +5,9 @@
  * @since 4.0.0
  */
 
-import { JsonObject } from "../../codecs"
+import { JsonRecord } from "./json"
 import { Capabilities } from "./processing-capabilities"
 
-export type NewSession = JsonObject & {
+export type NewSession = JsonRecord & {
   capabilities: Capabilities
 }

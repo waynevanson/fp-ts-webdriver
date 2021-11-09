@@ -6,7 +6,6 @@ import * as c from "io-ts/Codec"
 export interface ProxyConfigurationBase {
   proxyType: "direct" | "autodetect" | "system"
 }
-
 export const proxyConfigurationBase = c.struct({
   proxyType: c.literal("direct", "autodetect", "system"),
 })
@@ -15,7 +14,6 @@ export interface ProxyConfigurationPac {
   proxyType: "pac"
   proxyAutoconfigUrl: string
 }
-
 export const proxyConfigurationPac = c.struct({
   proxyType: c.literal("pac"),
   proxyAutoconfigURL: c.string,
@@ -30,7 +28,6 @@ export interface ProxyConfigurationManual {
   socksProxy: string
   socksVersion: number
 }
-
 export const proxyConfigurationManual = c.struct({
   proxyType: c.literal("manual"),
   ftpProxy: c.string,
@@ -45,7 +42,6 @@ export type ProxyConfiguration =
   | ProxyConfigurationPac
   | ProxyConfigurationManual
   | ProxyConfigurationBase
-
 export const proxyConfiguration = c.sum("proxyType")({
   manual: proxyConfigurationManual,
   pac: proxyConfigurationPac,
@@ -53,5 +49,3 @@ export const proxyConfiguration = c.sum("proxyType")({
   autodetect: proxyConfigurationBase,
   system: proxyConfigurationBase,
 })
-
-export type ProxyType = ProxyConfiguration["proxyType"]

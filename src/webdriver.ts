@@ -11,9 +11,12 @@ import {
 import { constVoid, pipe } from "fp-ts/lib/function"
 import { Json } from "fp-ts/lib/Json"
 import * as d from "io-ts/Decoder"
-import { Session as SessionCodec, Success } from "./codecs"
 import { fetch, url } from "./utils"
-import { Capabilities } from "./webdriver/index"
+import {
+  Capabilities,
+  Session as SessionCodec,
+  Success,
+} from "./webdriver/index"
 export * from "./webdriver"
 
 /**
@@ -158,17 +161,20 @@ export function commandSession<A>(options: CommandOptions<A>) {
   return <T extends Json>(body: O.Option<T>) =>
     pipe(
       RTE.asks(({ sessionId }: SessionDeps) => sessionId),
-      RTE.chainW((sessionId) =>
+      RTE.map((sessionId) =>
+        pipe(
+          options?.command,
+          O.fromNullable,
+          O.compact,
+          O.getOrElse(() => ""),
+          (command) => `/session/${sessionId}${command}`,
+          O.some
+        )
+      ),
+      RTE.chainW((cmd) =>
         command({
           ...options,
-          command: pipe(
-            options?.command,
-            O.fromNullable,
-            O.compact,
-            O.getOrElse(() => ""),
-            (command) => `/session/${sessionId}${command}`,
-            O.some
-          ),
+          command: cmd,
         })(body)
       )
     )

@@ -1,6 +1,6 @@
 import { pipe } from "fp-ts/lib/function"
 import * as c from "io-ts/Codec"
-import { id, nonNegativeInteger, positiveInteger } from "../../utils/codec"
+import { id, nonNegativeInteger, positiveInteger } from "../utils/codec"
 
 export interface Timeouts {
   /**
@@ -17,10 +17,10 @@ export interface Timeouts {
   implicit?: number
 }
 
-export const timeouts = c.partial({
+export const Timeouts = c.partial({
   script: pipe(positiveInteger, c.nullable),
   pageLoad: positiveInteger,
   implicit: nonNegativeInteger,
 })
 
-export const fromTimeouts = pipe(id<Timeouts>(), c.compose(timeouts))
+export const fromTimeouts = pipe(id<Timeouts>(), c.compose(Timeouts))
