@@ -61,9 +61,9 @@ export interface CommandOptions<A> {
   decoder: d.Decoder<unknown, A>
 }
 
-const url = E.tryCatchK(
+export const url = E.tryCatchK(
   (...args: ConstructorParameters<typeof URL>): URL => new URL(...args),
-  (e) => e as Error
+  (e) => e as TypeError
 )
 
 /**
@@ -77,45 +77,47 @@ const url = E.tryCatchK(
  * @category Constructors
  */
 export function command<A>(options: CommandOptions<A>) {
-  return <T extends Json>(body: O.Option<T>) =>
-    ({ endpoint, requestInit }: WebdriverDeps) =>
-      pipe(
-        E.Do,
-        E.bindW("url", () =>
-          pipe(
-            O.fromNullable(options?.command),
-            O.compact,
-            O.getOrElse(() => ""),
-            (path) => url(path, endpoint),
-            E.map((url) => url.toString())
-          )
-        ),
-        E.bindW("rest", () =>
-          pipe(
-            body,
-            O.traverse(E.Applicative)(JSON.stringify),
-            E.mapLeft((a) => a as TypeError | SyntaxError),
-            E.map(
-              O.foldW(
-                () => ({}),
-                (body) => ({ body })
-              )
+  return <T extends Json>(body: O.Option<T>) => ({
+    endpoint,
+    requestInit,
+  }: WebdriverDeps) =>
+    pipe(
+      E.Do,
+      E.bindW("url", () =>
+        pipe(
+          O.fromNullable(options?.command),
+          O.compact,
+          O.getOrElse(() => ""),
+          (path) => url(path, endpoint),
+          E.map((url) => url.toString())
+        )
+      ),
+      E.bindW("rest", () =>
+        pipe(
+          body,
+          O.traverse(E.Applicative)(JSON.stringify),
+          E.mapLeft((a) => a as TypeError | SyntaxError),
+          E.map(
+            O.foldW(
+              () => ({}),
+              (body) => ({ body })
             )
           )
-        ),
-        TE.fromEither,
-        TE.chainW(({ rest, url }) =>
-          fetch(url, {
-            ...requestInit,
-            ...rest,
-            headers: {
-              "Content-Type": "application/json; charset=utf-8",
-              "Cache-Control": "no-cache",
-            },
-          })
-        ),
-        TE.chainEitherKW(Success(options.decoder).decode)
-      )
+        )
+      ),
+      TE.fromEither,
+      TE.chainW(({ rest, url }) =>
+        fetch(url, {
+          ...requestInit,
+          ...rest,
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            "Cache-Control": "no-cache",
+          },
+        })
+      ),
+      TE.chainEitherKW(Success(options.decoder).decode)
+    )
 }
 
 /**

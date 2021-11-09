@@ -1,4 +1,4 @@
-import { either, readerTaskEither } from "fp-ts"
+import { either as E, readerTaskEither } from "fp-ts"
 import * as webdriver from "./webdriver"
 
 //@ts-ignore
@@ -15,11 +15,12 @@ describe("webdriver", () => {
   describe("bracketed", () => {
     it("should open an close when given a null effect", async () => {
       const result = await webdriver.bracketed(readerTaskEither.ask())(deps)()
+
       //@ts-ignore
       console.log(result?.left?.body?.value)
       //@ts-ignore
       console.log(result)
-      expect(result).toMatchObject(either.right({}))
+      expect(result).toMatchObject(E.right({}))
     })
   })
 })
