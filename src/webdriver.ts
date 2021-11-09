@@ -196,9 +196,15 @@ export const deleteSession = pipe(
 export function bracketed<E, A>(sessionWebdriver: Session<E, A>) {
   return RTE.bracket(
     newSession,
-    (session) => (deps) =>
-      sessionWebdriver({ ...deps, sessionId: session.sessionId }) as any,
-    (sessioncodec) => (deps) =>
-      deleteSession({ ...deps, sessionId: sessioncodec.sessionId })
+    ({ sessionId }) =>
+      pipe(
+        sessionWebdriver,
+        RTE.local((deps: WebdriverDeps) => ({ ...deps, sessionId })) as any
+      ),
+    ({ sessionId }) =>
+      pipe(
+        deleteSession,
+        RTE.local((deps: WebdriverDeps) => ({ ...deps, sessionId })) as any
+      )
   )
 }
