@@ -19,3 +19,10 @@ export const url = E.tryCatchK(
   (...args: ConstructorParameters<typeof URL>): URL => new URL(...args),
   (e) => e as TypeError
 )
+
+export function tap(label: string) {
+  return <A>(a: A): A => {
+    console.log({ [label]: a })
+    return a
+  }
+}

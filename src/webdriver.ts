@@ -13,8 +13,8 @@ import { Json } from "fp-ts/lib/Json"
 import * as d from "io-ts/Decoder"
 import { Session as SessionCodec, Success } from "./codecs"
 import { fetch, url } from "./utils"
+import * as utils from "./utils"
 import { Capabilities } from "./webdriver/index"
-
 export * from "./webdriver"
 
 /**
@@ -105,12 +105,15 @@ export function command<A>(options: CommandOptions<A>) {
         fetch(url, {
           ...requestInit,
           ...rest,
+          method: options.method,
           headers: {
+            ...(requestInit?.headers || {}),
             "Content-Type": "application/json; charset=utf-8",
             "Cache-Control": "no-cache",
           },
         })
       ),
+      // TE.bimap(utils.tap("left"), utils.tap("right"))
       TE.chainEitherKW(Success(options.decoder).decode)
     )
 }
@@ -119,11 +122,15 @@ export function command<A>(options: CommandOptions<A>) {
  * @category Constructors
  */
 export const newSession = pipe(
-  command({
-    method: "POST",
-    command: O.some("/session"),
-    decoder: SessionCodec,
-  })(O.none)
+  RTE.asks(({ capabilities }: WebdriverDeps) => ({ capabilities })),
+  RTE.map(O.some),
+  RTE.chainW(
+    command({
+      method: "POST",
+      command: O.some("/session"),
+      decoder: SessionCodec,
+    })
+  )
 )
 
 /**
