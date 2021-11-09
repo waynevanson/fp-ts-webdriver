@@ -17,7 +17,8 @@
     "build": "rm -rf dist && npm-run-all --parallel build:*",
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:es6": "tsc -p tsconfig.es6.json",
-    "test": "jest"
+    "test": "jest",
+    "docs": "docs-ts"
   },
   "peerDependencies": {
     "fp-ts": "^2.9.5",

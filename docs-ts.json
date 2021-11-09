@@ -4,6 +4,9 @@
     "src/**/index.ts",
     "src/webdriver/**",
     "src/utils/**",
-    "src/codecs/**"
+    "src/codecs/**",
+    "src/**/*.d.ts",
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts"
   ]
 }
