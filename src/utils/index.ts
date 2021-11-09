@@ -14,3 +14,8 @@ export const fetch = fetchCustom<unknown, E.Json>({
  */
 export const stringifyJson = (i: unknown) =>
   E.stringifyJSON(i, (e) => e as TypeError)
+
+export const url = E.tryCatchK(
+  (...args: ConstructorParameters<typeof URL>): URL => new URL(...args),
+  (e) => e as TypeError
+)

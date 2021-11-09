@@ -12,7 +12,7 @@ import { constVoid, pipe } from "fp-ts/lib/function"
 import { Json } from "fp-ts/lib/Json"
 import * as d from "io-ts/Decoder"
 import { Session as SessionCodec, Success } from "./codecs"
-import { fetch } from "./utils"
+import { fetch, url } from "./utils"
 import { Capabilities } from "./webdriver/index"
 
 export * from "./webdriver"
@@ -60,11 +60,6 @@ export interface CommandOptions<A> {
   command?: O.Option<string>
   decoder: d.Decoder<unknown, A>
 }
-
-export const url = E.tryCatchK(
-  (...args: ConstructorParameters<typeof URL>): URL => new URL(...args),
-  (e) => e as TypeError
-)
 
 /**
  * Create a command for a session. `/session/${sessionId}` has already been applied,
